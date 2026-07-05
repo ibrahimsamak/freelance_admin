@@ -144,11 +144,10 @@ export class NavService {
     var userRoles: any[] = JSON.parse(localStorage.getItem("roles"));
     var userType = localStorage.getItem("type");
     var admin_id = localStorage.getItem("admin_id");
-
     this.MENUITEMS = [];
 
     let constant = {
-      title: "الثوابت والاعدادات",
+      title: "Constant",
       icon: "slack",
       type: "sub",
       active: false,
@@ -156,7 +155,7 @@ export class NavService {
     };
 
     let users = {
-      title: "مستخدمين النظام",
+      title: "LoggedUser",
       icon: "users",
       type: "sub",
       active: false,
@@ -164,7 +163,7 @@ export class NavService {
     };
 
     let items = {
-      title: "المنتجات والمناطق",
+      title: "Services",
       icon: "list",
       type: "sub",
       active: false,
@@ -172,7 +171,7 @@ export class NavService {
     };
 
     let orders = {
-      title: "الطلبات والعائدات",
+      title: "Orders",
       icon: "dollar-sign",
       type: "sub",
       active: false,
@@ -180,7 +179,7 @@ export class NavService {
     };
 
     let maps = {
-      title: "الخرائط",
+      title: "Maps",
       icon: "map",
       type: "sub",
       active: false,
@@ -188,7 +187,7 @@ export class NavService {
     };
 
     let notification = {
-      title: "الرسائل والاشعارات",
+      title: "Notifications_Messages",
       icon: "message-square",
       type: "sub",
       active: false,
@@ -196,7 +195,7 @@ export class NavService {
     };
 
     let offers = {
-      title: "العروض والتخفيضات",
+      title: "Offers",
       icon: "percent",
       type: "sub",
       active: false,
@@ -212,7 +211,7 @@ export class NavService {
         if (element.name == appConstant.ADMIN_URL_ID.DASHBOARD) {
           let obj = {
             path: "/dashboard/default",
-            title: "الرئيسية",
+            title: "Dashboard",
             icon: "home",
             type: "link",
             //   badgeType: "primary",
@@ -228,23 +227,30 @@ export class NavService {
           element.name == appConstant.ADMIN_URL_ID.CONTACT ||
           element.name == appConstant.ADMIN_URL_ID.COUNTRY ||
           element.name == appConstant.ADMIN_URL_ID.CITY ||
-          element.name == appConstant.ADMIN_URL_ID.PLACES ||
           element.name == appConstant.ADMIN_URL_ID.STATIC ||
-          element.name == appConstant.ADMIN_URL_ID.CATEGORY
+          element.name == appConstant.ADMIN_URL_ID.CATEGORY ||
+          element.name == appConstant.ADMIN_URL_ID.SUBCATEGORY
         ) {
           if (element.name == appConstant.ADMIN_URL_ID.SETTINGS) {
             let obj = {
               path: "/constant/settings",
-              title: "الاعدادات العامة",
+              title: "General-Settings",
               type: "link",
             };
             constant.children.push(obj);
           }
-
+          // if (element.name == appConstant.ADMIN_URL_ID.CITY) {
+          //   let obj = {
+          //     path: "/constant/city",
+          //     title: "Cities",
+          //     type: "link",
+          //   };
+          //   constant.children.push(obj);
+          // }
           if (element.name == appConstant.ADMIN_URL_ID.CONTACT) {
             let obj = {
               path: "/constant/social",
-              title: "التواصل الاجتماعي",
+              title: "Social",
               type: "link",
             };
 
@@ -253,7 +259,7 @@ export class NavService {
           if (element.name == appConstant.ADMIN_URL_ID.STATIC) {
             let obj = {
               path: "/constant/static",
-              title: "الصحفات الثابتة",
+              title: "Static-Page",
               type: "link",
             };
 
@@ -262,7 +268,7 @@ export class NavService {
           if (element.name == appConstant.ADMIN_URL_ID.COMPLAINS) {
             let obj = {
               path: "/constant/complaints",
-              title: "التواصل والشكاوي",
+              title: "Contact-Us",
               type: "link",
             };
             constant.children.push(obj);
@@ -270,33 +276,52 @@ export class NavService {
           if (element.name == appConstant.ADMIN_URL_ID.WELCOME) {
             let obj = {
               path: "/constant/welcome",
-              title: "الواجهات الترحيبية",
+              title: "Walkthrough",
               type: "link",
             };
             constant.children.push(obj);
           }
 
-          if (element.name == appConstant.ADMIN_URL_ID.COUNTRY) {
-            let obj = {
-              path: "/constant/country",
-              title: "قائمة الدول",
-              type: "link",
-            };
-            constant.children.push(obj);
-          }
-          if (element.name == appConstant.ADMIN_URL_ID.CITY) {
-            let obj = {
-              path: "/constant/city",
-              title: "قائمة المدن",
-              type: "link",
-            };
-            constant.children.push(obj);
-          }
+          // if (element.name == appConstant.ADMIN_URL_ID.COUNTRY) {
+          //   let obj = {
+          //     path: "/constant/country",
+          //     title: "قائمة الدول",
+          //     type: "link",
+          //   };
+          //   constant.children.push(obj);
+          // }
+          // if (element.name == appConstant.ADMIN_URL_ID.CITY) {
+          //   let obj = {
+          //     path: "/constant/city",
+          //     title: "قائمة المدن",
+          //     type: "link",
+          //   };
+          //   constant.children.push(obj);
+          // }
 
           if (element.name == appConstant.ADMIN_URL_ID.CATEGORY) {
             let obj = {
               path: "/constant/category",
-              title: "التصنيفات",
+              title: "Type",
+              type: "link",
+            };
+
+            constant.children.push(obj);
+          }
+          // if (element.name == appConstant.ADMIN_URL_ID.CATEGORY) {
+          //   let obj = {
+          //     path: "/constant/reason",
+          //     title: "Co_Type",
+          //     type: "link",
+          //   };
+
+          //   constant.children.push(obj);
+          // }
+
+          if (element.name == appConstant.ADMIN_URL_ID.SUBCATEGORY) {
+            let obj = {
+              path: "/constant/subcategory",
+              title: "Advantage",
               type: "link",
             };
 
@@ -307,90 +332,58 @@ export class NavService {
         if (
           element.name == appConstant.ADMIN_URL_ID.USER ||
           element.name == appConstant.ADMIN_URL_ID.STORES ||
-          element.name == appConstant.ADMIN_URL_ID.EMPLOYEE ||
           element.name == appConstant.ADMIN_URL_ID.ADMINS
         ) {
           if (element.name == appConstant.ADMIN_URL_ID.ADMINS) {
             let obj = {
               path: "/users/admins",
-              title: "الادارة",
+              title: "Admin",
               type: "link",
             };
             users.children.push(obj);
           }
 
+          if (element.name == appConstant.ADMIN_URL_ID.STORES) {
+            let obj = {
+              path: "/users/provider",
+              title: "Users",
+              type: "link",
+            };
+            users.children.push(obj);
+          }
+         
           if (element.name == appConstant.ADMIN_URL_ID.USER) {
             let obj = {
               path: "/users/clients",
-              title: "العملاء",
-              type: "link",
-            };
-            users.children.push(obj);
-          }
-          if (element.name == appConstant.ADMIN_URL_ID.STORES) {
-            let obj = {
-              path: "/users/designers",
-              title: "مزودين الخدمات",
+              title: "Provider",
               type: "link",
             };
             users.children.push(obj);
           }
 
-          if (element.name == appConstant.ADMIN_URL_ID.EMPLOYEE) {
-            let obj = {
-              path: "/users/employee",
-              title: "السائقين",
-              type: "link",
-            };
-            users.children.push(obj);
-          }
+          // if (element.name == appConstant.ADMIN_URL_ID.SUPER) {
+          //   let obj = {
+          //     path: "/users/supervisor",
+          //     title: "Super",
+          //     type: "link",
+          //   };
+          //   users.children.push(obj);
+          // }
+
+          // if (element.name == appConstant.ADMIN_URL_ID.EMPLOYEE) {
+          //   let obj = {
+          //     path: "/users/employee",
+          //     title: "Employee",
+          //     type: "link",
+          //   };
+          //   users.children.push(obj);
+          // }
         }
 
-        if (
-          element.name == appConstant.ADMIN_URL_ID.PRODUCTS ||
-          element.name == appConstant.ADMIN_URL_ID.PLACES ||
-          element.name == appConstant.ADMIN_URL_ID.PRODUCTS_PLACES ||
-          element.name == appConstant.ADMIN_URL_ID.STORE_PLACES
-        ) {
-          if (element.name == appConstant.ADMIN_URL_ID.PRODUCTS) {
-            let obj = {
-              path: "/items/products",
-              title: "المنتجات",
-              type: "link",
-            };
-            items.children.push(obj);
-          }
-          if (element.name == appConstant.ADMIN_URL_ID.STORE_PLACES) {
-            let obj = {
-              path: "/items/places/store",
-              title: "مزودين المربعات",
-              type: "link",
-            };
-            items.children.push(obj);
-          }
 
-          if (element.name == appConstant.ADMIN_URL_ID.PRODUCTS_PLACES) {
-            let obj = {
-              path: "/items/places/product",
-              title: "منتجات المربعات",
-              type: "link",
-            };
-            items.children.push(obj);
-          }
-
-          if (element.name == appConstant.ADMIN_URL_ID.PLACES) {
-            let obj = {
-              path: "/items/places",
-              title: "مناطق ومربعات التوزيع",
-              type: "link",
-            };
-            items.children.push(obj);
-          }
-        }
 
         if (
           element.name == appConstant.ADMIN_URL_ID.ORDERS ||
-          element.name == appConstant.ADMIN_URL_ID.ORDEREARNING ||
           element.name == appConstant.ADMIN_URL_ID.USERRATE
         ) {
           if (element.name == appConstant.ADMIN_URL_ID.ORDERS) {
@@ -403,86 +396,105 @@ export class NavService {
 
             let obj2 = {
               path: "/orders/orders",
-              title: "الطلبات",
+              title: "Orders",
               type: "link",
             };
             orders.children.push(obj2);
           }
 
-          if (element.name == appConstant.ADMIN_URL_ID.ORDEREARNING) {
-            let obj = {
-              path: "/orders/earning",
-              title: "العائدات المالية",
-              type: "link",
-            };
-            orders.children.push(obj);
-          }
+          // if (element.name == appConstant.ADMIN_URL_ID.ORDEREARNING) {
+          //   let obj = {
+          //     path: "/orders/earning",
+          //     title: "CostData",
+          //     type: "link",
+          //   };
+          //   orders.children.push(obj);
+          // }
+
+          // if (element.name == appConstant.ADMIN_URL_ID.TRANSACTION) {
+          //   let obj = {
+          //     path: "/orders/transaction",
+          //     title: "TransactionData",
+          //     type: "link",
+          //   };
+          //   orders.children.push(obj);
+          // }
 
           if (element.name == appConstant.ADMIN_URL_ID.USERRATE) {
             let obj = {
               path: "/orders/comments",
-              title: "التعليقات",
+              title: "OrderUserComment",
+              type: "link",
+            };
+            orders.children.push(obj);
+          }
+
+          
+          if (element.name == appConstant.ADMIN_URL_ID.USERRATE) {
+            let obj = {
+              path: "/orders/comments-employee",
+              title: "OrderProviderComment",
               type: "link",
             };
             orders.children.push(obj);
           }
         }
 
-        if (
-          element.name == appConstant.ADMIN_URL_ID.ORDERSMAP ||
-          element.name == appConstant.ADMIN_URL_ID.UNCOVERAGEMAP ||
-          element.name == appConstant.ADMIN_URL_ID.EMPLOYEE
-        ) {
-          if (element.name == appConstant.ADMIN_URL_ID.ORDERSMAP) {
-            let obj = {
-              path: "/maps/order_maps",
-              title: "التوزيع الجغرافي للطلبات",
-              type: "link",
-            };
-            maps.children.push(obj);
-          }
-          if (element.name == appConstant.ADMIN_URL_ID.EMPLOYEE) {
-            let obj = {
-              path: "/maps/driver_map",
-              title: "التوزيع الجغرافي للسائقين",
-              type: "link",
-            };
-            maps.children.push(obj);
-          }
+        // if (
+        //   element.name == appConstant.ADMIN_URL_ID.ORDERSMAP ||
+        //   element.name == appConstant.ADMIN_URL_ID.UNCOVERAGEMAP ||
+        //   element.name == appConstant.ADMIN_URL_ID.EMPLOYEE
+        // ) {
+        //   if (element.name == appConstant.ADMIN_URL_ID.ORDERSMAP) {
+        //     let obj = {
+        //       path: "/maps/order_maps",
+        //       title: "Cover",
+        //       type: "link",
+        //     };
+        //     maps.children.push(obj);
+        //   }
+        //   // if (element.name == appConstant.ADMIN_URL_ID.EMPLOYEE) {
+        //   //   let obj = {
+        //   //     path: "/maps/driver_map",
+        //   //     title: "التغطية الجغرافي للمستخدمين",
+        //   //     type: "link",
+        //   //   };
+        //   //   maps.children.push(obj);
+        //   // }
     
-          if (element.name == appConstant.ADMIN_URL_ID.UNCOVERAGEMAP) {
-            let obj = {
-              path: "/maps/unconvarage_map",
-              title: "المناطق الغير مغطاة",
-              type: "link",
-            };
-            maps.children.push(obj);
-          }
-        }
+        //   if (element.name == appConstant.ADMIN_URL_ID.UNCOVERAGEMAP) {
+        //     let obj = {
+        //       path: "/maps/unconvarage_map",
+        //       title: "UnCover",
+        //       type: "link",
+        //     };
+        //     maps.children.push(obj);
+        //   }
+        // }
 
-        if (
-          element.name == appConstant.ADMIN_URL_ID.COUPON ||
-          element.name == appConstant.ADMIN_URL_ID.ADVS
-        ) {
-          if (element.name == appConstant.ADMIN_URL_ID.COUPON) {
-            let obj = {
-              path: "/offers/coupon",
-              title: "الكوبونات",
-              type: "link",
-            };
+        // if (
+        //   element.name == appConstant.ADMIN_URL_ID.COUPON ||
+        //   element.name == appConstant.ADMIN_URL_ID.ADVS
+        // ) {
+        //   if (element.name == appConstant.ADMIN_URL_ID.COUPON) {
+        //     let obj = {
+        //       path: "/offers/coupon",
+        //       title: "Coupons",
+        //       type: "link",
+        //     };
 
-            offers.children.push(obj);
-          }
+        //     offers.children.push(obj);
+        //   }
 
-          if (element.name == appConstant.ADMIN_URL_ID.ADVS) {
-            let obj2 = {
-              path: "/constant/advs",
-              title: "سلايدر الاعلانات",
-              type: "link",
-            };
-            offers.children.push(obj2);
-          }
-        }
+        //   if (element.name == appConstant.ADMIN_URL_ID.ADVS) {
+        //     let obj2 = {
+        //       path: "/constant/advs",
+        //       title: "Slider",
+        //       type: "link",
+        //     };
+        //     offers.children.push(obj2);
+        //   }
+        // }
 
         if (
           element.name == appConstant.ADMIN_URL_ID.NOTIFICATIONS_ADD ||
@@ -491,7 +503,7 @@ export class NavService {
           if (element.name == appConstant.ADMIN_URL_ID.NOTIFICATIONS_ADD) {
             let obj = {
               path: "/mass/add",
-              title: "اضافة تنبيه",
+              title: "SendNotification",
               type: "link",
             };
 
@@ -501,12 +513,20 @@ export class NavService {
           if (element.name == appConstant.ADMIN_URL_ID.NOTIFICATIONS) {
             let obj = {
               path: "/mass/notifications",
-              title: "التنبيهات",
+              title: "Notifications1",
               type: "link",
             };
             notification.children.push(obj);
           }
 
+          if (element.name == appConstant.ADMIN_URL_ID.NOTIFICATIONS) {
+            let obj = {
+              path: "/mass/notifications2",
+              title: "Notifications2",
+              type: "link",
+            };
+            notification.children.push(obj);
+          }
           // if (element.name == appConstant.ADMIN_URL_ID.MYMESSAGES) {
           //   let obj = {
           //     path: "/mass/messages",
@@ -526,6 +546,141 @@ export class NavService {
       if (offers.children.length > 0) this.MENUITEMS.push(offers);
       if (notification.children.length > 0) this.MENUITEMS.push(notification);
       return this.MENUITEMS;
+    }
+    if (userType == UserType.STORE) {
+      let obj = {
+        path: "/dashboard/default",
+        title: "Dashboard",
+        icon: "home",
+        type: "link",
+        //   badgeType: "primary",
+        //   badgeValue: "new",
+        active: true,
+      };
+      this.MENUITEMS.push(obj);
+
+      // let obj1 = {
+      //   path: "/users/provider",
+      //   title: "مزودين الخدمات",
+      //   type: "link",
+      // };
+      // users.children.push(obj1);
+
+      let obj2 = {
+        path: "/users/supervisor",
+        title: "Super",
+        type: "link",
+      };
+      users.children.push(obj2);
+
+      let obj3 = {
+        path: "/users/employee",
+        title: "Employee",
+        type: "link",
+      };
+      users.children.push(obj3);
+
+      let obj4 = {
+        path: "/orders/orders",
+        title: "Orders",
+        type: "link",
+      };
+      orders.children.push(obj4);
+
+      let obj5 = {
+        path: "/orders/earning",
+        title: "CostData",
+        type: "link",
+      };
+      orders.children.push(obj5);
+
+      let obj6 = {
+        path: "/orders/transaction",
+        title: "TransactionData",
+        type: "link",
+      };
+      orders.children.push(obj6);
+      
+      
+      let obj7 = {
+        path: "/orders/earning",
+        title: "ProfitData",
+        type: "link",
+      };
+      orders.children.push(obj7);
+
+      let obj8 = {
+        path: "/orders/comments",
+        title: "Type",
+        type: "link",
+      };
+      orders.children.push(obj8);
+
+
+    if (constant.children.length > 0) this.MENUITEMS.push(constant);
+    if (users.children.length > 0) this.MENUITEMS.push(users);
+    if (items.children.length > 0) this.MENUITEMS.push(items);
+    if (orders.children.length > 0) this.MENUITEMS.push(orders);
+    if (maps.children.length > 0) this.MENUITEMS.push(maps);
+    if (offers.children.length > 0) this.MENUITEMS.push(offers);
+    if (notification.children.length > 0) this.MENUITEMS.push(notification);
+    return this.MENUITEMS;
+    }
+    if (userType == UserType.SUPERVISOR) {
+      let obj = {
+        path: "/dashboard/default",
+        title: "Dashboard",
+        icon: "home",
+        type: "link",
+        //   badgeType: "primary",
+        //   badgeValue: "new",
+        active: true,
+      };
+      this.MENUITEMS.push(obj);
+
+      // let obj1 = {
+      //   path: "/users/provider",
+      //   title: "مزودين الخدمات",
+      //   type: "link",
+      // };
+      // users.children.push(obj1);
+
+      let obj3 = {
+        path: "/users/employee",
+        title: "Employee",
+        type: "link",
+      };
+      users.children.push(obj3);
+
+      let obj4 = {
+        path: "/orders/orders",
+        title: "Orders",
+        type: "link",
+      };
+      orders.children.push(obj4);
+
+      let obj5 = {
+        path: "/orders/earning",
+        title: "ProfitData",
+        type: "link",
+      };
+      orders.children.push(obj5);
+
+      let obj6 = {
+        path: "/orders/comments",
+        title: "Type",
+        type: "link",
+      };
+      orders.children.push(obj6);
+
+    if (constant.children.length > 0) this.MENUITEMS.push(constant);
+    if (users.children.length > 0) this.MENUITEMS.push(users);
+    if (items.children.length > 0) this.MENUITEMS.push(items);
+    if (orders.children.length > 0) this.MENUITEMS.push(orders);
+    if (maps.children.length > 0) this.MENUITEMS.push(maps);
+    if (offers.children.length > 0) this.MENUITEMS.push(offers);
+    if (notification.children.length > 0) this.MENUITEMS.push(notification);
+    return this.MENUITEMS;
     }
     // if (
     //   userType == UserType.DESIGNER ||
@@ -620,7 +775,7 @@ export class NavService {
 
     //   return this.MENUITEMS;
     // }
-  }
+ }
   Array;
   items = new BehaviorSubject<Menu[]>(this.getMenu());
 }

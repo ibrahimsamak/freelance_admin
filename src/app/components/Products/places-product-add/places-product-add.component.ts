@@ -11,6 +11,7 @@ import { ToastrService } from "ngx-toastr";
 import { ar } from "date-fns/locale";
 import { ActivatedRoute, Params } from "@angular/router";
 import { AgmMap } from "@agm/core";
+import { TranslateService } from "@ngx-translate/core";
 declare var require;
 const Swal = require("sweetalert2");
 
@@ -41,7 +42,7 @@ export class PlacesProductAddComponent implements OnInit {
     deliveryCost: 0,
     expressCost:0,
     supplier_id: "",
-    product_id: "",
+    category_id: "",
     city_id: "",
     place_id: "",
     isNewProduct: true,
@@ -49,7 +50,7 @@ export class PlacesProductAddComponent implements OnInit {
     product: {},
     place: {},
   };
-  products = [];
+  categories = [];
   providers = [];
   cities = [];
   places = [];
@@ -64,12 +65,15 @@ export class PlacesProductAddComponent implements OnInit {
     return UserType;
   }
 
+  lang = ""
   constructor(
+    private translate: TranslateService,
     private helper: ConstantServiceWrapper,
     private modalService: NgbModal,
     private toastr: ToastrService,
     private route: ActivatedRoute
   ) {
+    this.lang = this.translate.currentLang
     // this.userType = localStorage.getItem("type");
     // if (this.userType != UserType.ADMIN) {
     //   this.productDetails.provider_id = localStorage.getItem("admin_id");
@@ -78,7 +82,7 @@ export class PlacesProductAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllProviders();
-    this.getAllProducts();
+    this.getAllCategoy();
     this.getProductById();
   }
 
@@ -91,16 +95,16 @@ export class PlacesProductAddComponent implements OnInit {
           if (x[appConstant.STATUS]) {
             let object = x[appConstant.ITEMS] as any;
             this.productDetails = object;
-            this.changeProduct(this.productDetails.product_id,object["supplier_id"]["_id"]);
+            this.changeProduct(this.productDetails.category_id,object["supplier_id"]["_id"]);
           } else this.toastr.error(x[appConstant.MESSAGE]);
         });
       }
     });
   }
 
-  getAllProducts() {
-    this.helper.getAllProductsList().subscribe((x) => {
-      this.products = x[appConstant.ITEMS] as any[];
+  getAllCategoy() {
+    this.helper.getCategoy().subscribe((x) => {
+      this.categories = x[appConstant.ITEMS] as any[];
     });
   }
 
@@ -171,9 +175,9 @@ export class PlacesProductAddComponent implements OnInit {
   }
 
   changeProduct(event,supplier_id) {
-    let product = this.products.find((x) => x._id == event);
+    let product = this.categories.find((x) => x._id == event);
     if (product) {
-      this.productDetails.product_id = product._id;
+      this.productDetails.category_id = product._id;
       this.productDetails.product = product;
     }
 

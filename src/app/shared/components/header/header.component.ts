@@ -17,6 +17,9 @@ export class HeaderComponent implements OnInit {
   notificationCount = 0;
   notifications = [];
   admin_id = "";
+  public lang: string = "AR";
+  public layoutType: string = "ltr";
+
   public menuItems: Menu[];
   public items: Menu[];
   public searchResult: boolean = false;
@@ -50,6 +53,11 @@ export class HeaderComponent implements OnInit {
       this.notifications = x[appConstant.ITEMS] as any[];
       this.notificationCount = this.notifications.length;
     });
+
+    if (localStorage.getItem("lang")) {
+      let currentLang = localStorage.getItem("lang");
+      this.lang = currentLang == "ar" ? "AR" : "EN";
+    }
   }
 
   ngOnDestroy() {
@@ -69,10 +77,17 @@ export class HeaderComponent implements OnInit {
     this.openNav = !this.openNav;
   }
 
-  public changeLanguage(lang) {
-    this.translate.use(lang);
-  }
+  public changeLanguage(lang, val) {
+    // this.translate.use(lang);
+    // this.customize.setLayoutType(val);
+    // this.layoutType = val;
+    // this.lang = lang === "ar" ? "AR" : "EN";
+    localStorage.setItem("lang", lang);
 
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+  }
   searchTerm(term: any) {
     term ? this.addFix() : this.removeFix();
     if (!term) return (this.menuItems = []);

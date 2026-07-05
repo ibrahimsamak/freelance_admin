@@ -14,8 +14,8 @@ const routes: Routes = [
         component: CouponsComponent,
         canActivate: [AdminGuard],
         data: {
-          title: "الكوبونات",
-          breadcrumb: "الكوبونات",
+          // title: "الكوبونات",
+          // breadcrumb: "الكوبونات",
           roles: [appConstant.ADMIN_URL_ID.COUPON],
         },
       },

@@ -1,13 +1,13 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { appConstant } from "src/app/service/appConstant";
 import { ConstantServiceWrapper } from "../../../service/ConstantServiceWrapper.service";
 import {
   NgbActiveModal,
   NgbModal,
-  ModalDismissReasons,
   NgbModalConfig,
 } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
+import { TranslateService } from "@ngx-translate/core";
 declare var require;
 const Swal = require("sweetalert2");
 
@@ -17,33 +17,39 @@ const Swal = require("sweetalert2");
   styleUrls: ["./reasons.component.scss"],
 })
 export class ReasonsComponent implements OnInit {
-  reasons = [];
+  styles = [];
   reasonObject = {
     _id: "",
     arName: "",
     enName: "",
+    arDescription: "",
+    enDescription: "",
+    sort: 0,
+    image: "",
   };
+
   type = "";
   constructor(
     private helper: ConstantServiceWrapper,
     private modalService: NgbModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit(): void {
-    this.getReasons();
+    this.getCategories();
   }
 
-  getReasons() {
-    this.helper.getReason().subscribe((x) => {
-      this.reasons = x[appConstant.ITEMS] as any[];
+  getCategories() {
+    this.helper.getType().subscribe((x) => {
+      this.styles = x[appConstant.ITEMS] as any[];
     });
   }
 
-  openReasons(content, obj) {
+  openStyles(content, obj) {
     if (obj) {
       this.type = "edit";
-      this.helper.getSingleReason(obj._id).subscribe((x) => {
+      this.helper.getSingleType(obj._id).subscribe((x) => {
         this.reasonObject = x[appConstant.ITEMS] as any;
         this.modalService.open(content, { size: "lg" });
       });
@@ -53,36 +59,52 @@ export class ReasonsComponent implements OnInit {
         _id: "",
         arName: "",
         enName: "",
+        arDescription: "",
+        enDescription: "",
+        sort: 0,
+        image:"",
       };
       this.modalService.open(content, { size: "lg" });
     }
   }
 
   saveAction() {
+    var formData = new FormData();
+    if (this.reasonObject.image == "") {
+      formData = new FormData();
+           this.toastr.error(this.translate.instant('ImageRequired'))
+      return;
+    }
+
+    formData.append("arName", this.reasonObject.arName);
+    formData.append("enName", this.reasonObject.enName);
+    formData.append("arDescription", this.reasonObject.arDescription);
+    formData.append("enDescription", this.reasonObject.enDescription);
+    formData.append("sort", String(this.reasonObject.sort));
+
+    if (this.reasonObject.image != "") {
+      formData.append("image", this.reasonObject.image);
+    }
+
     if (this.type == "edit") {
       this.helper
-        .updateReason(this.reasonObject._id, this.reasonObject)
-        .subscribe(
-          (x) => {
-            if (x[appConstant.STATUS] != true) {
-              this.toastr.error(x[appConstant.MESSAGE]);
-            } else {
-              this.getReasons();
-            }
-            this.modalService.dismissAll();
-          },
-          (error) => {
-            this.helper.serverSideErrorHandler(error);
+        .updateType(this.reasonObject._id, formData)
+        .subscribe((x) => {
+          if (x[appConstant.STATUS] != true) {
+            this.toastr.error(x[appConstant.MESSAGE]);
+          } else {
+            this.getCategories();
           }
-        );
+          this.modalService.dismissAll();
+        });
     } else {
-      this.helper.addReason(this.reasonObject).subscribe(
+      this.helper.addType(formData).subscribe(
         (x) => {
           if (x[appConstant.STATUS] != true) {
             this.toastr.error(x[appConstant.MESSAGE]);
           } else {
             this.toastr.success(x[appConstant.MESSAGE]);
-            this.getReasons();
+            this.getCategories();
           }
           this.modalService.dismissAll();
         },
@@ -93,29 +115,38 @@ export class ReasonsComponent implements OnInit {
     }
   }
 
-  deleteReason(id) {
+  deleteStyle(id) {
     Swal.fire({
       title: "تحذير",
-      text: "هل انت متأكد من حذف العنصر؟",
+      text: this.translate.instant("Confirm"),
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "نعم",
-      cancelButtonText: "الغاء",
-      // animation: false,
-      // customClass: "animated tada",
+      confirmButtonText: this.translate.instant("Yes"),
+      cancelButtonText: this.translate.instant("Cancel"),
     }).then((result) => {
       if (result.value) {
-        this.helper.deleteReason(id).subscribe((x) => {
+        this.helper.deleteType(id).subscribe((x) => {
           if (x[appConstant.STATUS] != true) {
             this.toastr.error(x[appConstant.MESSAGE]);
           } else {
             this.toastr.success(x[appConstant.MESSAGE]);
           }
-          this.getReasons();
+          this.getCategories();
         });
       }
     });
+  }
+
+  processImage(event) {
+    console.log(event.target.files);
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (_event) => {
+        this.reasonObject.image = event.target.files[0]
+      };
+    }
   }
 }

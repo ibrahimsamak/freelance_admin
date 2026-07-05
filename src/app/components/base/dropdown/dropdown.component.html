@@ -40,16 +40,16 @@
         </div>
         <div class="card-body">
           <div class="d-inline-block btn-showcase" ngbDropdown #myDrop="ngbDropdown">
-            <button class="btn btn-outline-primary mr-2" id="dropdownManual" ngbDropdownAnchor
+            <button class="btn btn-outline-primary mr-2 ml-2" id="dropdownManual" ngbDropdownAnchor
               (focus)="myDrop.open()">Toggle dropdown</button>
             <div ngbDropdownMenu aria-labelledby="dropdownManual">
               <button class="dropdown-item">Action - 1</button>
               <button class="dropdown-item">Another Action</button>
               <button class="dropdown-item">Something else is here</button>
             </div>
-            <button class="btn btn-outline-primary mr-2" (click)="$event.stopPropagation(); myDrop.open();">Open from
+            <button class="btn btn-outline-primary mr-2 ml-2" (click)="$event.stopPropagation(); myDrop.open();">Open from
               outside</button>
-            <button class="btn btn-outline-primary mr-2" (click)="$event.stopPropagation(); myDrop.close();">Close from
+            <button class="btn btn-outline-primary mr-2 ml-2" (click)="$event.stopPropagation(); myDrop.close();">Close from
               outside</button>
           </div>
         </div>
@@ -85,7 +85,7 @@
                 </div>
               </div>
             </div>
-            <div class="btn-group mr-3">
+            <div class="btn-group mr-3 ml-3">
               <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
                 <button class="btn btn-outline-primary" ngbDropdownToggle>Select me</button>
                 <div class="dropdown-menu" ngbDropdownMenu>

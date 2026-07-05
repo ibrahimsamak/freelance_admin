@@ -58,7 +58,7 @@ import { AgmDirectionModule } from "agm-direction"; // agm-direction
     Ng5SliderModule,
     ECommerceModule,
     AgmCoreModule.forRoot({
-      apiKey: "AIzaSyDa0BdEB-otNYNMCa5wHCks__iwqsMA08g",
+      apiKey: "AIzaSyAvAuahE3FylyGQ7f_TXKRUlY1X66JYGy8",
       libraries: ["places", "drawing", "geometry"],
     }),
     AgmDirectionModule,

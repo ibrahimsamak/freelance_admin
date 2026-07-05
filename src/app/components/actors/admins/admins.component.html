@@ -1,18 +1,70 @@
 <div class="container-fluid">
     <div class="row">
+        <div class="col-sm-12 col-xl-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="country_id">{{'Email' | translate}}</label>
+                                        <div class="input-group">
+                                            <input name="email" id="email" #email="ngModel"
+                                                [(ngModel)]="searchObject.email" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="country_id">{{'Name' | translate}}</label>
+                                        <div class="input-group">
+                                            <input name="name" id="name" #name="ngModel"
+                                                [(ngModel)]="searchObject.name" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="country_id">{{'Phone' | translate}}</label>
+                                        <div class="input-group">
+                                            <input name="phone_number" id="phone_number" #phone_number="ngModel"
+                                                [(ngModel)]="searchObject.phone_number" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2 mr-3 ml-3">
+                                <button type="button" class="btn btn-outline-info btn-sm" (click)="search()">{{'Search' | translate}}</button>&nbsp;
+                                <button type="button" class="btn btn-outline-success btn-sm"  style="float: left;" (click)="excel()">{{'Excel' | translate}}</button>&nbsp;
+                                <button type="button" class="btn btn-outline-danger btn-sm" (click)="reset()">{{'Reset' | translate}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>الادارة</h5>
+                    <h5>
+                        {{'Admin' | translate}}
+                    </h5>
                 </div>
                 <div class="todo">
                     <div class="todo-list-wrapper">
                         <div class="todo-list-container">
                             <div class="mark-all-tasks">
                                 <div class="mark-all-tasks-container">
-                                    <button title="اضافة مدير جديد" class="btn btn-success-gradien"
+                                    <button title="{{'Add' | translate}}" class="btn btn-success-gradien"
                                         (click)="addNewAdmin()">
-                                        <i class="fa fa-plus"></i> اضافة مدير جديد
+                                        <i class="fa fa-plus"></i> {{'Add' | translate}}
                                     </button>&nbsp;
                                 </div>
                             </div>
@@ -20,9 +72,9 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th scope="col">الاسم</th>
-                                            <th scope="col">البريد الالكتروني</th>
-                                            <th scope="col">رقم الجوال</th>
+                                            <th scope="col">{{'Title' | translate}}</th>
+                                            <th scope="col">{{'Email' | translate}}</th>
+                                            <th scope="col">{{'Phone' | translate}}</th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
@@ -32,21 +84,19 @@
                                             <td>{{item.email}}</td>
                                             <td>{{item.phone_number}}</td>
                                             <td>
-                                                <button placement="top" ngbTooltip="تعديل" class="btn btn-info-gradien"
+                                                <button placement="top" ngbTooltip="{{'Edit' | translate}}" class="btn-sm btn-info-gradien"
                                                     (click)="editAdmin(item._id)">
                                                     <i class="fa fa-pencil"></i>
                                                 </button>&nbsp;
-                                                <button placement="top" ngbTooltip="حذف" class="btn btn-danger-gradien"
-                                                    (click)="deleteAdmin(item._id)">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
+                                                <button *ngIf="item.isBlock == false" class="cursor btn-sm btn-warning-gradien" placement="bottom" ngbTooltip="{{'Block'|translate}}" (click)="blockUnBlock(item._id, item.isBlock)"><i class="fa fa-ban"></i></button>&nbsp;
+                                                <button *ngIf="item.isBlock == true" class="cursor btn-sm btn-warning-gradien" placement="bottom" ngbTooltip="{{'UNBlock'|translate}}" (click)="blockUnBlock(item._id, item.isBlock)"><i class="fa fa-check"></i></button>&nbsp;
+                                                <button placement="top" ngbTooltip="{{'Delete' | translate}}" class="btn-sm btn-danger-gradien" (click)="deleteAdmin(item._id)"> <i class="fa fa-trash"></i></button>&nbsp;
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <ngb-pagination *ngIf="admins.length > 0" [collectionSize]="collectionCount" #numPages
-                                [pageSize]="limit" [(page)]="page" (pageChange)="onPageChange(page)"></ngb-pagination>
+                            <ngb-pagination *ngIf="admins.length > 0" [maxSize]="10" [collectionSize]="collectionCount" #numPages [pageSize]="limit" [(page)]="page" (pageChange)="onPageChange(page)"></ngb-pagination>
                         </div>
                     </div>
                 </div>

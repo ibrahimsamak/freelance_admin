@@ -6,6 +6,7 @@ import { GeneralSettingComponent } from "../constant/general-setting/general-set
 import { NotifcationsListComponent } from "./notifcations-list/notifcations-list.component";
 import { NotificationsAddComponent } from "./notifications-add/notifications-add.component";
 import { StoreMessagesComponent } from "./store-messages/store-messages.component";
+import { NotificationInComponent } from "./notification-in/notification-in.component";
 
 const routes: Routes = [
   {
@@ -16,8 +17,8 @@ const routes: Routes = [
         component: NotificationsAddComponent,
         canActivate: [AdminGuard],
         data: {
-          title: "الرسائل والاشعارات",
-          breadcrumb: "ارسال تنبيه",
+          // title: "الرسائل والاشعارات",
+          // breadcrumb: "ارسال تنبيه",
           roles: [appConstant.ADMIN_URL_ID.NOTIFICATIONS_ADD],
         },
       },
@@ -26,8 +27,18 @@ const routes: Routes = [
         component: NotifcationsListComponent,
         canActivate: [AdminGuard],
         data: {
-          title: "الرسائل والاشعارات",
-          breadcrumb: "التنبيهات الواردة",
+          // title: "الرسائل والاشعارات",
+          // breadcrumb: "التنبيهات الواردة",
+          roles: [appConstant.ADMIN_URL_ID.NOTIFICATIONS],
+        },
+      },
+      {
+        path: "notifications2",
+        component: NotificationInComponent,
+        canActivate: [AdminGuard],
+        data: {
+          // title: "الرسائل والاشعارات",
+          // breadcrumb: "التنبيهات الواردة",
           roles: [appConstant.ADMIN_URL_ID.NOTIFICATIONS],
         },
       },

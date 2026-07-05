@@ -6,13 +6,13 @@
           <h5>Quick and easy tooltips</h5>
         </div>
         <div class="card-body btn-showcase">
-          <button type="button" class="btn btn-outline-primary mr-2" placement="top" ngbTooltip="Tooltip on top">
+          <button type="button" class="btn btn-outline-primary mr-2 ml-2" placement="top" ngbTooltip="Tooltip on top">
             Tooltip on top
           </button>
-          <button type="button" class="btn btn-outline-primary mr-2" placement="right" ngbTooltip="Tooltip on right">
+          <button type="button" class="btn btn-outline-primary mr-2 ml-2" placement="right" ngbTooltip="Tooltip on right">
             Tooltip on right
           </button>
-          <button type="button" class="btn btn-outline-primary mr-2" placement="bottom" ngbTooltip="Tooltip on bottom">
+          <button type="button" class="btn btn-outline-primary mr-2 ml-2" placement="bottom" ngbTooltip="Tooltip on bottom">
             Tooltip on bottom
           </button>
           <button type="button" class="btn btn-outline-primary" placement="left" ngbTooltip="Tooltip on left">
@@ -60,7 +60,7 @@
             Alternatively you can take full manual control over tooltip opening / closing events.
           </p>
           <div class="btn-showcase">
-            <button type="button" class="btn btn-outline-primary mr-2" ngbTooltip="What a great tip!"
+            <button type="button" class="btn btn-outline-primary mr-2 ml-2" ngbTooltip="What a great tip!"
               [autoClose]="false" triggers="manual" #t="ngbTooltip" (click)="t.open()">
               Click me to open a tooltip
             </button>
@@ -129,15 +129,15 @@
 
           <ng-template #tipContent let-greeting="greeting">{{greeting}}, <b>{{name}}</b>!</ng-template>
           <div class="btn-showcase">
-            <button type="button" class="btn btn-outline-primary mr-2" [ngbTooltip]="tipContent" triggers="manual"
+            <button type="button" class="btn btn-outline-primary mr-2 ml-2" [ngbTooltip]="tipContent" triggers="manual"
               #t1="ngbTooltip" (click)="toggleWithGreeting(t1, 'Bonjour')">
               French
             </button>
-            <button type="button" class="btn btn-outline-primary mr-2" [ngbTooltip]="tipContent" triggers="manual"
+            <button type="button" class="btn btn-outline-primary mr-2 ml-2" [ngbTooltip]="tipContent" triggers="manual"
               #t2="ngbTooltip" (click)="toggleWithGreeting(t2, 'Gutentag')">
               German
             </button>
-            <button type="button" class="btn btn-outline-primary mr-2" [ngbTooltip]="tipContent" triggers="manual"
+            <button type="button" class="btn btn-outline-primary mr-2 ml-2" [ngbTooltip]="tipContent" triggers="manual"
               #t3="ngbTooltip" (click)="toggleWithGreeting(t3, 'Hello')">
               English
             </button>

@@ -3,7 +3,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { appConstant } from "src/app/service/appConstant";
 import { AdminGuard } from "src/app/shared/guard/admin.guard";
 import { GeneralSettingComponent } from "../constant/general-setting/general-setting.component";
-import { CityComponent } from "./city/city.component";
+import { SubCategoryComponent } from "./subcategory/subcategory.component";
 import { ComplaintsComponent } from "./complaints/complaints.component";
 import { CountyComponent } from "./county/county.component";
 import { AdvsComponent } from "./adv/adv.component";
@@ -12,6 +12,7 @@ import { SocialMediaComponent } from "./social-media/social-media.component";
 import { StaticPageComponent } from "./static-page/static-page.component";
 import { CategoryComponent } from "./category/category.component";
 import { WelcomeComponent } from "./welcome/welcome.component";
+import { CityComponent } from "./city/city.component";
 
 const routes: Routes = [
   {
@@ -22,9 +23,19 @@ const routes: Routes = [
         component: GeneralSettingComponent,
         canActivate: [AdminGuard],
         data: {
-          title: "الاعدادات العامة",
-          breadcrumb: "الاعدادات العامة",
+          // title: "الاعدادات العامة",
+          // breadcrumb: "الاعدادات العامة",
           roles: [appConstant.ADMIN_URL_ID.SETTINGS],
+        },
+      },
+      {
+        path: "reason",
+        component: ReasonsComponent,
+        canActivate: [AdminGuard],
+        data: {
+          // title: "الاعدادات العامة",
+          // breadcrumb: "الاعدادات العامة",
+          roles: [appConstant.ADMIN_URL_ID.CATEGORY],
         },
       },
       {
@@ -32,9 +43,19 @@ const routes: Routes = [
         component: SocialMediaComponent,
         canActivate: [AdminGuard],
         data: {
-          title: "التواصل الاجتماعي",
-          breadcrumb: "التواصل الاجتماعي",
+          // title: "التواصل الاجتماعي",
+          // breadcrumb: "التواصل الاجتماعي",
           roles: [appConstant.ADMIN_URL_ID.CONTACT],
+        },
+      },
+      {
+        path: "city",
+        component: CityComponent,
+        canActivate: [AdminGuard],
+        data: {
+          // title: "التواصل الاجتماعي",
+          // breadcrumb: "التواصل الاجتماعي",
+          roles: [appConstant.ADMIN_URL_ID.CITY],
         },
       },
       {
@@ -42,8 +63,8 @@ const routes: Routes = [
         component: StaticPageComponent,
         canActivate: [AdminGuard],
         data: {
-          title: "الصحفات الثابتة",
-          breadcrumb: "الصحفات الثابتة",
+          // title: "الصحفات الثابتة",
+          // breadcrumb: "الصحفات الثابتة",
           roles: [appConstant.ADMIN_URL_ID.STATIC],
         },
       },
@@ -52,8 +73,8 @@ const routes: Routes = [
         component: ComplaintsComponent,
         canActivate: [AdminGuard],
         data: {
-          title: "التواصل والشكاوي",
-          breadcrumb: "التواصل والشكاوي",
+          // title: "التواصل والشكاوي",
+          // breadcrumb: "التواصل والشكاوي",
           roles: [appConstant.ADMIN_URL_ID.COMPLAINS],
         },
       },
@@ -62,8 +83,8 @@ const routes: Routes = [
         component: WelcomeComponent,
         canActivate: [AdminGuard],
         data: {
-          title: "الواجهات الترحيبية",
-          breadcrumb: "الواجهات الترحيبية",
+          // title: "الواجهات الترحيبية",
+          // breadcrumb: "الواجهات الترحيبية",
           roles: [appConstant.ADMIN_URL_ID.WELCOME],
         },
       },
@@ -72,8 +93,8 @@ const routes: Routes = [
         component: AdvsComponent,
         canActivate: [AdminGuard],
         data: {
-          title: "سلايدر الاعلانات",
-          breadcrumb: " سلايدر الاعلانات ",
+          // title: "سلايدر الاعلانات",
+          // breadcrumb: " سلايدر الاعلانات ",
           roles: [appConstant.ADMIN_URL_ID.ADVS],
         },
       },
@@ -82,8 +103,8 @@ const routes: Routes = [
         component: CategoryComponent,
         canActivate: [AdminGuard],
         data: {
-          title: " التصنيفات ",
-          breadcrumb: " التصنيفات ",
+          // title: " التصنيفات ",
+          // breadcrumb: " التصنيفات ",
           roles: [appConstant.ADMIN_URL_ID.CATEGORY],
         },
       },
@@ -92,19 +113,19 @@ const routes: Routes = [
         component: CountyComponent,
         canActivate: [AdminGuard],
         data: {
-          title: "قائمة الدول",
-          breadcrumb: "قائمة الدول",
+          // title: "قائمة الدول",
+          // breadcrumb: "قائمة الدول",
           roles: [appConstant.ADMIN_URL_ID.COUNTRY],
         },
       },
       {
-        path: "city",
-        component: CityComponent,
+        path: "subcategory",
+        component: SubCategoryComponent,
         canActivate: [AdminGuard],
         data: {
-          title: "قائمة المدن",
-          breadcrumb: "قائمة المدن",
-          roles: [appConstant.ADMIN_URL_ID.CITY],
+          // title: "التصنيفات الفرعية",
+          // breadcrumb: "التصنيفات الفرعية",
+          roles: [appConstant.ADMIN_URL_ID.SUBCATEGORY],
         },
       },
     ],

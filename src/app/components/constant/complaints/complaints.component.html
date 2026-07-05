@@ -3,7 +3,9 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>التواصل والشكاوي</h5>
+                    <h5>
+                        {{'Contact-Us' | translate}}
+                    </h5>
                 </div>
                 <div class="todo">
                     <div class="todo-list-wrapper">
@@ -12,9 +14,9 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th scope="col">المرسل</th>
-                                            <th scope="col">الايميل</th>
-                                            <th scope="col">التاريخ</th>
+                                            <th scope="col">{{'Sender' | translate}}</th>
+                                            <th scope="col">{{'Email' | translate}}</th>
+                                            <th scope="col">{{'Date' | translate}}</th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
@@ -24,12 +26,12 @@
                                             <td>{{item.email}}</td>
                                             <td>{{item.dt_date | date:'dd-MM-yyyy'}}</td>
                                             <td>
-                                                <button placement="top" ngbTooltip="رد على الرسالة"
-                                                    class="btn btn-primary-gradien"
+                                                <button placement="top"
+                                                    class="btn-sm btn-primary-gradien"
                                                     (click)="openComplaints(content,item)">
                                                     <i class="fa fa-envelope"></i>
                                                 </button>&nbsp;
-                                                <button placement="top" ngbTooltip="حذف" class="btn btn-danger-gradien"
+                                                <button placement="top" ngbTooltip="{{'Delete' | translate}}" class="btn-sm btn-danger-gradien"
                                                     (click)="deleteComplaints(item._id)">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
@@ -38,7 +40,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <ngb-pagination [collectionSize]="collectionCount" #numPages [pageSize]="limit"
+                            <ngb-pagination [collectionSize]="collectionCount" #numPages [pageSize]="limit"  [maxSize]="10"
                                 [(page)]="page" (pageChange)="onPageChange(page)"></ngb-pagination>
 
                         </div>
@@ -51,12 +53,14 @@
 
 <ng-template #content let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">التواصل والشكاوي</h4>
+        <h4 class="modal-title" id="modal-basic-title">
+            {{'Contact-Us' | translate}}
+        </h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body" style="text-align: right;">
+     <div class="modal-body" style="text-align: justify;">
         <form #form="ngForm">
             <div class="row">
                 <div class="col-md-12">
@@ -66,7 +70,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="message">نص الرسالة</label>
+                        <label for="message">
+                            {{'text' | translate}} *
+                        </label>
                         <div class="input-group">
                             <textarea required rows="3" #message="ngModel" type="text" class="form-control" id="message"
                                 name="message" [(ngModel)]="complaintObject.message">
@@ -74,7 +80,7 @@
                         </div>
                         <div *ngIf="(message.errors && message.invalid && (message.dirty || message.touched))"
                             class="text text-danger">
-                            الحقل مطلوب
+                            {{'Required' | translate}}
                         </div>
                     </div>
                 </div>
@@ -82,8 +88,11 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button [disabled]="!form.valid" type="button" class="btn btn-outline-info btn-sm" (click)="saveAction()">ارسال
+        <button [disabled]="!form.valid" type="button" class="btn btn-outline-info btn-sm" (click)="saveAction()">
+            {{'Send' | translate}}
         </button>
-        <button type="button" class="btn btn-outline-danger btn-sm" (click)="modal.close('Save click')">اغلاق</button>
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="modal.close('Save click')">
+            {{'Close' | translate}}
+        </button>
     </div>
 </ng-template>

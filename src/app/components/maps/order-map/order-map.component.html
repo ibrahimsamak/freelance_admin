@@ -8,26 +8,28 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="country_id">اختر حالة الطلبات</label>
+                                        <label for="country_id">{{'Choose' | translate}}</label>
                                         <div class="input-group">
                                             <select name="status_id" id="status_id" #status_id="ngModel"
                                                 [(ngModel)]="searchObject.status_id" class="form-control"
                                                 (change)="changeStatus()">
-                                                <option value="1">الطلبات الجديدة</option>
-                                                <option value="2">الطلبات الموافق عليها</option>
-                                                <option value="3">الطلبات جاري توصيلها</option>
-                                                <option value="4">الطلبات المكتملة </option>
-                                                <option value="5">الطلبات الغير مكتملة او الملغية من العميل </option>
-                                                <option value="6">الطلبات المرفوضة من السائق </option>
-                                                <option value="7">الطلبات الملغية من السائق او المزود </option>
+                                                <option value="new">{{'ST_New' | translate}}</option>
+                                                <option value="accepted">{{'ST_Accept' | translate}}</option>
+                                                <option value="started">{{'ST_Progress' | translate}}</option>
+                                                <option value="updated">{{'ST_Updated' | translate}} </option>
+                                                <option value="finished">{{'ST_Done' | translate}}</option>
+                                                <option value="rated">{{'ST_Rated' | translate}}</option>
+                                                <option value="canceled_by_driver">{{'ST_Employee' | translate}}</option>
+                                                <option value="canceled_by_user">{{'ST_User' | translate}}</option>
+                                                <option value="canceled_by_admin">{{'ST_Admin' | translate}}</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-2 mr-3">
+                            <div class="row mt-2 mr-3 ml-3">
                                 <button type="button" class="btn btn-outline-info btn-sm"
-                                    (click)="search()">بحث</button>&nbsp;
+                                    (click)="search()">{{'Search' | translate}}</button>&nbsp;
                             </div>
                         </div>
                     </div>
@@ -43,15 +45,14 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>التوزيع الجعرافي للطلبات (اخر 6 شهور)</h5>
+                    <h5>
+                        {{'SixMonth' | translate}}
+                    </h5>
                 </div>
                 <div class="card-body">
                     <div class="map-js-height">
-                        <agm-map [latitude]="lat_m1" [longitude]="lng_m1" [zoom]="zoom_m1" [scrollwheel]="true"
-                            [disableDoubleClickZoom]="false" [mapDraggable]="true" [zoomControl]="true"
-                            [mapTypeControl]="true" [mapTypeId]="'hybrid'">
-                            <agm-marker *ngFor="let m of markers; let i = index" [latitude]="m.lat" [longitude]="m.lng"
-                                [label]="m.label">
+                        <agm-map [latitude]="lat_m1" [longitude]="lng_m1" [zoom]="zoom_m1" [scrollwheel]="true" [disableDoubleClickZoom]="false" [mapDraggable]="true" [zoomControl]="true" [mapTypeControl]="true" [mapTypeId]="'hybrid'">
+                            <agm-marker *ngFor="let m of markers; let i = index" [latitude]="m.lat" [longitude]="m.lng" [label]="m.label">
                                 <agm-info-window>
                                     {{m.nameData}}
                                 </agm-info-window>

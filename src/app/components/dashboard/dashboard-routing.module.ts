@@ -10,7 +10,7 @@ const routes: Routes = [
         path: "default",
         component: DefaultComponent,
         data: {
-          title: "الرئيسية",
+          title: "",
           breadcrumb: "",
         },
       },

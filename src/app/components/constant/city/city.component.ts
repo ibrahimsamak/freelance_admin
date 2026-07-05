@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { appConstant } from "src/app/service/appConstant";
+import { appConstant } from "../../../../app/service/appConstant";
 import { ConstantServiceWrapper } from "../../../service/ConstantServiceWrapper.service";
 import {
   NgbActiveModal,
@@ -40,6 +40,7 @@ export class CityComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllCountries();
+    this.getCity("" , this.page, this.limit)
   }
 
   getAllCountries() {

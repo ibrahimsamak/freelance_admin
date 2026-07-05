@@ -6,6 +6,7 @@ import { FullLayoutComponent } from './shared/components/layout/full-layout/full
 import { content } from "./shared/routes/content-routes";
 import { full } from './shared/routes/full.routes';
 import { AdminGuard } from './shared/guard/admin.guard';
+import { ResetpasswordComponent } from './auth/resetpassword/resetpassword.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'auth/login',
     component: LoginComponent
+  },
+  {
+    path: 'auth/reset',
+    component: ResetpasswordComponent
   },
   {
     path: '',

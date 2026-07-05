@@ -18,6 +18,7 @@ declare var require: any;
 const Swal = require("sweetalert2");
 import * as jsonexport from "jsonexport/dist";
 import { Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-store-products",
@@ -42,7 +43,8 @@ export class StoreProductsComponent implements OnInit {
     private helper: ConstantServiceWrapper,
     private toastr: ToastrService,
     private router: Router,
-    private ProductsService: ProductsService
+    private ProductsService: ProductsService,
+    private translate: TranslateService,
   ) {
     //console.log(ProductsService.currency);
     // this.userType = localStorage.getItem("type");
@@ -243,13 +245,13 @@ export class StoreProductsComponent implements OnInit {
   deleteProduct(obj, index) {
     Swal.fire({
       title: "تحذير",
-      text: "هل انت متأكد من حذف العنصر؟",
+      text: this.translate.instant("Confirm"),
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "نعم",
-      cancelButtonText: "الغاء",
+      confirmButtonText: this.translate.instant("Yes"),
+      cancelButtonText: this.translate.instant("Cancel"),
     }).then((result) => {
       if (result.value) {
         this.helper.deleteProduct(obj._id).subscribe((x) => {

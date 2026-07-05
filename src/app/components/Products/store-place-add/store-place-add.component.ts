@@ -11,6 +11,7 @@ import { ToastrService } from "ngx-toastr";
 import { ar } from "date-fns/locale";
 import { ActivatedRoute, Params } from "@angular/router";
 import { AgmMap } from "@agm/core";
+import { TranslateService } from "@ngx-translate/core";
 declare var require;
 const Swal = require("sweetalert2");
 
@@ -55,12 +56,15 @@ export class StorePlaceAddComponent implements OnInit {
     return UserType;
   }
 
+  lang = ""
   constructor(
+    private translate: TranslateService,
     private helper: ConstantServiceWrapper,
     private modalService: NgbModal,
     private toastr: ToastrService,
     private route: ActivatedRoute
   ) {
+    this.lang = this.translate.currentLang
     // this.userType = localStorage.getItem("type");
     // if (this.userType != UserType.ADMIN) {
     //   this.productDetails.provider_id = localStorage.getItem("admin_id");

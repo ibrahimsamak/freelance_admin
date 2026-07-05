@@ -21,6 +21,7 @@ import { Ng5SliderModule } from "ng5-slider";
 import { NotifcationsListComponent } from "./notifcations-list/notifcations-list.component";
 import { NotificationsAddComponent } from "./notifications-add/notifications-add.component";
 import { StoreMessagesComponent } from './store-messages/store-messages.component';
+import { NotificationInComponent } from './notification-in/notification-in.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { StoreMessagesComponent } from './store-messages/store-messages.componen
     NotifcationsListComponent,
     NotificationsAddComponent,
     StoreMessagesComponent,
+    NotificationInComponent,
   ],
   imports: [
     CommonModule,

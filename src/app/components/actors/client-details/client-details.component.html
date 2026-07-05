@@ -1,11 +1,11 @@
 <!-- Container-fluid starts-->
 <div class="container-fluid">
     <div class="edit-profile">
-        <div class="row">
+        <form #form="ngForm" class="row">
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">معلومات عامة</h4>
+                        <h4 class="card-title mb-0"></h4>
                         <div class="card-options">
                             <a class="card-options-collapse" [routerLink]="" data-toggle="card-collapse"><i
                                     class="fe fe-chevron-up"></i></a>
@@ -30,32 +30,40 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">الايميل</label>
+                            <label class="form-label">{{'Email' | translate}} *</label>
                             <input disabled class="form-control" id="email" name="email" #email="ngModel"
                                 [(ngModel)]="userDetails.email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
-                            <span *ngIf="email.invalid && email.errors.pattern">ادخل بريد الكتروني صحيح</span>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">رقم الجوال</label>
-                            <input disabled class="form-control" id="phone_number" name="phone_number"
-                                placeholder="رقم الجوال مثلا: 966591231231" #phone_number="ngModel"
-                                [(ngModel)]="userDetails.phone_number" pattern="^(9665)(5|0|3|6|4|9|1|8|7)([0-9]{7})$">
-                            <span *ngIf="phone_number.invalid && phone_number.errors.pattern">ادخل رقم جوال صحيح مثلا:
-                                رقم الجوال
-                                مثلا:
-                                966591231231</span>
-                            <span *ngIf="phone_number.invalid && phone_number.errors.minlength">ادخل رقم جوال صحيح
-                                مثلا: رقم
-                                الجوال مثلا:
-                                966591231231 </span>
-                        </div>
+                                <span *ngIf="email.invalid && email.errors.pattern"
+                                class="text text-danger">{{'InvalidEmail'|translate}}</span>
+                            <div *ngIf="(email.errors && email.invalid && (email.dirty || email.touched))"
+                                class="text text-danger">
+                                {{'Required'|translate}}
+                            </div>                        </div>
+                            <div class="form-group">
+                                <label class="form-label">{{'Phone' | translate}} *</label>
+                                <input class="form-control" id="phone_number" name="phone_number"
+                                    placeholder="9665xxxxxxx" #phone_number="ngModel"
+                                    [(ngModel)]="userDetails.phone_number" pattern="^(9665)(5|0|3|6|4|9|1|8|7)([0-9]{7})$">
+                                    <div *ngIf="(phone_number.errors && phone_number.invalid && (phone_number.dirty || phone_number.touched))"
+                                    class="text text-danger">
+                                    {{'Required'|translate}}
+                                </div>
+                                <span *ngIf="phone_number.invalid && phone_number.errors.pattern"
+                                    class="text text-danger">
+                                    {{'InvalidPhone'|translate}}
+                                </span>
+                                <span *ngIf="phone_number.invalid && phone_number.errors.minlength"
+                                    class="text text-danger">
+                                    {{'InvalidPhone'|translate}}
+                                </span>
+                            </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-8">
-                <form class="card">
+                <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">تعديل الملف الشخصي</h4>
+                        <h4 class="card-title mb-0"> {{'EditProfile' | translate}}    </h4>
                         <div class="card-options">
                             <a class="card-options-collapse" [routerLink]="" data-toggle="card-collapse"><i
                                     class="fe fe-chevron-up"></i>
@@ -70,200 +78,190 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label">اسم المستخدم</label>
+                                        <label class="form-label">{{'UserName' | translate}} </label>
                                         <input class="form-control" type="text" id="full_name" name="full_name"
                                             #full_name="ngModel" [(ngModel)]="userDetails.full_name">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label">الايميل</label>
+                                        <label class="form-label">{{'Email' | translate}} *</label>
                                         <input class="form-control" type="email" id="email" name="email"
                                             #email="ngModel" [(ngModel)]="userDetails.email">
+                                            <span *ngIf="email.invalid && email.errors.pattern"
+                                            class="text text-danger">{{'InvalidEmail'|translate}}</span>
+                                        <div *ngIf="(email.errors && email.invalid && (email.dirty || email.touched))"
+                                            class="text text-danger">
+                                            {{'Required'|translate}}
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label">العنوان</label>
+                                        <label class="form-label">{{'Address' | translate}}</label>
                                         <input class="form-control" type="text" id="address" name="address"
                                             #address="ngModel" [(ngModel)]="userDetails.address">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label">نوع الجوال</label>
+                                        <label class="form-label">{{'PhoneType' | translate}}</label>
                                         <input disabled class="form-control" type="text" id="os" name="os" #os="ngModel"
                                             [(ngModel)]="userDetails.os">
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">{{'CreateAt' | translate}}</label>
+                                        <label class="form-control"> {{userDetails.createAt | date:'dd-MM-yyyy'}}</label>
+                                    </div>
+                                </div>  
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">{{'Co_Type' | translate}}</label>
+                                       <select required name="category" id="category" #category="ngModel" [(ngModel)]="userDetails.category" class="form-control" 
+                                       (change)="changeCategory($event.target.value)">
+                                          <option *ngFor="let item of works" value="{{item._id}}">{{item.arName}}</option>
+                                        </select> 
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">{{'Advantage' | translate}}</label>
+                                       <select required name="subcategory" id="subcategory" #subcategory="ngModel" [(ngModel)]="userDetails.subcategory" class="form-control">
+                                          <option *ngFor="let item of subworks" value="{{item._id}}">{{item.arName}}</option>
+                                        </select> 
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">{{'City' | translate}}</label>
+                                        <select required name="city" id="city" #city="ngModel" [(ngModel)]="userDetails.city" class="form-control">
+                                          <option *ngFor="let item of cities" value="{{item._id}}">{{item.arName}}</option>
+                                        </select> 
+                                    </div>
+                                </div>
+                                <!-- <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">{{'RegisterType' | translate}}</label>
+                                        <input disabled class="form-control" type="text" id="register_type" name="register_type" #register_type="ngModel" [(ngModel)]="userDetails.register_type">
+                                    </div>
+                                </div> -->                    
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">{{'ID_Image' | translate}}</label>
+                                        <a target="_blank" href="{{userDetails?.id_image}}" class="form-control">{{'View' | translate}}</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">{{'Image' | translate}}</label>
+                                        <a target="_blank" href="{{userDetails?.image}}" class="form-control">{{'View' | translate}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">{{'bio' | translate}}</label>
+                                        <textarea  class="form-control" type="text" id="bio" name="bio" #bio="ngModel" [(ngModel)]="userDetails.bio"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">{{'RegisterType' | translate}}</label>
+                                        <input disabled class="form-control" type="text" id="register_type" name="register_type" #register_type="ngModel" [(ngModel)]="userDetails.register_type">
+                                    </div>
+                                </div>
                             </div>
                         </form>
-
                     </div>
                     <div class="card-footer text-right">
                         <button class="btn btn-primary" [class.loader--text]="showLoader"
                             [disabled]="!form.valid || showLoader" (click)="saveUser()" type="submit">
                             <span>
-                                {{ showLoader ? '' : 'حفظ المعلومات'}}
+                                {{ showLoader ? '' : 'Save' | translate}}
                             </span>
                         </button>
                     </div>
-                </form>
+                </div>
             </div>
             <div class="col-md-12">
                 <div class="card">
-                    <!-- <div class="card-header">
-                        <h5 class="pull-left">نشاطات المستخدم</h5>
-                    </div> -->
                     <div class="card-body">
-                        <!-- class="tabbed-card" -->
                         <ngb-tabset #t="ngbTabset" (tabChange)="beforeChange($event)" type="pills">
                             <ngb-tab id="tab-orders">
                                 <ng-template ngbTabTitle class="pull-right nav nav-pills nav-primary">
-                                    <i class="icofont icofont-listine-dots"></i> الطلبات
+                                    <i class="icofont icofont-listine-dots"></i> {{'UserWorks' | translate}}
                                 </ng-template>
                                 <ng-template ngbTabContent class="tab-content">
                                     <div class="tab-pane fade show">
+                                        <!-- <button type="button" class="btn btn-outline-info btn-sm"  style="float: left;" (click)="excel()">{{'Excel' | translate}}</button>
+
+                                        <div class="btn-group btn-group-toggle mt-0 mb-0 tabset-group-btn-xs" ngbRadioGroup>
+                                            <label ngbButtonLabel class="btn-outline-primary btn-sm btn-position"
+                                                (click)="changeStatus('new')">
+                                                <input ngbButton type="radio" value="new">{{'ST_New' | translate}}
+                                            </label>
+                                            <label ngbButtonLabel class="btn-outline-primary btn-sm btn-position"
+                                                (click)="changeStatus('accepted')">
+                                                <input ngbButton type="radio" value="accepted">{{'ST_Accept' | translate}} 
+                                            </label>
+                                            <label ngbButtonLabel class="btn-outline-primary btn-sm btn-position"
+                                                (click)="changeStatus('started')">
+                                                <input ngbButton type="radio" value="started">{{'ST_Progress' | translate}}
+                                            </label>
+                                            <label ngbButtonLabel class="btn-outline-primary btn-sm btn-position"
+                                                (click)="changeStatus('finished')">
+                                                <input ngbButton type="radio" value="finished">{{'ST_Done' | translate}} 
+                                            </label>
+                                            <label ngbButtonLabel class="btn-outline-primary btn-sm btn-position"
+                                                (click)="changeStatus('canceled')">
+                                                <input ngbButton type="radio" value="canceled">{{'ST_Cancel' | translate}}
+                                            </label>
+                                        </div>  -->
                                         <div class="table-responsive">
                                             <table class="table card-table table-vcenter">
                                                 <thead>
                                                     <tr>
-                                                        <th>#</th>
-                                                        <th>مزود الخدمة</th>
-                                                        <th>التاريخ</th>
-                                                        <th>الوقت</th>
-                                                        <th>المجموع</th>
-                                                        <th>الحالة</th>
-                                                        <th></th>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">{{'Image' | translate}}</th>
+                                                        <th scope="col">{{'Title' | translate}}</th>
+                                                        <th scope="col">{{'bio' | translate}}</th>
+                                                        <th scope="col">{{'Date' | translate}}</th>
+                                                        <th scope="col">{{'Price' | translate}}</th>
+                                                        <th scope="col">{{'Time' | translate}}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr *ngFor="let item of orders">
+                                                    <tr *ngFor="let item of user_works;let i = index">
+                                                        <td>{{i+1}}</td>
                                                         <td>
-                                                            <a class="text-inherit"
-                                                                [routerLink]="">{{item.order_no}}</a>
+                                                            <img class="img-60 rounded-circle" src="{{item.images[0]}}">
                                                         </td>
-                                                        <td>{{item?.supplier_id?.name}}</td>
-                                                        <td>
-                                                            {{item.dt_date | date:'dd-MM-yyyy'}}
-                                                        </td>
-                                                        <td>
-                                                            {{item.dt_time}}
-                                                        </td>
-                                                        <td>{{item.Total}} ر.س</td>
-                                                        <td>
-                                                            <span *ngIf="item.StatusId == 4"
-                                                                class="status-icon bg-success">تم التنفيذ</span>
-                                                            <span *ngIf="item.StatusId < 4"
-                                                                class="status-icon bg-info">قيد التنفيذ التنفيذ</span>
-                                                            <span *ngIf="item.StatusId > 4"
-                                                                class="status-icon bg-danger">ملغي</span>
-                                                        </td>
-                                                        <td class="text-right">
-                                                            <button placement="top" ngbTooltip="عرض تفاصيل الطلب"
-                                                                class="btn btn-warning-gradien"
-                                                                (click)="openOrder(order,item)">
-                                                                <i class="fa fa-list"></i>
-                                                            </button>
-                                                        </td>
+                                                        <td>{{item?.title}}</td>
+                                                        <td>{{item?.bio}}</td>
+                                                        <td>{{item?.createAt | date:'dd/MM/yyyy'}}</td>
+                                                        <td>{{item?.price}} ر.س</td>
+                                                        <td>{{item?.delivery_time}} يوم</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                            <ngb-pagination *ngIf="orders.length > 0"
-                                                [collectionSize]="orderCollectionCount" #orders [pageSize]="orderLimit"
-                                                [(page)]="orderPage" (pageChange)="onOrderPageChange(orderPage)">
+                                            <ngb-pagination *ngIf="user_works.length > 0"  [maxSize]="10"
+                                                [collectionSize]="user_worksCollectionCount" #user_works [pageSize]="user_worksLimit"
+                                                [(page)]="user_worksPage" (pageChange)="onUser_worksPageChange(orderPage)">
                                             </ngb-pagination>
                                         </div>
                                     </div>
                                 </ng-template>
                             </ngb-tab>
-                            <ngb-tab id="tab-addresses">
-                                <ng-template ngbTabTitle class="pull-right nav nav-pills nav-primary">
-                                    <i class="icofont icofont-speech-addresses"></i> دفتر العناوين
-                                </ng-template>
-                                <ng-template ngbTabContent class="tab-content">
-                                    <div class="tab-pane fade show">
-                                        <div class="table-responsive">
-                                            <table class="table card-table table-vcenter text-nowrap">
-                                                <thead>
-                                                    <tr>
-                                                        <th>الاسم</th>
-                                                        <th>العنوان</th>
-                                                        <th>الخصم</th>
-                                                        <th>افتراضي؟</th>
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr *ngFor="let item of addresses">
-                                                        <td>
-                                                            {{item.title}}
-                                                        </td>
-                                                        <td>
-                                                            {{item.address}}
-                                                        </td>
-                                                        <td>
-                                                            {{item.discount}}
-                                                        </td>
-                                                        <td>
-                                                            <span *ngIf="item.isDefault">نعم</span>
-                                                            <span *ngIf="!item.isDefault">لا</span>
-                                                        </td>
-
-                                                        <td class="text-right">
-                                                            <a class="btn btn-primary btn-sm cursor"
-                                                                (click)="openDetails(content,item)">
-                                                                <i class="fa fa-percentage"></i> استعراض </a>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <ngb-pagination *ngIf="addresses.length > 0"
-                                                [collectionSize]="rateCollectionCount" #addresses [pageSize]="rateLimit"
-                                                [(page)]="ratePage" (pageChange)="onRatePageChange(ratePage)">
-                                            </ngb-pagination>
-                                        </div>
-                                    </div>
-                                </ng-template>
-                            </ngb-tab>
-                            <!--  <ngb-tab id="tab-followings">
-                                <ng-template ngbTabTitle class="pull-right nav nav-pills nav-primary"><i
-                                        class="icofont icofont-users-alt-2"></i> المتابعة </ng-template>
-                                <ng-template ngbTabContent class="tab-content">
-                                    <div class="tab-pane fade show">
-                                        <div class="table-responsive">
-                                            <table class="table card-table table-vcenter text-nowrap">
-                                                <thead>
-                                                    <tr>
-                                                        <th>الصورة</th>
-                                                        <th>المصمم او المنفذ</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr *ngFor="let item of followings">
-                                                        <td>
-                                                            <img class="img-60 rounded-circle" [src]="item?.image">
-                                                        </td>
-                                                        <td>
-                                                            {{item?.full_name}}
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <ngb-pagination *ngIf="followings.length > 0"
-                                                [collectionSize]="followCollectionCount" #followings
-                                                [pageSize]="followLimit" [(page)]="followPage"
-                                                (pageChange)="onFollowPageChange(followPage)">
-                                            </ngb-pagination>
-                                        </div>
-                                    </div>
-                                </ng-template>
-                            </ngb-tab> -->
                         </ngb-tabset>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div> 
+        </form>
     </div>
 </div>
 
@@ -275,7 +273,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body" style="text-align: right;">
+     <div class="modal-body" style="text-align: justify;">
         <form #form="ngForm">
             <div class="row">
                 <div class="col-md-12">
@@ -309,12 +307,14 @@
 
 <ng-template #order let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">تفاصيل الطلب</h4>
+        <h4 class="modal-title" id="modal-basic-title">
+            {{'Details' | translate}}
+        </h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body" style="text-align: right;">
+     <div class="modal-body" style="text-align: justify;">
         <app-order-details [orderDetails]="orderDetails"></app-order-details>
     </div>
 </ng-template>

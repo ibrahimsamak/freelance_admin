@@ -23,37 +23,39 @@ export class appConstant {
     STATIC: "الصحفات الثابتة",
     COMPLAINS: "التواصل والشكاوي",
     WELCOME: "الواجهات الترحيبية",
-    ADVS: "سلايدر الاعلانات",
+    // ADVS: "سلايدر الاعلانات",
     CATEGORY: "التصنيفات",
+    SUBCATEGORY: "التصنيفات الفرعية",
     COUNTRY: "قائمة الدول",
     CITY: "قائمة المدن",
 
     //Advs
-    COUPON: "الكوبونات",
+    // COUPON: "الكوبونات",
 
     //users
     USER: "المستخدمين",
     STORES: "مزودين الخدمات",
-    EMPLOYEE: "السائقين",
+    // SUPER: "المشرفين",
+    // EMPLOYEE: "الفنيين",
     ADMINS: "مستخدمين النظام",
 
     //items
-    PRODUCTS: "المنتجات",
-    PLACES: "مناطق ومربعات التوزيع",
-    PRODUCTS_PLACES: "منتجات المربعات",
-    STORE_PLACES: "مزودين المربعات",
+    // PRODUCTS: "المنتجات",
+    // PLACES: "مناطق ومربعات التغطية",
+    // PRODUCTS_PLACES: "منتجات المربعات",
+    // STORE_PLACES: "مزودين المربعات",
 
     //Orders
     ORDERS: "الطلبات",
-    ORDEREARNING: "العائدات المالية",
+    // ORDEREARNING: "العائدات المالية",
     USERRATE: "التعليقات",
 
     //map
-    ORDERSMAP: "خريطة الطلبات",
-    UNCOVERAGEMAP: "المناطق الغير مغطاة",
+    // ORDERSMAP: "خريطة الطلبات",
+    // UNCOVERAGEMAP: "المناطق الغير مغطاة",
 
     //Payments
-    TRANSACTION: "المستحقات والمدفوعات",
+    // TRANSACTION: "المستحقات والمدفوعات",
 
     //Notifications
     NOTIFICATIONS: "التنبيهات",
@@ -74,6 +76,7 @@ export class appConstant {
     WELCOME: "Welcome",
     ADVS: "Advs",
     CATEGORY: "Category",
+    SUBCATEGORY:"SubCategory",
     COUNTRY: "Country",
     CITY: "City",
 
@@ -83,25 +86,26 @@ export class appConstant {
     //users
     USER: "User",
     STORES: "Store",
-    EMPLOYEE: "Employee",
+    // SUPER: "Super",
+    // EMPLOYEE: "Employee",
     ADMINS: "Admin",
 
     //items
     PRODUCTS: "Products",
-    PLACES: "Places",
-    PRODUCTS_PLACES: "Products_Places",
-    STORE_PLACES: "Store_Places",
+    // PLACES: "Places",
+    // PRODUCTS_PLACES: "Products_Places",
+    // STORE_PLACES: "Store_Places",
 
     //Orders
     ORDERS: "Order",
-    ORDEREARNING: "Order_Earning",
+    // ORDEREARNING: "Order_Earning",
     USERRATE: "Comments",
 
-    ORDERSMAP: "Order_map",
-    UNCOVERAGEMAP: "Uncovarate_map",
+    // ORDERSMAP: "Order_map",
+    // UNCOVERAGEMAP: "Uncovarate_map",
 
     //Payments
-    TRANSACTION: "Transaction",
+    // TRANSACTION: "Transaction",
 
     //Notifications
     NOTIFICATIONS: "Notification",
@@ -152,31 +156,32 @@ export class appConstant {
       Name: appConstant.ADMIN_URL_STRINGS.WELCOME,
       Sort: 10,
     },
-    {
-      ID: appConstant.ADMIN_URL_ID.ADVS,
-      Name: appConstant.ADMIN_URL_STRINGS.ADVS,
-      Sort: 11,
-    },
+    // {
+    //   ID: appConstant.ADMIN_URL_ID.ADVS,
+    //   Name: appConstant.ADMIN_URL_STRINGS.ADVS,
+    //   Sort: 11,
+    // },
     {
       ID: appConstant.ADMIN_URL_ID.CATEGORY,
       Name: appConstant.ADMIN_URL_STRINGS.CATEGORY,
       Sort: 12,
     },
     {
-      ID: appConstant.ADMIN_URL_ID.COUNTRY,
-      Name: appConstant.ADMIN_URL_STRINGS.COUNTRY,
+      ID: appConstant.ADMIN_URL_ID.SUBCATEGORY,
+      Name: appConstant.ADMIN_URL_STRINGS.SUBCATEGORY,
       Sort: 13,
     },
-    {
-      ID: appConstant.ADMIN_URL_ID.CITY,
-      Name: appConstant.ADMIN_URL_STRINGS.CITY,
-      Sort: 14,
-    },
-    {
-      ID: appConstant.ADMIN_URL_ID.COUPON,
-      Name: appConstant.ADMIN_URL_STRINGS.COUPON,
-      Sort: 15,
-    },
+    // {
+    //   ID: appConstant.ADMIN_URL_ID.COUNTRY,
+    //   Name: appConstant.ADMIN_URL_STRINGS.COUNTRY,
+    //   Sort: 13,
+    // },
+    // {
+    //   ID: appConstant.ADMIN_URL_ID.CITY,
+    //   Name: appConstant.ADMIN_URL_STRINGS.CITY,
+    //   Sort: 14,
+    // },
+
     {
       ID: appConstant.ADMIN_URL_ID.USER,
       Name: appConstant.ADMIN_URL_STRINGS.USER,
@@ -188,68 +193,47 @@ export class appConstant {
       Sort: 17,
     },
     {
-      ID: appConstant.ADMIN_URL_ID.EMPLOYEE,
-      Name: appConstant.ADMIN_URL_STRINGS.EMPLOYEE,
-      Sort: 17,
-    },
-    {
       ID: appConstant.ADMIN_URL_ID.ADMINS,
       Name: appConstant.ADMIN_URL_STRINGS.ADMINS,
       Sort: 18,
     },
-    {
-      ID: appConstant.ADMIN_URL_ID.PRODUCTS,
-      Name: appConstant.ADMIN_URL_STRINGS.PRODUCTS,
-      Sort: 19,
-    },
-    {
-      ID: appConstant.ADMIN_URL_ID.STORE_PLACES,
-      Name: appConstant.ADMIN_URL_STRINGS.STORE_PLACES,
-      Sort: 19,
-    },
-    {
-      ID: appConstant.ADMIN_URL_ID.PRODUCTS_PLACES,
-      Name: appConstant.ADMIN_URL_STRINGS.PRODUCTS_PLACES,
-      Sort: 19,
-    },
-    {
-      ID: appConstant.ADMIN_URL_ID.PLACES,
-      Name: appConstant.ADMIN_URL_STRINGS.PLACES,
-      Sort: 20,
-    },
+    // {
+    //   ID: appConstant.ADMIN_URL_ID.PRODUCTS,
+    //   Name: appConstant.ADMIN_URL_STRINGS.PRODUCTS,
+    //   Sort: 19,
+    // },
+    // {
+    //   ID: appConstant.ADMIN_URL_ID.STORE_PLACES,
+    //   Name: appConstant.ADMIN_URL_STRINGS.STORE_PLACES,
+    //   Sort: 19,
+    // },
+    // {
+    //   ID: appConstant.ADMIN_URL_ID.PRODUCTS_PLACES,
+    //   Name: appConstant.ADMIN_URL_STRINGS.PRODUCTS_PLACES,
+    //   Sort: 19,
+    // },
+    // {
+    //   ID: appConstant.ADMIN_URL_ID.PLACES,
+    //   Name: appConstant.ADMIN_URL_STRINGS.PLACES,
+    //   Sort: 20,
+    // },
     {
       ID: appConstant.ADMIN_URL_ID.ORDERS,
       Name: appConstant.ADMIN_URL_STRINGS.ORDERS,
       Sort: 21,
     },
     {
-      ID: appConstant.ADMIN_URL_ID.ORDEREARNING,
-      Name: appConstant.ADMIN_URL_STRINGS.ORDEREARNING,
-      Sort: 22,
-    },
-    {
       ID: appConstant.ADMIN_URL_ID.USERRATE,
       Name: appConstant.ADMIN_URL_STRINGS.USERRATE,
       Sort: 23,
     },
-    //maps
-    {
-      ID: appConstant.ADMIN_URL_ID.ORDERSMAP,
-      Name: appConstant.ADMIN_URL_STRINGS.ORDERSMAP,
-      Sort: 24,
-    },
-    {
-      ID: appConstant.ADMIN_URL_ID.UNCOVERAGEMAP,
-      Name: appConstant.ADMIN_URL_STRINGS.UNCOVERAGEMAP,
-      Sort: 25,
-    },
+    // {
+    //   ID: appConstant.ADMIN_URL_ID.UNCOVERAGEMAP,
+    //   Name: appConstant.ADMIN_URL_STRINGS.UNCOVERAGEMAP,
+    //   Sort: 25,
+    // },
 
     //payments
-    {
-      ID: appConstant.ADMIN_URL_ID.TRANSACTION,
-      Name: appConstant.ADMIN_URL_STRINGS.TRANSACTION,
-      Sort: 26,
-    },
     {
       ID: appConstant.ADMIN_URL_ID.NOTIFICATIONS_ADD,
       Name: appConstant.ADMIN_URL_STRINGS.NOTIFICATIONS_ADD,
@@ -285,30 +269,14 @@ export class appConstant {
       sort: 17,
     },
     {
-      id: appConstant.ADMIN_URL_ID.PLACES,
-      name: appConstant.ADMIN_URL_STRINGS.PLACES,
-      sort: 20,
-    },
-    {
       id: appConstant.ADMIN_URL_ID.ORDERS,
       name: appConstant.ADMIN_URL_STRINGS.ORDERS,
       sort: 21,
     },
     {
-      id: appConstant.ADMIN_URL_ID.ORDEREARNING,
-      name: appConstant.ADMIN_URL_STRINGS.ORDEREARNING,
-      sort: 22,
-    },
-    {
       id: appConstant.ADMIN_URL_ID.USERRATE,
       name: appConstant.ADMIN_URL_STRINGS.USERRATE,
       sort: 23,
-    },
-    //payments
-    {
-      id: appConstant.ADMIN_URL_ID.TRANSACTION,
-      name: appConstant.ADMIN_URL_STRINGS.TRANSACTION,
-      sort: 24,
     },
     // {
     //   ID: appConstant.ADMIN_URL_ID.NOTIFICATIONS_ADD,
@@ -339,11 +307,6 @@ export class appConstant {
       name: appConstant.ADMIN_URL_STRINGS.STORES,
       sort: 17,
     },
-    {
-      id: appConstant.ADMIN_URL_ID.PRODUCTS,
-      name: appConstant.ADMIN_URL_STRINGS.PRODUCTS,
-      sort: 19,
-    },
     // {
     //   ID: appConstant.ADMIN_URL_ID.PROJECTS,
     //   Name: appConstant.ADMIN_URL_STRINGS.PROJECTS,
@@ -355,20 +318,9 @@ export class appConstant {
       sort: 21,
     },
     {
-      id: appConstant.ADMIN_URL_ID.ORDEREARNING,
-      name: appConstant.ADMIN_URL_STRINGS.ORDEREARNING,
-      sort: 22,
-    },
-    {
       id: appConstant.ADMIN_URL_ID.USERRATE,
       name: appConstant.ADMIN_URL_STRINGS.USERRATE,
       sort: 23,
-    },
-    //payments
-    {
-      id: appConstant.ADMIN_URL_ID.TRANSACTION,
-      name: appConstant.ADMIN_URL_STRINGS.TRANSACTION,
-      sort: 24,
     },
     // {
     //   ID: appConstant.ADMIN_URL_ID.NOTIFICATIONS_ADD,
@@ -390,7 +342,6 @@ export class appConstant {
 
 export enum UserType {
   ADMIN = "ADMIN",
-  DESIGNER = "DESIGNER",
-  IMPLEMENTER = "IMPLEMENTER",
   STORE = "STORE",
+  SUPERVISOR = "SUPERVISOR",
 }

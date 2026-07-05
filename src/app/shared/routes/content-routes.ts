@@ -8,7 +8,7 @@ export const content: Routes = [
         (m) => m.ConstantModule
       ),
     data: {
-      breadcrumb: "الثوابت",
+      breadcrumb: "",
     },
   },
   {
@@ -18,7 +18,7 @@ export const content: Routes = [
         (m) => m.ActorsModule
       ),
     data: {
-      breadcrumb: "مستخدمين النظام",
+      breadcrumb: "",
     },
   },
   {
@@ -26,7 +26,7 @@ export const content: Routes = [
     loadChildren: () =>
       import("../../components/maps/maps.module").then((m) => m.MapsModule),
     data: {
-      breadcrumb: "الخرائط",
+      breadcrumb: "",
     },
   },
 
@@ -37,7 +37,7 @@ export const content: Routes = [
         (m) => m.product_projectModule
       ),
     data: {
-      breadcrumb: "المناطق والمنتجات",
+      breadcrumb: "",
     },
   },
   {
@@ -47,7 +47,7 @@ export const content: Routes = [
         (m) => m.OrdersModule
       ),
     data: {
-      breadcrumb: "الطلبات والعائدات",
+      breadcrumb: "",
     },
   },
   {
@@ -57,7 +57,7 @@ export const content: Routes = [
         (m) => m.OffersModule
       ),
     data: {
-      breadcrumb: "العروض والتخفيضات",
+      breadcrumb: "",
     },
   },
   {
@@ -67,7 +67,7 @@ export const content: Routes = [
         (m) => m.NotificationsModule
       ),
     data: {
-      breadcrumb: "الطلبات والعائدات",
+      breadcrumb: "",
     },
   },
   {
@@ -77,7 +77,7 @@ export const content: Routes = [
         (m) => m.DashboardModule
       ),
     data: {
-      breadcrumb: "الرئيسية",
+      breadcrumb: "",
     },
   },
   {
@@ -85,7 +85,7 @@ export const content: Routes = [
     loadChildren: () =>
       import("../../components/base/base.module").then((m) => m.BaseModule),
     data: {
-      breadcrumb: "Base",
+      breadcrumb: "",
     },
   },
   {
@@ -95,7 +95,7 @@ export const content: Routes = [
         (m) => m.AdvanceModule
       ),
     data: {
-      breadcrumb: "Advance",
+      breadcrumb: "",
     },
   },
   {
@@ -103,7 +103,7 @@ export const content: Routes = [
     loadChildren: () =>
       import("../../components/icons/icons.module").then((m) => m.IconsModule),
     data: {
-      breadcrumb: "Icons",
+      breadcrumb: "",
     },
   },
   {
@@ -113,7 +113,7 @@ export const content: Routes = [
         (m) => m.ButtonsModule
       ),
     data: {
-      breadcrumb: "Buttons",
+      breadcrumb: "",
     },
   },
   {
@@ -123,7 +123,7 @@ export const content: Routes = [
         (m) => m.ChartModule
       ),
     data: {
-      breadcrumb: "Chart",
+      breadcrumb: "",
     },
   },
   {
@@ -131,7 +131,7 @@ export const content: Routes = [
     loadChildren: () =>
       import("../../components/cards/cards.module").then((m) => m.CardsModule),
     data: {
-      breadcrumb: "Cards",
+      breadcrumb: "",
     },
   },
   {
@@ -141,7 +141,7 @@ export const content: Routes = [
         (m) => m.TimelineModule
       ),
     data: {
-      breadcrumb: "Timeline",
+      breadcrumb: "",
     },
   },
   {
@@ -149,7 +149,7 @@ export const content: Routes = [
     loadChildren: () =>
       import("../../components/forms/forms.module").then((m) => m.FormModule),
     data: {
-      breadcrumb: "Form",
+      breadcrumb: "",
     },
   },
   {
@@ -159,7 +159,7 @@ export const content: Routes = [
         (m) => m.GalleryDemoModule
       ),
     data: {
-      breadcrumb: "Gallery",
+      breadcrumb: "",
     },
   },
   {
@@ -169,7 +169,7 @@ export const content: Routes = [
         (m) => m.TablesModule
       ),
     data: {
-      breadcrumb: "Table",
+      breadcrumb: "",
     },
   },
   {
@@ -179,7 +179,7 @@ export const content: Routes = [
         (m) => m.EditorModule
       ),
     data: {
-      breadcrumb: "Editor",
+      breadcrumb: "",
     },
   },
   {
@@ -187,7 +187,7 @@ export const content: Routes = [
     loadChildren: () =>
       import("../../components/users/users.module").then((m) => m.UsersModule),
     data: {
-      breadcrumb: "Users",
+      breadcrumb: "",
     },
   },
   {
@@ -195,7 +195,7 @@ export const content: Routes = [
     loadChildren: () =>
       import("../../components/to-do/to-do.module").then((m) => m.ToDoModule),
     data: {
-      breadcrumb: "To-do",
+      breadcrumb: "",
     },
   },
   {
@@ -203,7 +203,7 @@ export const content: Routes = [
     loadChildren: () =>
       import("../../components/email/email.module").then((m) => m.EmailModule),
     data: {
-      breadcrumb: "Email",
+      breadcrumb: "",
     },
   },
   {
@@ -213,7 +213,7 @@ export const content: Routes = [
         (m) => m.CalenderModule
       ),
     data: {
-      breadcrumb: "Calender",
+      breadcrumb: "",
     },
   },
   {
@@ -221,7 +221,7 @@ export const content: Routes = [
     loadChildren: () =>
       import("../../components/blog/blog.module").then((m) => m.BlogModule),
     data: {
-      breadcrumb: "Blog",
+      breadcrumb: "",
     },
   },
   {
@@ -231,7 +231,7 @@ export const content: Routes = [
         (m) => m.SocialAppModule
       ),
     data: {
-      breadcrumb: "Social-app",
+      breadcrumb: "",
     },
   },
   {

@@ -14,6 +14,7 @@ import { ActivatedRoute, Params, Router } from "@angular/router";
 import { MomentDateFormatter } from "src/app/service/utils_function";
 import { DatePipe } from "@angular/common";
 import { AgmMap } from "@agm/core";
+import { TranslateService } from "@ngx-translate/core";
 declare var require;
 const Swal = require("sweetalert2");
 declare const google: any;
@@ -40,15 +41,20 @@ export class PlacesComponent implements OnInit {
 
   lat = 24.774265;
   lng = 46.738586;
+  lang = ""
   constructor(
+    private translate: TranslateService,
     private helper: ConstantServiceWrapper,
     private modalService: NgbModal,
     private toastr: ToastrService,
     private router: Router
-  ) {}
+  ) {
+    this.lang = this.translate.currentLang
+  }
 
   ngOnInit(): void {
     this.getAllCit();
+    this.getPlaces(this.city_id, 0, this.limit)
   }
 
   getAllCit() {
@@ -70,13 +76,13 @@ export class PlacesComponent implements OnInit {
   deletePlace(id) {
     Swal.fire({
       title: "تحذير",
-      text: "هل انت متأكد من حذف العنصر؟",
+      text: this.translate.instant("Confirm"),
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "نعم",
-      cancelButtonText: "الغاء",
+      confirmButtonText: this.translate.instant("Yes"),
+      cancelButtonText: this.translate.instant("Cancel"),
     }).then((result) => {
       if (result.value) {
         this.helper.deletePlace(id).subscribe((x) => {

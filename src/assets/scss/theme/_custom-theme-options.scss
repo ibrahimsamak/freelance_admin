@@ -2,7 +2,7 @@
    55. theme layout CSS Start
 ==========================**/
 //Sidebar color scss
-$color1 : #405365;
+$color1 : #307525;
 $color2 : #1C1D1E;
 $color3 : #0c0c3c;
 $color4 : #0747a6;
@@ -37,7 +37,7 @@ $i:1;
 							(color3, $color3),
 							(color4, $color4),
 							(color5, $color5),
-							(light, $light-color),
+							(light, $primary-color),
 							(dark, #2f3c4e){
 				&.#{$sidebar-name}-sidebar{
 					background-color: $sidebar-color;

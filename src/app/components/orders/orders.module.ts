@@ -24,6 +24,8 @@ import { EarningComponent } from "./earning/earning.component";
 import { CommentsComponent } from "./comments/comments.component";
 import { ECommerceModule } from "../e-commerce/e-commerce.module";
 import { NewOrderComponent } from './new-order/new-order.component';
+import { TransactionsComponent } from './transactions/transactions.component';
+import { CommentsEmployeeComponent } from './comments-employee/comments-employee.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { NewOrderComponent } from './new-order/new-order.component';
     // OrderDetailsPoPComponent,
     CommentsComponent,
     NewOrderComponent,
+    TransactionsComponent,
+    CommentsEmployeeComponent,
   ],
   imports: [
     CommonModule,

@@ -4,7 +4,7 @@
             <div class="col-lg-12">
                 <form class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">تعديل الملف الشخصي</h4>
+                        <h4 class="card-title mb-0"> {{'EditProfile' | translate}}    </h4>
                         <div class="card-options">
                             <a class="card-options-collapse" [routerLink]="" data-toggle="card-collapse"><i
                                     class="fe fe-chevron-up"></i>
@@ -19,43 +19,44 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label">اسم المستخدم</label>
+                                        <label class="form-label">{{'UserName' | translate}}</label>
                                         <input class="form-control" type="text" id="full_name" name="full_name"
                                             #full_name="ngModel" [(ngModel)]="userDetails.full_name">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label">رقم الجوال</label>
+                                        <label class="form-label">{{'Phone' | translate}}  *</label>
                                         <input class="form-control" id="phone_number" name="phone_number"
-                                            placeholder="رقم الجوال مثلا: 966591231231" #phone_number="ngModel"
+                                            placeholder="966591231231" #phone_number="ngModel"
                                             [(ngModel)]="userDetails.phone_number"
                                             pattern="^(9665)(5|0|3|6|4|9|1|8|7)([0-9]{7})$">
-                                        <span *ngIf="phone_number.invalid && phone_number.errors.pattern">ادخل رقم جوال
-                                            صحيح مثلا:
-                                            رقم الجوال
-                                            مثلا:
-                                            966591231231</span>
-                                        <span *ngIf="phone_number.invalid && phone_number.errors.minlength">ادخل
-                                            رقم جوال صحيح
-                                            مثلا: رقم
-                                            الجوال مثلا:
-                                            966591231231 </span>
+                                            <div *ngIf="(phone_number.errors && phone_number.invalid && (phone_number.dirty || phone_number.touched))"
+                                            class="text text-danger">
+                                            {{'Required'|translate}}
+                                        </div>
+                                        <span *ngIf="phone_number.invalid && phone_number.errors.pattern"
+                                            class="text text-danger">
+                                            {{'InvalidPhone'|translate}}
+                                        </span>
+                                        <span *ngIf="phone_number.invalid && phone_number.errors.minlength"
+                                            class="text text-danger">
+                                            {{'InvalidPhone'|translate}}
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label">الايميل</label>
+                                        <label class="form-label">{{'Email' | translate}}</label>
                                         <input class="form-control" type="email" id="email" name="email"
                                             #email="ngModel" [(ngModel)]="userDetails.email"
                                             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
-                                        <span *ngIf="email.invalid && email.errors.pattern">ادخل بريد الكتروني
-                                            صحيح</span>
+                                        <span *ngIf="email.invalid && email.errors.pattern"> {{'InvalidEmail'|translate}}</span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label">كلمة المرور</label>
+                                        <label class="form-label">{{'Password' | translate}}</label>
                                         <input class="form-control" id="password" name="password" #password="ngModel"
                                             [(ngModel)]="userDetails.password">
                                     </div>
@@ -67,7 +68,7 @@
                         <button class="btn btn-primary" [class.loader--text]="showLoader"
                             [disabled]="!form.valid || showLoader" (click)="saveUser()" type="submit">
                             <span>
-                                {{ showLoader ? '' : 'حفظ المعلومات'}}
+                                {{ showLoader ? '' : 'Save' | translate}}
                             </span>
                         </button>
                     </div>

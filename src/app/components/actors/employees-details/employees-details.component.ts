@@ -10,8 +10,11 @@ import {
 import { ToastrService } from "ngx-toastr";
 import { ar } from "date-fns/locale";
 import { ActivatedRoute, Params } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 declare var require;
 const Swal = require("sweetalert2");
+import * as jsonexport from "jsonexport/dist";
+import { OrderDetailsPoPComponent } from "src/app/shared/components/order-details/order-details.component";
 
 @Component({
   selector: "app-employees-details",
@@ -21,7 +24,7 @@ const Swal = require("sweetalert2");
 export class EmployeesDetailsComponent implements OnInit {
   public formData = new FormData();
   public zoom_m1: number = 13;
-
+  status = ""
   user_address = {};
   discount = "0";
   cities = [];
@@ -34,10 +37,9 @@ export class EmployeesDetailsComponent implements OnInit {
     address: "",
     phone_number: "",
     os: "",
-    supplier_id: "",
+    supervisor_id: "",
     password: "",
-    place_id: "",
-    city_id: "",
+    createAt:""
   };
   countries = [];
   providers = [];
@@ -68,16 +70,17 @@ export class EmployeesDetailsComponent implements OnInit {
     private helper: ConstantServiceWrapper,
     private modalService: NgbModal,
     private toastr: ToastrService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit(): void {
-    this.getAllProviders();
+    this.getAllSupervisor();
     this.getUserById();
   }
 
-  getOrders(id, page, limit) {
-    this.helper.getEmployeesOrders(id, page, limit).subscribe((x) => {
+  getOrders(id, status, page, limit) {
+    this.helper.getEmployeesOrders(id, status,page, limit).subscribe((x) => {
       if (x[appConstant.STATUS]) this.orders = x[appConstant.ITEMS] as any[];
       else this.toastr.error(x[appConstant.MESSAGE]);
     });
@@ -92,17 +95,16 @@ export class EmployeesDetailsComponent implements OnInit {
           if (x[appConstant.STATUS]) {
             let object = x[appConstant.ITEMS] as any;
             this.userDetails = object;
-            this.changeSupplier(this.userDetails.supplier_id);
             this.orders = [];
           } else this.toastr.error(x[appConstant.MESSAGE]);
         });
-        this.getOrders(this.user_id, this.orderPage, this.orderLimit);
+        this.getOrders(this.user_id, this.status, this.orderPage, this.orderLimit);
       }
     });
   }
 
-  getAllProviders() {
-    this.helper.getAllProviders().subscribe((x) => {
+  getAllSupervisor() {
+    this.helper.getAllSupervisor().subscribe((x) => {
       this.providers = x[appConstant.ITEMS] as any[];
     });
   }
@@ -118,9 +120,7 @@ export class EmployeesDetailsComponent implements OnInit {
     this.formData.append("password", this.userDetails.password);
     this.formData.append("image", this.image);
 
-    this.formData.append("supplier_id", this.userDetails.supplier_id);
-    this.formData.append("city_id", this.userDetails.city_id);
-    this.formData.append("place_id", this.userDetails.place_id);
+    this.formData.append("supervisor_id", this.userDetails.supervisor_id);
 
     if (this.user_id) {
       this.showLoader = true;
@@ -142,7 +142,7 @@ export class EmployeesDetailsComponent implements OnInit {
       );
     } else {
       if (this.userDetails.image == "") {
-        this.toastr.error("الرجاء ارفاق الصورة ");
+        this.toastr.error(this.translate.instant('ImageRequired'))
         return;
       }
       this.showLoader = true;
@@ -184,14 +184,14 @@ export class EmployeesDetailsComponent implements OnInit {
       this.orderPage = 0;
       this.orderLimit = 10;
       this.orderCollectionCount = 0;
-      this.getOrders(this.user_id, this.orderPage, this.orderLimit);
+      this.getOrders(this.user_id, this.status, this.orderPage, this.orderLimit);
     }
   }
 
   public onOrderPageChange(pageNum: number): void {
     this.orderPage = pageNum - 1;
     this.helper
-      .getEmployeesOrders(this.user_id, this.orderPage, this.orderLimit)
+      .getEmployeesOrders(this.user_id, this.status, this.orderPage, this.orderLimit)
       .subscribe((x) => {
         let arr = x[appConstant.ITEMS] as any[];
         this.orderCollectionCount = x["pagination"]["totalElements"];
@@ -207,32 +207,52 @@ export class EmployeesDetailsComponent implements OnInit {
 
   openOrder(content, obj) {
     this.orderDetails = obj;
-    this.modalService.open(content, { size: "lg" });
+    const modalRef = this.modalService.open(OrderDetailsPoPComponent,{ size: "lg" })
+    modalRef.componentInstance.orderDetails = this.orderDetails;
+}
+
+  changeStatus(statusId) {
+    this.status = statusId;
+    this.orderPage = 0;
+    this.getOrders(this.user_id, this.status, this.orderPage, this.orderLimit);
   }
 
-  changeSupplier(event) {
-    console.log(event);
-    let supplier = this.providers.find((x) => x._id == event);
-    // let suplier_id = event;
-    if (supplier) {
-      this.userDetails.supplier_id = supplier._id;
-      this.cities = supplier.cities;
-    }
-    if(this.user_id){
-      this.changeCity(this.userDetails.city_id);
-    }
-    // console.log(this.cities);
-  }
+  excel() {
+    var fields = [];
+    this.helper
+      .getEmployeesOrdersExcel(this.user_id, this.status)
+      .subscribe((res_data) => {
+        let data = res_data["items"] as any[];
+        data.forEach((user, index) => {
+          console.log( user["supervisor"])
+          fields.push({
+            Name: "\ufeff" + (user["user"] != undefined && user["user"] != null ? user["user"]["full_name"] : ""),
+            Provider: "\ufeff" + ((user["provider"] != undefined && user["provider"] != null ) ? user["provider"]["name"] : ""),
+            Supervisor: "\ufeff" + ((user["supervisor"] != undefined && user["supervisor"] != null ) ? user["supervisor"]["name"] : ""),
+            Employee: "\ufeff" + ((user["employee"] != undefined && user["employee"] != null) ? user["employee"]["full_name"] : ""),
+            Place: "\ufeff" + ((user["place"] != undefined && user["place"] != null ) ? user["place"]["arName"]:""),
+            Date: "\ufeff" + user["dt_date"],
+            Time: "\ufeff" + user["dt_time"],
+            Type: "\ufeff" + user["category_id"]["arName"],
+            Service:"\ufeff" + user["sub_category_id"]["arName"],
+            Total: "\ufeff" + user["total"],
+          });
+        });
 
-  changeCity(event) {
-    let city = this.cities.find((x) => x._id == event);
-    // let suplier_id = event;
-    if (city) {
-      this.userDetails.city_id = city._id;
-      this.helper.getAllPlaces(city._id).subscribe((x) => {
-        this.places = x[appConstant.ITEMS] as any[];
+        jsonexport(fields, function (err, csv) {
+          if (err) return console.log(err);
+          var blob = new Blob(["\uFEFF" + csv], {
+            type: "text/csv;charset=utf-8",
+          });
+          var url = window.URL.createObjectURL(blob);
+          var element = document.createElement("a");
+          element.setAttribute("href", encodeURI(url));
+          element.setAttribute("download", "طلبات الموظفين" + ".csv");
+          element.style.display = "none";
+          document.body.appendChild(element);
+          element.click();
+          document.body.removeChild(element);
+        });
       });
-    }
-    // console.log(this.cities);
   }
 }

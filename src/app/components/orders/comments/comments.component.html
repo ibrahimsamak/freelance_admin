@@ -9,9 +9,9 @@
                                 <div class="col-md-6">
                                     <div class="custom-datepicker custom-datepicker-dropdown">
                                         <div class="form-group mb-0">
-                                            <label for="country_id">من تاريخ</label>
+                                            <label for="country_id">{{'FromDate' | translate}}</label>
                                             <div class="input-group">
-                                                <input class="form-control" placeholder="من تاريخ" id="dt_from1"
+                                                <input class="form-control" placeholder="" id="dt_from1"
                                                     name="dt_from1" [(ngModel)]="dt_from" ngbDatepicker
                                                     #f="ngbDatepicker">
                                                 <div class="input-group-append">
@@ -25,9 +25,9 @@
                                 <div class="col-md-6">
                                     <div class="custom-datepicker custom-datepicker-dropdown">
                                         <div class="form-group mb-0">
-                                            <label for="country_id">الى تاريخ</label>
+                                            <label for="country_id">{{'ToDate' | translate}}</label>
                                             <div class="input-group">
-                                                <input class="form-control" placeholder="الى تاريخ" id="dt_to1"
+                                                <input class="form-control" placeholder="" id="dt_to1"
                                                     name="dt_to1" [(ngModel)]="dt_to" ngbDatepicker #f2="ngbDatepicker">
                                                 <div class="input-group-append">
                                                     <button class="btn calendar" (click)="f2.toggle()" type="button"><i
@@ -38,11 +38,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-2 mr-2">
+                            <div class="row mt-2 mr-2 ml-2">
                                 <button type="button" class="btn btn-outline-info btn-sm"
-                                    (click)="search()">بحث</button>&nbsp;
-                                <button type="button" class="btn btn-outline-danger btn-sm" (click)="reset()">تفريغ
-                                    الحقول</button>
+                                    (click)="search()">{{'Search' | translate}}</button>&nbsp;
+                                <button type="button" class="btn btn-outline-danger btn-sm" (click)="reset()">{{'Reset' | translate}}</button>
                             </div>
                         </div>
                     </div>
@@ -58,7 +57,7 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>التعليقات على الطلبات</h5>
+                    <h5>{{'OrderUserComment' | translate}}</h5>
                 </div>
                 <div class="todo">
                     <div class="todo-list-wrapper">
@@ -67,50 +66,37 @@
                                 <table class="table card-table table-vcenter text-nowrap">
                                     <thead>
                                         <tr>
-                                            <th>الطلب</th>
-                                            <th>المستخدم</th>
-                                            <th>مزود الخدمة</th>
-                                            <th>السائق</th>
-                                            <th>التاريخ</th>
-                                            <th>التقييم</th>
+                                            <th>{{'OrderNo' | translate}}</th>
+                                            <th>{{'Users' | translate}}</th>
+                                            <th >{{'BuyerData' | translate}}</th>
+                                            <th>{{'Date' | translate}}</th>
+                                            <th>{{'Rate' | translate}}</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        
                                         <tr *ngFor="let item of comments">
                                             <td>
-                                                {{item?.order_id?.Order_no}}
+                                                {{item?.order_id?.order_no}}
                                             </td>
-                                            <td>
-                                                {{item?.user_id?.full_name}}
-                                            </td>
-                                            <td>
-                                                {{item?.supplier_id?.name}}
-                                            </td>
-                                            <td>
-                                                {{item?.employee_id?.full_name}}
-                                            </td>
+                                            <td>{{item?.freelancer?.full_name}}</td>
+                                            <td>{{item?.customer?.full_name}}</td>
                                             <td>
                                                 {{item.createAt | date:'dd-MM-yyyy'}}
                                             </td>
                                             <td>
-                                                <ngb-rating [max]="5" [readonly]="true"
-                                                    [(rate)]="item.rate_from_user_to_provider" class="rating-size">
-                                                </ngb-rating>
+                                                <ngb-rating [max]="5" [readonly]="true" [(rate)]="item.rate_from_customer" class="rating-size"></ngb-rating>
                                             </td>
                                             <td class="text-right">
-                                                <a class="btn btn-primary btn-sm cursor"
-                                                    (click)="openDetails(rate,item.note_from_user_to_provider)">
-                                                    <i class="fa fa-comment"></i> التعليق </a>&nbsp;
-                                                <a class="btn btn-danger btn-sm cursor"
-                                                    (click)="deleteComment(item._id)">
-                                                    <i class="fa fa-trash"></i> حذف </a>
+                                                <a class="btn btn-primary btn-sm cursor" (click)="openDetails(rate,item.note_from_customer)"> <i class="fa fa-comment"></i> {{'Comment' | translate}} </a>&nbsp;
+                                                <a class="btn btn-danger btn-sm cursor" (click)="deleteComment(item._id)"> <i class="fa fa-trash"></i> {{'Delete' | translate}} </a>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <ngb-pagination *ngIf="comments.length > 0" [collectionSize]="collectionCount" #numPages
+                            <ngb-pagination *ngIf="comments.length > 0" [collectionSize]="collectionCount" #numPages  [maxSize]="10"
                                 [pageSize]="limit" [(page)]="page" (pageChange)="onPageChange(page)">
                             </ngb-pagination>
                         </div>
@@ -124,12 +110,12 @@
 
 <ng-template #content let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">تفاصيل الطلب</h4>
+        <h4 class="modal-title" id="modal-basic-title">{{'OrderComment' | translate}}</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body" style="text-align: right;">
+     <div class="modal-body" style="text-align: justify;">
         <app-order-details [orderDetails]="orderDetails"></app-order-details>
     </div>
 </ng-template>
@@ -137,12 +123,12 @@
 
 <ng-template #rate let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">التعليق</h4>
+        <h4 class="modal-title" id="modal-basic-title">{{'Comment' | translate}}</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body" style="text-align: right;">
+     <div class="modal-body" style="text-align: justify;">
         <form #form="ngForm">
             <div class="row">
                 <div class="col-md-12">
@@ -156,6 +142,6 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-danger btn-sm" (click)="modal.close('Save click')">اغلاق</button>
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="modal.close('Save click')">{{'Close' | translate}}</button>
     </div>
 </ng-template>

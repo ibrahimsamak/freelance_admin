@@ -3,16 +3,16 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>سلايدر الاعلانات</h5>
+                    <h5>{{'Slider' | translate}}</h5>
                 </div>
                 <div class="todo">
                     <div class="todo-list-wrapper">
                         <div class="todo-list-container">
                             <div class="mark-all-tasks">
                                 <div class="mark-all-tasks-container">
-                                    <button title="اضافة جديد" class="btn btn-success-gradien"
+                                    <button title="{{'Add' | translate}}" class="btn btn-success-gradien"
                                         (click)="openAdvs(content,null)">
-                                        <i class="fa fa-plus"></i> اضافة جديد
+                                        <i class="fa fa-plus"></i> {{'Add' | translate}}
                                     </button>&nbsp;
                                 </div>
                             </div>
@@ -21,10 +21,9 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">الصورة</th>
+                                            <th scope="col">{{'Image' | translate}}</th>
                                             <!-- <th scope="col">نوع الاعلان</th> -->
-                                            <th scope="col">اسم الاعلان</th>
-                                            <th scope="col">تاريخ الانتهاء</th>
+                                            <th scope="col">{{'Title' | translate}}</th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
@@ -34,15 +33,13 @@
                                             <td>
                                                 <img class="img-60 rounded-circle" src="{{item.image}}">
                                             </td>
-                                            <td>{{item.ads_for != 1 ? 'منتج' : 'رابط خارجي'}}</td>
                                             <td>{{item.arTitle}}</td>
-                                            <td>{{item.expiry_date | date:'dd/MM/yyyy'}}</td>
                                             <td>
-                                                <button placement="top" ngbTooltip="تعديل" class="btn btn-info-gradien"
+                                                <button placement="top" ngbTooltip="{{'Edit' | translate}}" class="btn-sm btn-info-gradien"
                                                     (click)="openAdvs(content,item)">
                                                     <i class="fa fa-pencil"></i>
                                                 </button>&nbsp;
-                                                <button placement="top" ngbTooltip="حذف" class="btn btn-danger-gradien"
+                                                <button placement="top" ngbTooltip="{{'Delete' | translate}}" class="btn-sm btn-danger-gradien"
                                                     (click)="deleteReason(item._id)">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
@@ -61,12 +58,14 @@
 
 <ng-template #content let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">اضافة وتعديل الاعلان</h4>
+        <h4 class="modal-title" id="modal-basic-title">
+            {{'Slider' | translate}}
+        </h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body" style="text-align: right;">
+     <div class="modal-body" style="text-align: justify;">
         <form #form="ngForm">
             <div class="row">
                 <div class="col-md-12">
@@ -76,27 +75,27 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="arTitle">الاسم العربي</label>
+                        <label for="arTitle">{{'arTitle' | translate}} *</label>
                         <div class="input-group">
                             <input required #arTitle="ngModel" type="text" class="form-control" id="arTitle"
                                 name="arTitle" [(ngModel)]="advObject.arTitle">
                         </div>
                         <div *ngIf="(arTitle.errors && arTitle.invalid && (arTitle.dirty || arTitle.touched))"
                             class="text text-danger">
-                            الحقل مطلوب
+                            {{'Required' | translate}}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="enTitle">الاسم الانجليزي</label>
+                        <label for="enTitle">{{'enTitle' | translate}} *</label>
                         <div class="input-group">
                             <input required #enTitle="ngModel" type="text" class="form-control" id="enTitle"
                                 name="enTitle" [(ngModel)]="advObject.enTitle">
                         </div>
                         <div *ngIf="(enTitle.errors && enTitle.invalid && (enTitle.dirty || enTitle.touched))"
                             class="text text-danger">
-                            الحقل مطلوب
+                            {{'Required' | translate}}
                         </div>
                     </div>
                 </div>
@@ -104,27 +103,27 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="arDescription">الوصف العربي</label>
+                        <label for="arDescription">{{'arDescription' | translate}} *</label>
                         <div class="input-group">
                             <input required #arDescription="ngModel" type="text" class="form-control" id="arDescription"
                                 name="arDescription" [(ngModel)]="advObject.arDescription">
                         </div>
                         <div *ngIf="(arDescription.errors && arDescription.invalid && (arDescription.dirty || arDescription.touched))"
                             class="text text-danger">
-                            الحقل مطلوب
+                            {{'Required' | translate}}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="enDescription">الوصف الانجليزي</label>
+                        <label for="enDescription">{{'enDescription' | translate}} *</label>
                         <div class="input-group">
                             <input required #enDescription="ngModel" type="text" class="form-control" id="enDescription"
                                 name="enDescription" [(ngModel)]="advObject.enDescription">
                         </div>
                         <div *ngIf="(enDescription.errors && enDescription.invalid && (enDescription.dirty || enDescription.touched))"
                             class="text text-danger">
-                            الحقل مطلوب
+                            {{'Required' | translate}}
                         </div>
                     </div>
                 </div>
@@ -160,9 +159,8 @@
                     </div>
                 </div> -->
             </div>
-
             <div class="row">
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     <div class="custom-datepicker custom-datepicker-dropdown">
                         <div class="form-group mb-0">
                             <label for="expiry_date">تاريخ الانتهاء</label>
@@ -177,17 +175,17 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="icon">الصورة</label>
+                        <label for="icon">{{'Image' | translate}} *</label>
                         <div class="input-group">
                             <input required #icon type="file" class="form-control" id="icon" name="icon"
                                 accept="image/*" (change)="processImage($event)">
                         </div>
                         <div *ngIf="(icon.errors && icon.invalid && (icon.dirty || icon.touched))"
                             class="text text-danger">
-                            الحقل مطلوب
+                            {{'Required' | translate}}
                         </div>
                     </div>
                 </div>
@@ -196,8 +194,8 @@
     </div>
     <div class="modal-footer">
         <button [disabled]="!form.valid" type="button" class="btn btn-outline-info btn-sm"
-            (click)="saveAction()">حفظ</button>
-        <button type="button" class="btn btn-outline-danger btn-sm" (click)="modal.close('Save click')">اغلاق</button>
+            (click)="saveAction()">{{'Save' | translate}}</button>
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="modal.close('Save click')">{{'Close' | translate}}</button>
     </div>
 </ng-template>
 <ks-modal-gallery [id]="1" [modalImages]="imagesRect" [plainGalleryConfig]="customPlainGalleryRowDescConfig"

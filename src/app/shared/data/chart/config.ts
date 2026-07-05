@@ -31,9 +31,9 @@ export var areaChartshowXAxis = true;
 export var areaChartshowYAxis = true;
 export var areaChartgradient = false;
 export var areaChartshowXAxisLabel = true;
-export var areaChartxAxisLabel = 'Country';
+export var areaChartxAxisLabel = 'Month';
 export var areaChartshowYAxisLabel = true;
-export var areaChartyAxisLabel = 'Population';
+export var areaChartyAxisLabel = 'Users';
 export var areaChartcolorScheme = {
     domain: ["#007bff", "#ff9f40", "#ff5370"]
 }

@@ -10,7 +10,7 @@ import { NgbActiveModal, NgbModal, ModalDismissReasons, NgbModalConfig } from '@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" style="text-align: justify;">
       <p>Hello, {{name}}!</p>
     </div>
     <div class="modal-footer">
@@ -32,7 +32,7 @@ export class NgbdModalContent {
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" style="text-align: justify;">
       <p>Hello, World!</p>
       <p><button class="btn btn-lg btn-outline-primary" (click)="open()">Launch demo modal</button></p>
     </div>
@@ -59,7 +59,7 @@ export class NgbdModal1Content {
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" style="text-align: justify;">
       <p>Hello, World!</p>
     </div>
     <div class="modal-footer">

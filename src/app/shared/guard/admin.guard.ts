@@ -34,24 +34,28 @@ export class AdminGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
     if (localStorage.getItem("admin_id") != null) {
-      let roles = next.data["roles"] as Array<String>;
-      let expire = localStorage.getItem("expire");
-      if (expire && new Date(expire) >= new Date()) {
-        if (roles) {
-          var match = this.roleMatch(roles);
-          if (match) {
-            return true;
+      // if(localStorage.getItem("admin_id") == "ADMIN"){
+        let roles = next.data["roles"] as Array<String>;
+        let expire = localStorage.getItem("expire");
+        if (expire && new Date(expire) >= new Date()) {
+          if (roles) {
+            var match = this.roleMatch(roles);
+            if (match) {
+              return true;
+            } else {
+              this.router.navigate(["/error/403"]);
+              return false;
+            }
           } else {
-            this.router.navigate(["/error/403"]);
-            return false;
+            return true;
           }
         } else {
-          return true;
+          this.router.navigate(["/auth/login"]);
+          return false;
         }
-      } else {
-        this.router.navigate(["/auth/login"]);
-        return false;
-      }
+      // }else{
+      //   return true
+      // }
     } else {
       this.router.navigate(["/auth/login"]);
       return false;

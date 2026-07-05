@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "app-order-details",
@@ -11,16 +12,20 @@ export class OrderDetailsPoPComponent implements OnInit {
   origin;
   destination;
 
-  constructor() {}
+  constructor(private modalService: NgbModal) {}
 
   ngOnInit(): void {
     this.origin = {
-      lat: this.orderDetails?.employee_id?.lat,
-      lng: this.orderDetails?.employee_id?.lng,
+      f_lat: this.orderDetails?.f_lat,
+      f_lng: this.orderDetails?.f_lng,
     };
     this.destination = {
-      lat: this.orderDetails?.lat,
-      lng: this.orderDetails?.lng,
+      t_lat: this.orderDetails?.t_lat,
+      t_lng: this.orderDetails?.t_lng,
     };
+  }
+
+  close(){
+    this.modalService.dismissAll();
   }
 }

@@ -10,8 +10,11 @@ import {
 import { ToastrService } from "ngx-toastr";
 import { ar } from "date-fns/locale";
 import { ActivatedRoute, Params } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 declare var require;
 const Swal = require("sweetalert2");
+import * as jsonexport from "jsonexport/dist";
+import { OrderDetailsPoPComponent } from "src/app/shared/components/order-details/order-details.component";
 
 @Component({
   selector: "app-designers-details",
@@ -23,16 +26,27 @@ export class ProvidersDetailsComponent implements OnInit {
 
   userDetails = {
     _id: "",
-    name: "",
+    full_name: "",
     image: "",
     email: "",
-    password: "",
+    address: "",
     phone_number: "",
     os: "",
-    cities: [],
-    details: "",
-    orderPercentage: 0,
+    city_id: "",
+    country_id: "",
+    streetName:"",
+    buildingNo:"",
+    floorNo:"",
+    flatNo:"",
+    createAt:"",
+    app_type:"",
+    register_type:"",
+    categories:[],
+    city:"",
+    id_image:""
+
   };
+  status = ""
   cover = null;
   image = null;
   countries = [];
@@ -60,7 +74,7 @@ export class ProvidersDetailsComponent implements OnInit {
   showLoader = false;
   orderDetails;
   userType;
-
+  styles = []
   time = {
     _id: "",
     from: "",
@@ -68,6 +82,8 @@ export class ProvidersDetailsComponent implements OnInit {
     supplier_id: "",
   };
   type = "";
+  works = []
+  categoriesArr = []
   public get UserType(): typeof UserType {
     return UserType;
   }
@@ -76,14 +92,22 @@ export class ProvidersDetailsComponent implements OnInit {
     private helper: ConstantServiceWrapper,
     private modalService: NgbModal,
     private toastr: ToastrService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private translate: TranslateService,
   ) {
     this.userType = localStorage.getItem("type");
   }
 
   ngOnInit(): void {
+    this.getCategories()
     this.getAllCity();
     this.getUserById();
+  }
+
+  getCategories() {
+    this.helper.getCategoy().subscribe((x) => {
+      this.categoriesArr = x[appConstant.ITEMS] as any[];
+    });
   }
 
   getTimes(id) {
@@ -94,9 +118,9 @@ export class ProvidersDetailsComponent implements OnInit {
     });
   }
 
-  getOrders(id, page, limit) {
+  getOrders(id, status ,page, limit) {
     if (id)
-      this.helper.getProviderOrders(id, page, limit).subscribe((x) => {
+      this.helper.getProviderOrders(id, status, page, limit).subscribe((x) => {
         if (x[appConstant.STATUS]) this.orders = x[appConstant.ITEMS] as any[];
         else this.toastr.error(x[appConstant.MESSAGE]);
       });
@@ -111,11 +135,13 @@ export class ProvidersDetailsComponent implements OnInit {
           if (x[appConstant.STATUS]) {
             let object = x[appConstant.ITEMS] as any;
             this.userDetails = object;
+            this.userDetails.app_type  = this.userDetails.app_type == 'customer' ? "عميل" : "مزود خدمة"
+            this.userDetails.register_type  = this.userDetails.register_type == 'personal' ? "فريلانسر" : "عميل"
             this.orders = [];
             this.followings = [];
             // this.times = [];
             this.getTimes(this.user_id);
-            this.getOrders(this.user_id, this.orderPage, this.orderLimit);
+            this.getOrders(this.user_id, this.status, this.orderPage, this.orderLimit);
           } else this.toastr.error(x[appConstant.MESSAGE]);
         });
       }
@@ -132,29 +158,17 @@ export class ProvidersDetailsComponent implements OnInit {
     this.formData = new FormData();
 
     this.formData.append("_id", this.userDetails._id);
-    this.formData.append("name", this.userDetails.name);
-    this.formData.append("cities", JSON.stringify(this.userDetails.cities));
+    this.formData.append("full_name", this.userDetails.full_name);
     this.formData.append("phone_number", this.userDetails.phone_number);
     this.formData.append("email", this.userDetails.email);
-    this.formData.append("details", this.userDetails.details);
-    this.formData.append("password", this.userDetails.password);
-    this.formData.append(
-      "orderPercentage",
-      String(this.userDetails.orderPercentage)
-    );
     this.formData.append("image", this.image);
-    var roles = [];
-
-    roles = [];
-    appConstant.DESIGNER_URL.forEach((element) => {
-      let obj = {
-        name: element.id,
-        sort: element.sort,
-      };
-      roles.push(obj);
+    this.formData.append("address", this.userDetails.address);
+    this.formData.append("city", this.userDetails.city);
+    var _categ= [];
+    this.userDetails.categories.forEach((element) => {
+      _categ.push(element._id);
     });
-
-    this.formData.append("roles", JSON.stringify(roles));
+    this.formData.append("categories", JSON.stringify(_categ));
 
     if (this.user_id) {
       this.showLoader = true;
@@ -176,7 +190,7 @@ export class ProvidersDetailsComponent implements OnInit {
       );
     } else {
       if (this.userDetails.image == "") {
-        this.toastr.error("الرجاء ارفاق الصورة ");
+        this.toastr.error(this.translate.instant('ImageRequired'))
         return;
       }
       this.showLoader = true;
@@ -217,7 +231,7 @@ export class ProvidersDetailsComponent implements OnInit {
       this.orderPage = 0;
       this.orderLimit = 10;
       this.orderCollectionCount = 0;
-      this.getOrders(this.user_id, this.orderPage, this.orderLimit);
+      this.getOrders(this.user_id, this.status, this.orderPage, this.orderLimit);
     }
     if ($event.nextId === "tab-comments") {
       this.getTimes(this.user_id);
@@ -227,7 +241,7 @@ export class ProvidersDetailsComponent implements OnInit {
   public onOrderPageChange(pageNum: number): void {
     this.orderPage = pageNum - 1;
     this.helper
-      .getProviderOrders(this.user_id, this.orderPage, this.orderLimit)
+      .getProviderOrders(this.user_id, this.status, this.orderPage, this.orderLimit)
       .subscribe((x) => {
         let arr = x[appConstant.ITEMS] as any[];
         this.orderCollectionCount = x["pagination"]["totalElements"];
@@ -239,13 +253,13 @@ export class ProvidersDetailsComponent implements OnInit {
   deleteTime(id) {
     Swal.fire({
       title: "تحذير",
-      text: "هل انت متأكد من حذف العنصر؟",
+      text: this.translate.instant("Confirm"),
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "نعم",
-      cancelButtonText: "الغاء",
+      confirmButtonText: this.translate.instant("Yes"),
+      cancelButtonText: this.translate.instant("Cancel"),
     }).then((result) => {
       if (result.value) {
         this.helper.deleteTime(id).subscribe((x) => {
@@ -275,10 +289,12 @@ export class ProvidersDetailsComponent implements OnInit {
     this.modalService.open(content, { size: "lg" });
   }
 
+  
   openOrder(content, obj) {
     this.orderDetails = obj;
-    this.modalService.open(content, { size: "lg" });
-  }
+    const modalRef = this.modalService.open(OrderDetailsPoPComponent,{ size: "lg" })
+    modalRef.componentInstance.orderDetails = this.orderDetails;
+}
 
   saveTime() {
     if (this.type == "edit") {
@@ -314,5 +330,54 @@ export class ProvidersDetailsComponent implements OnInit {
         }
       );
     }
+  }
+
+  changeStatus(statusId) {
+    this.status = statusId;
+    this.orderPage = 0;
+    this.getOrders(this.user_id, this.status, this.orderPage, this.orderLimit);
+  }
+
+  excel() {
+    var fields = [];
+    this.helper
+      .getProviderOrdersExcel(this.user_id, this.status)
+      .subscribe((res_data) => {
+        let data = res_data["items"] as any[];
+        data.forEach((user, index) => {
+          fields.push({
+            "Order No": "\ufeff" + (user["order_no"]),
+            Name: "\ufeff" + ((user["user"] != undefined && user["user"] != null) ? user["user"]["full_name"] : ""),
+            Provider: "\ufeff" + ((user["provider"] != undefined && user["provider"] != null) ? user["provider"]["full_name"] : ""),
+            City: "\ufeff" + ((user["city"] != undefined && user["city"] != null) ? user["city"]["arName"] : ""),
+            Date: "\ufeff" + user["dt_date"],
+            Category: "\ufeff" + user["category"]["arName"],
+            Type: "\ufeff" + (user["order_type"] == 'service' ? "خدمة" : "وظيفة"),
+            Target: "\ufeff" + (user["offer_type"] == 'online' ? "عن بعد" : "في الموقع"),
+            Personality: "\ufeff" + (user["target"] == 'personal' ? "فريلانسر" : "عميل"),
+            "Price time": "\ufeff" + (user["price_type"] == 'hourly' ? "ساعة" : "مبلغ"),
+            "Execution Type": "\ufeff" + (user["execution_type"] == 'limited' ? "محدود" : "غير محدود"),
+            Title: "\ufeff" + (user["title"]),
+            Desciption: "\ufeff" + (user["bio"]),
+            "Employee No": "\ufeff" + (user["employee_no"]),
+            "Days": "\ufeff" + (user["days"]),
+          });
+        });
+
+        jsonexport(fields, function (err, csv) {
+          if (err) return console.log(err);
+          var blob = new Blob(["\uFEFF" + csv], {
+            type: "text/csv;charset=utf-8",
+          });
+          var url = window.URL.createObjectURL(blob);
+          var element = document.createElement("a");
+          element.setAttribute("href", encodeURI(url));
+          element.setAttribute("download", "طلبات المزودين" + ".csv");
+          element.style.display = "none";
+          document.body.appendChild(element);
+          element.click();
+          document.body.removeChild(element);
+        });
+      });
   }
 }

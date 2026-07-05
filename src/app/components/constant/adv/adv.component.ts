@@ -27,6 +27,7 @@ import {
 } from "@ks89/angular-modal-gallery";
 import { MomentDateFormatter } from "src/app/service/utils_function";
 import { DatePipe } from "@angular/common";
+import { TranslateService } from "@ngx-translate/core";
 declare var require;
 const Swal = require("sweetalert2");
 
@@ -69,7 +70,8 @@ export class AdvsComponent implements OnInit {
   constructor(
     private helper: ConstantServiceWrapper,
     private modalService: NgbModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit(): void {
@@ -125,7 +127,7 @@ export class AdvsComponent implements OnInit {
 
     if (this.advObject.image == "") {
       this.formData = new FormData();
-      this.toastr.error("الصورة مطلوبة");
+      this.toastr.error(this.translate.instant('ImageRequired'))
       return;
     }
 
@@ -172,15 +174,13 @@ export class AdvsComponent implements OnInit {
   deleteReason(id) {
     Swal.fire({
       title: "تحذير",
-      text: "هل انت متأكد من حذف العنصر؟",
+      text: this.translate.instant("Confirm"),
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "نعم",
-      cancelButtonText: "الغاء",
-      // animation: false,
-      // customClass: "animated tada",
+      confirmButtonText: this.translate.instant("Yes"),
+      cancelButtonText: this.translate.instant("Cancel"),
     }).then((result) => {
       if (result.value) {
         this.helper.deleteAdvs(id).subscribe((x) => {

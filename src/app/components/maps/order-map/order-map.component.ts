@@ -11,12 +11,12 @@ import { ConstantServiceWrapper } from "src/app/service/ConstantServiceWrapper.s
 })
 export class OrderMapComponent implements OnInit {
   searchObject = {
-    status_id: 1,
+    status_id: 'new',
   };
 
   // Map1
-  public lat_m1: number = 20.593683;
-  public lng_m1: number = 78.962883;
+  public lat_m1: number = 24.774265;
+  public lng_m1: number = 46.738586;
   public zoom_m1: number = 15;
 
   public markers: marker[] = [];
@@ -34,6 +34,7 @@ export class OrderMapComponent implements OnInit {
   }
 
   changeStatus() {
+    this.markers = []
     this.helper.getOrdersMap(this.searchObject.status_id).subscribe((x) => {
       if (x[appConstant.STATUS]) {
         let arr = x[appConstant.ITEMS] as any[];
@@ -42,7 +43,7 @@ export class OrderMapComponent implements OnInit {
             lat: element.lat,
             lng: element.lng,
             label: "",
-            nameData: element.user_id.full_name + " - " + element.employee_id ? element.employee_id.full_name : "",
+            nameData: element.user ? element.user.full_name : "العميل",
             draggable: false,
           };
           this.markers.push(obj);

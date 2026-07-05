@@ -12,6 +12,7 @@ declare var require;
 const Swal = require("sweetalert2");
 import * as jsonexport from "jsonexport/dist";
 import { Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-employees",
@@ -31,11 +32,14 @@ export class EmployeesComponent implements OnInit {
   NOT_TITLe_TXT = "";
   NOT_MSG_TXT = "";
   userId = "";
+  user_type = "active";
+
   constructor(
     private helper: ConstantServiceWrapper,
     private modalService: NgbModal,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit(): void {
@@ -47,6 +51,7 @@ export class EmployeesComponent implements OnInit {
       .getEmployees(page, limit, {
         search_field: this.search_field,
         search_value: this.search_value,
+        user_type:this.user_type
       })
       .subscribe((x) => {
         if (x[appConstant.STATUS]) {
@@ -71,6 +76,7 @@ export class EmployeesComponent implements OnInit {
       .getEmployees(this.page, this.limit, {
         search_field: this.search_field,
         search_value: this.search_value,
+        user_type:this.user_type
       })
       .subscribe((x) => {
         if (x[appConstant.STATUS]) {
@@ -90,6 +96,7 @@ export class EmployeesComponent implements OnInit {
       .getEmployeeExcel({
         search_field: this.search_field,
         search_value: this.search_value,
+        user_type:this.user_type
       })
       .subscribe((res_data) => {
         let data = res_data["items"] as any[];
@@ -110,7 +117,7 @@ export class EmployeesComponent implements OnInit {
           var url = window.URL.createObjectURL(blob);
           var element = document.createElement("a");
           element.setAttribute("href", encodeURI(url));
-          element.setAttribute("download", "العملاء" + ".csv");
+          element.setAttribute("download", "الموظفين" + ".csv");
           element.style.display = "none";
           document.body.appendChild(element);
           element.click();
@@ -122,13 +129,13 @@ export class EmployeesComponent implements OnInit {
   blockUnBlock(id: number, isBlock: Boolean) {
     Swal.fire({
       title: "تحذير",
-      text: "هل انت متأكد من حذف العنصر؟",
+      text: this.translate.instant("Confirm"),
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "نعم",
-      cancelButtonText: "الغاء",
+      confirmButtonText: this.translate.instant("Yes"),
+      cancelButtonText: this.translate.instant("Cancel"),
     }).then((result) => {
       if (result.value) {
       this.helper

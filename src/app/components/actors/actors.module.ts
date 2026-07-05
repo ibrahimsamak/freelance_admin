@@ -25,7 +25,9 @@ import { AdminProfileComponent } from "./admin-profile/admin-profile.component";
 import { AgmCoreModule } from "@agm/core";
 import { EmployeesComponent } from "./employees/employees.component";
 import { EmployeesDetailsComponent } from "./employees-details/employees-details.component";
-import { AgmDirectionModule } from "agm-direction"; // agm-direction
+import { AgmDirectionModule } from "agm-direction";
+import { SupervisorComponent } from './supervisor/supervisor.component';
+import { SupervisorDetailsComponent } from './supervisor-details/supervisor-details.component'; // agm-direction
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { AgmDirectionModule } from "agm-direction"; // agm-direction
     AdminProfileComponent,
     EmployeesComponent,
     EmployeesDetailsComponent,
+    SupervisorComponent,
+    SupervisorDetailsComponent,
   ],
   imports: [
     CommonModule,
@@ -57,7 +61,7 @@ import { AgmDirectionModule } from "agm-direction"; // agm-direction
     GalleryModule.forRoot(),
     OrdersModule,
     AgmCoreModule.forRoot({
-      apiKey: "AIzaSyDa0BdEB-otNYNMCa5wHCks__iwqsMA08g",
+      apiKey: "AIzaSyAvAuahE3FylyGQ7f_TXKRUlY1X66JYGy8",
     }),
     AgmDirectionModule,
   ],

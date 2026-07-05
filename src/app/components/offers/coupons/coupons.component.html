@@ -3,16 +3,19 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>كوبونات الخصم</h5>
+                    <h5>
+                        {{'Coupons' | translate}} 
+                        
+                    </h5>
                 </div>
                 <div class="todo">
                     <div class="todo-list-wrapper">
                         <div class="todo-list-container">
                             <div class="mark-all-tasks">
                                 <div class="mark-all-tasks-container">
-                                    <button title="اضافة جديد" class="btn btn-success-gradien"
+                                    <button title="{{'Add' | translate}} " class="btn btn-success-gradien"
                                         (click)="openCoupon(content,null)">
-                                        <i class="fa fa-plus"></i> اضافة جديد
+                                        <i class="fa fa-plus"></i> {{'Add' | translate}}  
                                     </button>&nbsp;
                                 </div>
                             </div>
@@ -20,27 +23,27 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th scope="col">الكوبون</th>
-                                            <th scope="col">مزود الخدمة</th>
-                                            <th scope="col">من تاريخ</th>
-                                            <th scope="col">الى تاريخ</th>
-                                            <th scope="col">قيمة الخصم</th>
+                                            <th scope="col">{{'Coupon' | translate}} </th>
+                                            <th scope="col">{{'Description' | translate}} </th>
+                                            <th scope="col">{{'FromDate' | translate}}  </th>
+                                            <th scope="col">{{'ToDate' | translate}} </th>
+                                            <th scope="col">{{'Discount' | translate}} </th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let item of coupons;let i = index">
                                             <td>{{item.coupon}}</td>
-                                            <td>{{item?.supplier_id?.name}}</td>
+                                            <td>{{item.description}}</td>                                         
                                             <td>{{item.dt_from | date:"dd/MM/yyyy"}}</td>
                                             <td>{{item.dt_to | date:"dd/MM/yyyy"}}</td>
                                             <td>{{item.discount_rate * 100}}%</td>
                                             <td>
-                                                <button placement="top" ngbTooltip="تعديل" class="btn btn-info-gradien"
+                                                <button placement="top" ngbTooltip="{{'Edit' | translate}}" class="btn-sm btn-info-gradien"
                                                     (click)="openCoupon(content,item)">
                                                     <i class="fa fa-pencil"></i>
                                                 </button>&nbsp;
-                                                <button placement="top" ngbTooltip="حذف" class="btn btn-danger-gradien"
+                                                <button placement="top" ngbTooltip="{{'Delete' | translate}}" class="btn-sm btn-danger-gradien"
                                                     (click)="deleteCoupon(item._id)">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
@@ -49,7 +52,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <ngb-pagination *ngIf="coupons.length > 0" [collectionSize]="collectionCount" #numPages
+                            <ngb-pagination *ngIf="coupons.length > 0" [collectionSize]="collectionCount" #numPages  [maxSize]="10"
                                 [pageSize]="limit" [(page)]="page" (pageChange)="onPageChange(page)"></ngb-pagination>
                         </div>
                     </div>
@@ -61,12 +64,14 @@
 
 <ng-template #content let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">كوبونات الخصم</h4>
+        <h4 class="modal-title" id="modal-basic-title">
+            {{'Coupons' | translate}} 
+        </h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body" style="text-align: right;">
+     <div class="modal-body" style="text-align: justify;">
         <form #form="ngForm">
             <div class="row">
                 <div class="col-md-12">
@@ -74,75 +79,36 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="coupon">
+                            {{'Description' | translate}} *
+                        </label>
+                        <div class="input-group">
+                            <textarea rows="2" #description="ngModel" type="text" class="form-control" id="description" name="description" [(ngModel)]="couponObject.description"></textarea>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="coupon">الكوبون</label>
+                        <label for="coupon">
+                            {{'Coupon' | translate}} 
+                        </label>
                         <div class="input-group">
                             <input required #coupon="ngModel" type="text" class="form-control" id="coupon" name="coupon"
                                 [(ngModel)]="couponObject.coupon">
                         </div>
                         <div *ngIf="(coupon.errors && coupon.invalid && (coupon.dirty || coupon.touched))"
                             class="text text-danger">
-                            الحقل مطلوب
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="coupon">مزود الخدمة</label>
-                        <div class="input-group">
-                            <select required name="supplier_id" id="supplier_id" #supplier_id="ngModel"
-                                [(ngModel)]="couponObject.supplier_id" class="form-control"
-                                (change)="changeSupplier($event.target.value)">
-                                <option value="">اختر مزود الخدمة</option>
-                                <option *ngFor="let item of providers" value="{{item._id}}">{{item.name}}
-                                </option>
-                            </select>
-                        </div>
-                        <div *ngIf="(supplier_id.errors && supplier_id.invalid && (supplier_id.dirty || supplier_id.touched))"
-                            class="text text-danger">
-                            الحقل مطلوب
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="coupon">المدينة</label>
-                        <div class="input-group">
-                            <select required name="city_id" id="city_id" #city_id="ngModel"
-                                [(ngModel)]="couponObject.city_id" class="form-control"
-                                (change)="changeCity($event.target.value)">
-                                <option value="">اختر المدينة </option>
-                                <option *ngFor="let item of cities" value="{{item._id}}">{{item.arName}}
-                                </option>
-                            </select>
-                        </div>
-                        <div *ngIf="(city_id.errors && city_id.invalid && (city_id.dirty || city_id.touched))"
-                            class="text text-danger">
-                            الحقل مطلوب
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="coupon">منطقة التوزيع</label>
-                        <div class="input-group">
-                            <select required name="place_id" id="place_id" #place_id="ngModel"
-                                [(ngModel)]="couponObject.place_id" class="form-control">
-                                <option value="">اختر منطقة التوزيع الجغرافي </option>
-                                <option *ngFor="let item of places" value="{{item._id}}">{{item.arName}}
-                                </option>
-                            </select>
-                        </div>
-                        <div *ngIf="(place_id.errors && place_id.invalid && (place_id.dirty || place_id.touched))"
-                            class="text text-danger">
-                            الحقل مطلوب
+                            {{'Required' | translate}} 
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 ">
                     <div class="form-group">
-                        <label for="discount_rate">قيمة الخصم</label>
+                        <label for="discount_rate">
+                            {{'Discount' | translate}} * 
+                        </label>
                         <div class="input-group">
                             <input required type="number" min="0" max="1" step="0.1" #enName="ngModel"
                                 class="form-control" id="discount_rate" name="discount_rate" #discount_rate="ngModel"
@@ -150,15 +116,15 @@
                         </div>
                         <div *ngIf="(discount_rate.errors && discount_rate.invalid && (discount_rate.dirty || discount_rate.touched))"
                             class="text text-danger">
-                            الحقل مطلوب
+                            {{'Required' | translate}} 
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 custom-datepicker custom-datepicker-dropdown">
                     <div class="form-group">
-                        <label for="dt_from">من تاريخ</label>
+                        <label for="dt_from">{{'FromDate' | translate}} *</label>
                         <div class="input-group">
-                            <input class="form-control" placeholder="من تاريخ" id="dt_from" name="dt_from"
+                            <input class="form-control"  id="dt_from" name="dt_from"
                                 [(ngModel)]="couponObject.dt_from" ngbDatepicker #f="ngbDatepicker">
                             <div class="input-group-append">
                                 <button class="btn calendar" (click)="f.toggle()" type="button"><i
@@ -166,15 +132,15 @@
                             </div>
                         </div>
                         <div *ngIf="(f.errors && f.invalid && (f.dirty || f.touched))" class="text text-danger">
-                            الحقل مطلوب
+                            {{'Required' | translate}} 
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 custom-datepicker custom-datepicker-dropdown">
                     <div class="form-group">
-                        <label for="dt_to">الى تاريخ</label>
+                        <label for="dt_to">{{'ToDate' | translate}} *</label>
                         <div class="input-group">
-                            <input class="form-control" placeholder="الى تاريخ" id="dt_to" name="dt_to"
+                            <input class="form-control" id="dt_to" name="dt_to"
                                 [(ngModel)]="couponObject.dt_to" ngbDatepicker #f2="ngbDatepicker">
                             <div class="input-group-append">
                                 <button class="btn calendar" (click)="f2.toggle()" type="button"><i
@@ -182,7 +148,7 @@
                             </div>
                         </div>
                         <div *ngIf="(f2.errors && f2.invalid && (f2.dirty || f2.touched))" class="text text-danger">
-                            الحقل مطلوب
+                            {{'Required' | translate}} 
                         </div>
                     </div>
                 </div>
@@ -193,9 +159,9 @@
         <button class="btn btn-primary" [class.loader--text]="showLoader" [disabled]="!form.valid || showLoader"
             (click)="saveAction()" type="submit">
             <span>
-                {{ showLoader ? '' : 'حفظ المعلومات'}}
+                {{ showLoader ? '' : 'Send' | translate}}
             </span>
         </button>
-        <button type="button" class="btn btn-outline-danger btn-sm" (click)="modal.close('Save click')">اغلاق</button>
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="modal.close('Save click')">{{'Close' | translate}}</button>
     </div>
 </ng-template>

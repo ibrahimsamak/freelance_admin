@@ -12,6 +12,8 @@ declare var require;
 const Swal = require("sweetalert2");
 import * as jsonexport from "jsonexport/dist";
 import { Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
+import { MomentDateFormatter } from "src/app/service/utils_function";
 
 @Component({
   selector: "app-designers",
@@ -19,9 +21,14 @@ import { Router } from "@angular/router";
   styleUrls: ["./providers.component.scss"],
 })
 export class ProvidersComponent implements OnInit {
+  momentFormat = new MomentDateFormatter();
   showLoader = false;
-  search_field = "name";
+  search_field = "full_name";
   search_value = "";
+  user_type = "";
+  dt_to="";
+  dt_from="";
+  work="";
   users = [];
   totalElements = 0;
   page = 0;
@@ -31,25 +38,44 @@ export class ProvidersComponent implements OnInit {
   NOT_TITLe_TXT = "";
   NOT_MSG_TXT = "";
   userId = "";
-  type = "1";
-
+  works = []
   constructor(
     private helper: ConstantServiceWrapper,
     private modalService: NgbModal,
-    private toastr: ToastrService,
-    private router: Router
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
-    this.getProviders(this.page, this.limit);
+    this.getCategories()
+    this.getUsers(this.page, this.limit);
   }
 
-  getProviders(page, limit) {
+  getCategories() {
+    this.helper.getType().subscribe((x) => {
+      this.works = x[appConstant.ITEMS] as any[];
+    });
+  }
+
+
+  getUsers(page, limit) {
+    var _dt_from;
+    var _dt_to;
+    if (this.dt_from != "") {
+      let dt_from = this.momentFormat.format(this.dt_from as any);
+      _dt_from= dt_from;
+    }
+    if (this.dt_to != "") {
+      let dt_to = this.momentFormat.format(this.dt_to as any);
+      _dt_to = dt_to;
+    }
     this.helper
-      .getProviders(page, limit, {
+      .getUsers(page, limit, {
         search_field: this.search_field,
         search_value: this.search_value,
-        type: this.type,
+        dt_from: _dt_from,
+        dt_to: _dt_to,
+        work:this.work,
+        user_type:this.user_type
       })
       .subscribe((x) => {
         if (x[appConstant.STATUS]) {
@@ -66,15 +92,28 @@ export class ProvidersComponent implements OnInit {
   loadMore() {
     this.showLoader = true;
     this.page = this.page + 1;
-    this.getProviders(this.page, this.limit);
+    this.getUsers(this.page, this.limit);
   }
   search() {
     this.page = 0;
+    var _dt_from;
+    var _dt_to;
+    if (this.dt_from != "") {
+      let dt_from = this.momentFormat.format(this.dt_from as any);
+      _dt_from= dt_from;
+    }
+    if (this.dt_to != "") {
+      let dt_to = this.momentFormat.format(this.dt_to as any);
+      _dt_to = dt_to;
+    }
     this.helper
-      .getProviders(this.page, this.limit, {
+      .getUsers(this.page, this.limit, {
         search_field: this.search_field,
         search_value: this.search_value,
-        type: this.type,
+        dt_from: _dt_from,
+        dt_to: _dt_to,
+        work:this.work,
+        user_type: this.user_type
       })
       .subscribe((x) => {
         if (x[appConstant.STATUS]) {
@@ -90,26 +129,35 @@ export class ProvidersComponent implements OnInit {
 
   excel() {
     var fields = [];
+    var _dt_from;
+    var _dt_to;
+    if (this.dt_from != "") {
+      let dt_from = this.momentFormat.format(this.dt_from as any);
+      _dt_from= dt_from;
+    }
+    if (this.dt_to != "") {
+      let dt_to = this.momentFormat.format(this.dt_to as any);
+      _dt_to = dt_to;
+    }
     this.helper
-      .getProviderExcel({
+      .getUsersExcel({
         search_field: this.search_field,
         search_value: this.search_value,
-        type: this.type,
+        dt_from: _dt_from,
+        dt_to: _dt_to,
+        work:this.work,
       })
       .subscribe((res_data) => {
         let data = res_data["items"] as any[];
         data.forEach((user, index) => {
-          var country = "";
-          var city = "";
-          if (user["country_id"]) country = user["country_id"]["arName"];
-          if (user["city_id"]) city = user["city_id"]["arName"];
-
           fields.push({
             Name: "\ufeff" + user["full_name"],
+            Bio: "\ufeff" + user["bio"],    
             Phone: user["phone_number"],
             Email: user["email"],
-            Country: "\ufeff" + country,
-            City: "\ufeff" + city,
+            Address: "\ufeff" + user["address"],
+            Type: "\ufeff" + (user["register_type"] == 'personal' ? "فريلانسر" : "عميل"),
+            Work: "\ufeff" + ((user["work"] != undefined && user["work"] != null) ? user["work"]["arName"] : ""),
           });
         });
 
@@ -121,7 +169,7 @@ export class ProvidersComponent implements OnInit {
           var url = window.URL.createObjectURL(blob);
           var element = document.createElement("a");
           element.setAttribute("href", encodeURI(url));
-          element.setAttribute("download", "المستخدمين" + ".csv");
+          element.setAttribute("download", "العملاء" + ".csv");
           element.style.display = "none";
           document.body.appendChild(element);
           element.click();
@@ -130,9 +178,25 @@ export class ProvidersComponent implements OnInit {
       });
   }
 
+  blockUnBlock(id: number, isBlock: Boolean) {
+    this.helper
+      .blockUnblockUser({
+        isBlock: !isBlock,
+        _id: id,
+      })
+      .subscribe((x) => {
+        if (x[appConstant.STATUS]) {
+          this.toastr.success(x[appConstant.MESSAGE]);
+          this.search();
+        } else {
+          this.toastr.error(x[appConstant.MESSAGE]);
+        }
+      });
+  }
+
   sendSMS() {
     this.helper
-      .sendProviderSMS(this.userId, { msg: this.SMS_TXT })
+      .sendUserSMS(this.userId, { msg: this.SMS_TXT })
       .subscribe((x) => {
         if (x[appConstant.STATUS]) {
           this.toastr.success(x[appConstant.MESSAGE]);
@@ -161,12 +225,10 @@ export class ProvidersComponent implements OnInit {
       .addSingleNotifications(this.userId, {
         title: this.NOT_TITLe_TXT,
         msg: this.NOT_MSG_TXT,
-        type: 2,
+        type: 1,
       })
       .subscribe((x) => {
         if (x[appConstant.STATUS]) {
-          this.NOT_TITLe_TXT = "";
-          this.NOT_MSG_TXT = "";
           this.toastr.success(x[appConstant.MESSAGE]);
           this.modalService.dismissAll();
         } else {
@@ -174,52 +236,5 @@ export class ProvidersComponent implements OnInit {
         }
       });
   }
-
-  
-
-  blockUnBlock(id: number, isBlock: Boolean) {
-    this.helper
-      .blockUnblockProviders({
-        isBlock: !isBlock,
-        _id: id,
-      })
-      .subscribe((x) => {
-        if (x[appConstant.STATUS]) {
-          this.toastr.success(x[appConstant.MESSAGE]);
-          this.search();
-        } else {
-          this.toastr.error(x[appConstant.MESSAGE]);
-        }
-      });
-  }
-
-  addNew() {
-    this.router.navigate(["/users/designers/details"]);
-  }
-
-
-  delete(id) {
-    Swal.fire({
-      title: "تحذير",
-      text: "هل انت متأكد من حذف العنصر؟",
-      type: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "نعم",
-      cancelButtonText: "الغاء",
-    }).then((result) => {
-      if (result.value) {
-        this.helper.deleteProvider({_id: id})
-          .subscribe((x) => {
-          if (x[appConstant.STATUS]) {
-            this.toastr.success(x[appConstant.MESSAGE]);
-            this.search();
-          } else {
-            this.toastr.error(x[appConstant.MESSAGE]);
-          }
-        });
-      }
-    });
-  }
 }
+

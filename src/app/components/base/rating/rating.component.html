@@ -45,10 +45,10 @@
           </div>
           <hr>
           <pre>Model: <b>{{ ctrl.value }}</b></pre>
-          <button class="btn btn-sm btn-outline-{{ ctrl.disabled ? 'danger' : 'success'}} mr-2" (click)="toggle()">
+          <button class="btn btn-sm btn-outline-{{ ctrl.disabled ? 'danger' : 'success'}} mr-2 ml-2" (click)="toggle()">
             {{ ctrl.disabled ? "control disabled" : " control enabled" }}
           </button>
-          <button class="btn btn-sm btn-outline-primary mr-2" (click)="ctrl.setValue(null)">Clear</button>
+          <button class="btn btn-sm btn-outline-primary mr-2 ml-2" (click)="ctrl.setValue(null)">Clear</button>
         </div>
       </div>
     </div>
@@ -67,8 +67,8 @@
           <ngb-rating [(rate)]="heartRate" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
           <hr>
           <pre>Rate: <b>{{heartRate}}</b></pre>
-          <button class="btn btn-sm btn-outline-primary mr-2" (click)="heartRate = 1.35">1.35</button>
-          <button class="btn btn-sm btn-outline-primary mr-2" (click)="heartRate = 4.72">4.72</button>
+          <button class="btn btn-sm btn-outline-primary mr-2 ml-2" (click)="heartRate = 1.35">1.35</button>
+          <button class="btn btn-sm btn-outline-primary mr-2 ml-2" (click)="heartRate = 4.72">4.72</button>
         </div>
       </div>
     </div>

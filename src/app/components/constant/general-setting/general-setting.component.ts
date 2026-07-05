@@ -36,7 +36,7 @@ export class GeneralSettingComponent implements OnInit {
 
   getSettings() {
     this.helper.getSittings().subscribe((x) => {
-      this.settings = x[appConstant.ITEMS] as any[];
+      this.settings = x[appConstant.ITEMS]['settings'] as any[];
     });
   }
 
@@ -54,6 +54,7 @@ export class GeneralSettingComponent implements OnInit {
         if (x[appConstant.STATUS] != true) {
           this.toastr.error(x[appConstant.MESSAGE]);
         } else {
+          this.toastr.success(x[appConstant.MESSAGE]);
           this.getSettings();
         }
         this.modalService.dismissAll();

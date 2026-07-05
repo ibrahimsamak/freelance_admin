@@ -6,25 +6,34 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-4" *ngIf="userType == UserType.ADMIN">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="country_id">مزود الخدمة</label>
+                                        <label for="country_id">{{'Provider' | translate}}</label>
                                         <div class="input-group">
-                                            <select name="country_id1" id="provider_id" #provider_id="ngModel"
-                                                [(ngModel)]="searchObject.provider_id" class="form-control">
-                                                <option value=""> اختر المزود</option>
-                                                <option *ngFor="let item of stores" value="{{item._id}}">
-                                                    {{item.name}}</option>
-                                            </select>
+                                            <select [disabled]="userType == 'STORE' || userType == 'SUPERVISOR' " name="supplier_id" id="supplier_id" #supplier_id="ngModel" [(ngModel)]="searchObject.supplier_id" class="form-control" (change)="changeSupplier($event.target.value)">
+                                                <option value="">{{'Choose' | translate}} </option>
+                                            <option *ngFor="let item of providers" value="{{item._id}}">{{item.name}}</option>
+                                        </select>
                                         </div>
                                     </div>
                                 </div>
+                                <!-- <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="country_id">المربع</label>
+                                        <div class="input-group">
+                                            <select [disabled]="userType == 'SUPERVISOR' " name="place_id" id="place_id" #place_id="ngModel" [(ngModel)]="searchObject.place_id" class="form-control">
+                                                <option value="">اختر المربع </option>
+                                            <option *ngFor="let item of places" value="{{item?.place_id?._id}}">{{item?.place_id?.arName}}</option>
+                                        </select>
+                                        </div>
+                                    </div>
+                                </div> -->
                                 <div class="col-md-4">
                                     <div class="custom-datepicker custom-datepicker-dropdown">
                                         <div class="form-group mb-0">
-                                            <label for="country_id">من تاريخ</label>
+                                            <label for="country_id">{{'FromDate' | translate}}</label>
                                             <div class="input-group">
-                                                <input class="form-control" placeholder="من تاريخ" id="dt_from1"
+                                                <input class="form-control" placeholder="" id="dt_from1"
                                                     name="dt_from1" [(ngModel)]="dt_from" ngbDatepicker
                                                     #f="ngbDatepicker">
                                                 <div class="input-group-append">
@@ -38,9 +47,9 @@
                                 <div class="col-md-4">
                                     <div class="custom-datepicker custom-datepicker-dropdown">
                                         <div class="form-group mb-0">
-                                            <label for="country_id">الى تاريخ</label>
+                                            <label for="country_id">{{'ToDate' | translate}} </label>
                                             <div class="input-group">
-                                                <input class="form-control" placeholder="الى تاريخ" id="dt_to1"
+                                                <input class="form-control" placeholder="" id="dt_to1"
                                                     name="dt_to1" [(ngModel)]="dt_to" ngbDatepicker #f2="ngbDatepicker">
                                                 <div class="input-group-append">
                                                     <button class="btn calendar" (click)="f2.toggle()" type="button"><i
@@ -51,11 +60,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-2 mr-3">
+                            <div class="row mt-2 mr-3 ml-3">
                                 <button type="button" class="btn btn-outline-info btn-sm"
-                                    (click)="search()">بحث</button>&nbsp;
-                                <button type="button" class="btn btn-outline-danger btn-sm" (click)="reset()">تفريغ
-                                    الحقول</button>
+                                    (click)="search()">{{'Search' | translate}}</button>&nbsp;
+                                <button type="button" class="btn btn-outline-success btn-sm" (click)="excel()">{{'Excel' | translate}} </button>&nbsp;
+                                <button type="button" class="btn btn-outline-danger btn-sm" (click)="reset()">{{'Reset' | translate}}</button>
                             </div>
                         </div>
                     </div>
@@ -71,53 +80,43 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>الحسابات والعائدات المالية</h5>
+                    <h5>{{'CostData' | translate}}</h5>
                 </div>
                 <div class="todo">
                     <div class="todo-list-wrapper">
                         <div class="todo-list-container">
                             <div class="table-responsive">
-                                <div style="padding-right: 10px;">
-                                    <label>م. شعلة: </label><strong> {{Admin_Total | number : '1.2-2'}}
+                                <!-- <div style="padding-right: 10px;">
+                                    <label>م. جاز: </label><strong> {{Admin_Total | number : '1.2-2'}}
                                         ريال</strong>&nbsp;&nbsp;
                                     <label>م. مزود الخدمة: </label><strong> {{provider_Total | number : '1.2-2'}}
                                         ريال</strong>&nbsp;&nbsp;
                                     <label>المجموع الكلي: </label><strong> {{Total | number : '1.2-2'}}
                                         ريال</strong>&nbsp;&nbsp;
-                                </div>
+                                </div> -->
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">مزود الخدمة</th>
-                                            <th scope="col">التاريخ</th>
-                                            <th scope="col">المجموع</th>
-                                            <th scope="col">م.منصة شعلة</th>
-                                            <th scope="col">م.مزود الخدمة</th>
-                                            <th scope="col"></th>
+                                            <th scope="col">{{'Title' | translate}}</th>
+                                            <th scope="col">{{'Region' | translate}}</th>
+                                            <th scope="col">{{'Super' | translate}}</th>
+                                            <th scope="col">{{'Tax' | translate}}</th>
+                                            <th scope="col">{{'Discount' | translate}}</th>
+                                            <th scope="col">{{'Total' | translate}}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let item of orders;let i = index">
-                                            <td>{{item?.Order_no}}</td>
-                                            <td>{{item?.supplier_id?.name}}</td>
-                                            <td>{{item?.dt_date | date:'dd/MM/yyyy'}}</td>
-                                            <td>{{item?.Total | number : '1.2-2'}} ر.س</td>
-                                            <td>{{item?.Admin_Total | number : '1.2-2'}} ر.س</td>
-                                            <td>{{item?.provider_Total | number : '1.2-2'}} ر.س</td>
-                                            <td>
-                                                <button placement="top" ngbTooltip="عرض تفاصيل الطلب"
-                                                    class="btn btn-warning-gradien" (click)="openOrder(content,item)">
-                                                    <i class="fa fa-list"></i>
-                                                </button>
-                                            </td>
+                                            <td>{{item?.title}}</td>
+                                            <td>{{item?.place}}</td>
+                                            <td>{{item?.supervisor}}</td>
+                                            <td>{{item?.totalTaxs}} ر.س</td>
+                                            <td>{{item?.totalDiscounts}} ر.س</td>
+                                            <td>{{item?.totals}} ر.س</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <ngb-pagination *ngIf="orders.length > 0" [collectionSize]="collectionCount" #numPages
-                                [pageSize]="limit" [(page)]="page" (pageChange)="onPageChange(page)">
-                            </ngb-pagination>
                         </div>
                     </div>
                 </div>
@@ -129,12 +128,12 @@
 
 <ng-template #content let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">تفاصيل الطلب</h4>
+        <h4 class="modal-title" id="modal-basic-title">{{'OrderDetails' | translate}}</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body" style="text-align: right;">
+     <div class="modal-body" style="text-align: justify;">
         <app-order-details [orderDetails]="orderDetails"></app-order-details>
     </div>
 </ng-template>

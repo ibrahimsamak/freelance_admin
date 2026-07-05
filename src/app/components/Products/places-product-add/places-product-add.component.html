@@ -4,7 +4,7 @@
         <div class="col-lg-12">
             <form class="card">
                 <div class="card-header">
-                    <h4 class="card-title mb-0">اضافة او تعديل المنتجات</h4>
+                    <h4 class="card-title mb-0">{{'EditProfile' | translate}}</h4>
                     <div class="card-options">
                         <a class="card-options-collapse" [routerLink]="" data-toggle="card-collapse"><i
                                 class="fe fe-chevron-up"></i>
@@ -18,17 +18,18 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="coupon">المنتج</label>
+                                    <label for="coupon">{{'Service' | translate}}</label>
                                     <div class="input-group">
-                                        <select required name="product_id" id="product_id" #product_id="ngModel"
-                                            [(ngModel)]="productDetails.product_id" class="form-control"
+                                        <select required name="category_id" id="category_id" #category_id="ngModel"
+                                            [(ngModel)]="productDetails.category_id" class="form-control"
                                             (change)="changeProduct($event.target.value,null)">
-                                            <option value="">اختر المنتج </option>
-                                            <option *ngFor="let item of products" value="{{item._id}}">{{item.arName}}
+                                            <option value="">{{'Choose' | translate}}</option>
+                                            <option *ngFor="let item of categories" value="{{item._id}}">
+                                                {{lang=='ar' ? item?.arName : item?.enName}} 
                                             </option>
                                         </select>
                                     </div>
-                                    <div *ngIf="(product_id.errors && product_id.invalid && (product_id.dirty || product_id.touched))"
+                                    <div *ngIf="(category_id.errors && category_id.invalid && (category_id.dirty || category_id.touched))"
                                         class="text text-danger">
                                         الحقل مطلوب
                                     </div>
@@ -36,134 +37,64 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="coupon">مزود الخدمة</label>
+                                    <label for="coupon">{{'Provider' | translate}} *</label>
                                     <div class="input-group">
                                         <select required name="supplier_id" id="supplier_id" #supplier_id="ngModel"
                                             [(ngModel)]="productDetails.supplier_id" class="form-control"
                                             (change)="changeSupplier($event.target.value)">
-                                            <option value="">اختر مزود الخدمة </option>
+                                            <option value="">{{'Choose' | translate}}</option>
                                             <option *ngFor="let item of providers" value="{{item._id}}">{{item.name}}
                                             </option>
                                         </select>
                                     </div>
                                     <div *ngIf="(supplier_id.errors && supplier_id.invalid && (supplier_id.dirty || supplier_id.touched))"
                                         class="text text-danger">
-                                        الحقل مطلوب
+                                        {{'Required' | translate}}
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="coupon">المدينة</label>
+                                    <label for="coupon">{{'City' | translate}} *</label>
                                     <div class="input-group">
                                         <select required name="city_id" id="city_id" #city_id="ngModel"
                                             [(ngModel)]="productDetails.city_id" class="form-control"
                                             (change)="changeCity($event.target.value)">
-                                            <option value="">اختر المدينة </option>
-                                            <option *ngFor="let item of cities" value="{{item._id}}">{{item.arName}}
+                                            <option value="">{{'Choose' | translate}}</option>
+                                            <option *ngFor="let item of cities" value="{{item._id}}">
+                                                {{lang=='ar' ? item?.arName : item?.enName}} 
                                             </option>
                                         </select>
                                     </div>
                                     <div *ngIf="(city_id.errors && city_id.invalid && (city_id.dirty || city_id.touched))"
                                         class="text text-danger">
-                                        الحقل مطلوب
+                                        {{'Required' | translate}}
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="coupon">منطقة التوزيع</label>
+                                    <label for="coupon">{{'Region' | translate}} *</label>
                                     <div class="input-group">
                                         <select required name="place_id" id="place_id" #place_id="ngModel"
                                             [(ngModel)]="productDetails.place_id" class="form-control"
                                             (change)="changePlace($event.target.value)">
-                                            <option value="">اختر منطقة التوزيع </option>
-                                            <option *ngFor="let item of places" value="{{item._id}}">{{item.arName}}
+                                            <option value="">{{'Choose' | translate}}</option>
+                                            <option *ngFor="let item of places" value="{{item._id}}">
+                                                {{lang=='ar' ? item?.arName : item?.enName}} 
                                             </option>
                                         </select>
                                     </div>
                                     <div *ngIf="(place_id.errors && place_id.invalid && (place_id.dirty || place_id.touched))"
                                         class="text text-danger">
-                                        الحقل مطلوب
+                                        {{'Required' | translate}}
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3" *ngIf="productDetails?.product?.isNewProduct">
-                                <div class="form-group">
-                                    <label class="form-label">سعر شراء جديد</label>
-                                    <input required class="form-control" type="number" min="0" id="price_for_new"
-                                        name="price_for_new" #price_for_new="ngModel"
-                                        [(ngModel)]="productDetails.price_for_new" >
-                                    <div *ngIf="(price_for_new.errors && price_for_new.invalid && (price_for_new.dirty || price_for_new.touched))"
-                                        class="text text-danger">
-                                        الحقل مطلوب
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3" *ngIf="productDetails?.product?.isNewProduct">
-                                <div class="form-group">
-                                    <label class="form-label">الخصم على شراء جديد</label>
-                                    <input required class="form-control" type="number" min="0" id="discountPrice"
-                                        name="discountPrice" #discountPrice="ngModel"
-                                        [(ngModel)]="productDetails.discountPrice" >
-                                </div>
-                                <div *ngIf="(discountPrice.errors && discountPrice.invalid && (discountPrice.dirty || discountPrice.touched))"
-                                    class="text text-danger">
-                                    الحقل مطلوب
-                                </div>
-                            </div>
-                            <div class="col-md-3" *ngIf="productDetails?.product?.isReplacement">
-                                <div class="form-group">
-                                    <label class="form-label">سعر التبديل</label>
-                                    <input required class="form-control" type="number" min="0" id="price_for_replacment"
-                                        name="price_for_replacment" #price_for_replacment="ngModel"
-                                        [(ngModel)]="productDetails.price_for_replacment" >
-                                </div>
-                                <div *ngIf="(price_for_replacment.errors && price_for_replacment.invalid && (price_for_replacment.dirty || price_for_replacment.touched))"
-                                    class="text text-danger">
-                                    الحقل مطلوب
-                                </div>
-                            </div>
-                            <div class="col-md-3" *ngIf="productDetails?.product?.isReplacement">
-                                <div class="form-group">
-                                    <label class="form-label">الخصم على سعر التبديل</label>
-                                    <input required class="form-control" type="number" min="0"
-                                        id="discountPriceReplacment" name="discountPriceReplacment"
-                                        #discountPriceReplacment="ngModel"
-                                        [(ngModel)]="productDetails.discountPriceReplacment" >
-                                </div>
-                                <div *ngIf="(discountPriceReplacment.errors && discountPriceReplacment.invalid && (discountPriceReplacment.dirty || discountPriceReplacment.touched))"
-                                    class="text text-danger">
-                                    الحقل مطلوب
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="form-label">سعر التوصيل</label>
-                                    <input required class="form-control" type="number" min="0" id="deliveryCost"
-                                        name="deliveryCost" #deliveryCost="ngModel"
-                                        [(ngModel)]="productDetails.deliveryCost" >
-                                </div>
-                                <div *ngIf="(deliveryCost.errors && deliveryCost.invalid && (deliveryCost.dirty || deliveryCost.touched))"
-                                    class="text text-danger">
-                                    الحقل مطلوب
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="form-label">التوصيل السريع</label>
-                                    <input required class="form-control" type="number" min="0" id="expressCost"
-                                        name="expressCost" #expressCost="ngModel"
-                                        [(ngModel)]="productDetails.expressCost" >
-                                </div>
-                                <div *ngIf="(expressCost.errors && expressCost.invalid && (expressCost.dirty || expressCost.touched))"
-                                    class="text text-danger">
-                                    الحقل مطلوب
-                                </div>
-                            </div>
+      
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="form-label">المنطقة المغطاة</label>
+                                    <label class="form-label">{{'Region' | translate}}</label>
                                     <agm-map [zoom]="15" [latitude]="lat" [longitude]="lng" #agmMap [scrollwheel]="true"
                                         [disableDoubleClickZoom]="false" [mapDraggable]="true" [zoomControl]="true"
                                         [mapTypeControl]="true" [mapTypeId]="'hybrid'">
@@ -177,7 +108,7 @@
                     <button class="btn btn-primary" [class.loader--text]="showLoader"
                         [disabled]="!form.valid || showLoader" (click)="saveProduct()" type="submit">
                         <span>
-                            {{ showLoader ? '' : 'حفظ المعلومات'}}
+                            {{ showLoader ? '' : 'Save' | translate}}
                         </span>
                     </button>
                 </div>

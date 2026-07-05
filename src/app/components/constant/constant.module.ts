@@ -22,6 +22,7 @@ import { GalleryModule } from "@ks89/angular-modal-gallery";
 import { AdvsComponent } from "./adv/adv.component";
 import { CategoryComponent } from "./category/category.component";
 import { CountyComponent } from "./county/county.component";
+import { SubCategoryComponent } from "./subcategory/subcategory.component";
 import { CityComponent } from "./city/city.component";
 
 @NgModule({
@@ -35,7 +36,8 @@ import { CityComponent } from "./city/city.component";
     AdvsComponent,
     CategoryComponent,
     CountyComponent,
-    CityComponent,
+    SubCategoryComponent,
+    CityComponent
   ],
   imports: [
     CommonModule,

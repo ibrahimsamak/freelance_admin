@@ -7,6 +7,7 @@ import {
   NgbModalConfig,
 } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
+import { TranslateService } from "@ngx-translate/core";
 declare var require;
 const Swal = require("sweetalert2");
 
@@ -21,13 +22,18 @@ export class CategoryComponent implements OnInit {
     _id: "",
     arName: "",
     enName: "",
+    arDescription: "",
+    enDescription: "",
     sort: 0,
+    image: "",
   };
+
   type = "";
   constructor(
     private helper: ConstantServiceWrapper,
     private modalService: NgbModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit(): void {
@@ -53,16 +59,36 @@ export class CategoryComponent implements OnInit {
         _id: "",
         arName: "",
         enName: "",
+        arDescription: "",
+        enDescription: "",
         sort: 0,
+        image:"",
       };
       this.modalService.open(content, { size: "lg" });
     }
   }
 
   saveAction() {
+    var formData = new FormData();
+    if (this.reasonObject.image == "") {
+      formData = new FormData();
+           this.toastr.error(this.translate.instant('ImageRequired'))
+      return;
+    }
+
+    formData.append("arName", this.reasonObject.arName);
+    formData.append("enName", this.reasonObject.enName);
+    formData.append("arDescription", this.reasonObject.arDescription);
+    formData.append("enDescription", this.reasonObject.enDescription);
+    formData.append("sort", String(this.reasonObject.sort));
+
+    if (this.reasonObject.image != "") {
+      formData.append("image", this.reasonObject.image);
+    }
+
     if (this.type == "edit") {
       this.helper
-        .updateCategoy(this.reasonObject._id, this.reasonObject)
+        .updateCategoy(this.reasonObject._id, formData)
         .subscribe((x) => {
           if (x[appConstant.STATUS] != true) {
             this.toastr.error(x[appConstant.MESSAGE]);
@@ -72,7 +98,7 @@ export class CategoryComponent implements OnInit {
           this.modalService.dismissAll();
         });
     } else {
-      this.helper.addCategoy(this.reasonObject).subscribe(
+      this.helper.addCategoy(formData).subscribe(
         (x) => {
           if (x[appConstant.STATUS] != true) {
             this.toastr.error(x[appConstant.MESSAGE]);
@@ -92,15 +118,13 @@ export class CategoryComponent implements OnInit {
   deleteStyle(id) {
     Swal.fire({
       title: "تحذير",
-      text: "هل انت متأكد من حذف العنصر؟",
+      text: this.translate.instant("Confirm"),
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "نعم",
-      cancelButtonText: "الغاء",
-      // animation: false,
-      // customClass: "animated tada",
+      confirmButtonText: this.translate.instant("Yes"),
+      cancelButtonText: this.translate.instant("Cancel"),
     }).then((result) => {
       if (result.value) {
         this.helper.deleteCategoy(id).subscribe((x) => {
@@ -113,5 +137,16 @@ export class CategoryComponent implements OnInit {
         });
       }
     });
+  }
+
+  processImage(event) {
+    console.log(event.target.files);
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (_event) => {
+        this.reasonObject.image = event.target.files[0]
+      };
+    }
   }
 }

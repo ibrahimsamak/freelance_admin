@@ -15,7 +15,7 @@
                     </div>
                     <div class="col-xl-6">
                         <div class="contact-filter">
-                            <h5 class="mb-0 mr-2">Filter By Age</h5>
+                            <h5 class="mb-0 mr-2 ml-2">Filter By Age</h5>
                             <ng5-slider [(value)]="value" [options]="options"
                                 (userChangeStart)="onUserChangeStart($event)" (userChange)="onUserChange($event)"
                                 (userChangeEnd)="onUserChangeEnd($event)"></ng5-slider>
@@ -67,7 +67,7 @@
                                         <td>
                                             <h6>{{item.payload.doc.data().age}}</h6>
                                         </td>
-                                        <td><a class="btn btn-primary mr-2"
+                                        <td><a class="btn btn-primary mr-2 ml-2"
                                                 [routerLink]="['/contact/edit-user',item.payload.doc.id]">Edit</a>
                                             <button class="btn btn-secondary" 
                                                 (click)="delete(item.payload.doc.id)">Delete</button></td>

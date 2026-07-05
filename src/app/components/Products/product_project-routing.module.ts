@@ -22,8 +22,8 @@ const routes: Routes = [
         component: StoreProductsComponent,
         canActivate: [AdminGuard],
         data: {
-          title: "المناطق والمنتجات",
-          breadcrumb: "المنتجات",
+          // title: "المناطق والمنتجات",
+          // breadcrumb: "المنتجات",
           roles: [appConstant.ADMIN_URL_ID.PRODUCTS],
         },
       },
@@ -32,8 +32,8 @@ const routes: Routes = [
         component: ProductsAddComponent,
         canActivate: [AdminGuard],
         data: {
-          title: "المناطق والمنتجات",
-          breadcrumb: "المنتجات",
+          // title: "المناطق والمنتجات",
+          // breadcrumb: "المنتجات",
           roles: [appConstant.ADMIN_URL_ID.PRODUCTS],
         },
       },
@@ -42,99 +42,9 @@ const routes: Routes = [
         component: ProductsAddComponent,
         canActivate: [AdminGuard],
         data: {
-          title: "المناطق والمنتجات",
-          breadcrumb: "المنتجات",
+          // title: "المناطق والمنتجات",
+          // breadcrumb: "المنتجات",
           roles: [appConstant.ADMIN_URL_ID.PRODUCTS],
-        },
-      },
-      {
-        path: "places",
-        component: PlacesComponent,
-        canActivate: [AdminGuard],
-        data: {
-          title: "مناظق ومربعات التوزيع",
-          breadcrumb: "مناظق ومربعات التوزيع",
-          roles: [appConstant.ADMIN_URL_ID.PLACES],
-        },
-      },
-      {
-        path: "places/add",
-        component: PlacesAddComponent,
-        canActivate: [AdminGuard],
-        data: {
-          title: "مناظق ومربعات التوزيع",
-          breadcrumb: "مناظق ومربعات التوزيع",
-          roles: [appConstant.ADMIN_URL_ID.PLACES],
-        },
-      },
-      {
-        path: "places/add/:id",
-        component: PlacesAddComponent,
-        canActivate: [AdminGuard],
-        data: {
-          title: "مناظق ومربعات التوزيع",
-          breadcrumb: "مناظق ومربعات التوزيع",
-          roles: [appConstant.ADMIN_URL_ID.PLACES],
-        },
-      },
-      {
-        path: "places/product",
-        component: PlacesProductComponent,
-        canActivate: [AdminGuard],
-        data: {
-          title: "منتجات المربعات",
-          breadcrumb: "منتجات المربعات",
-          roles: [appConstant.ADMIN_URL_ID.PRODUCTS_PLACES],
-        },
-      },
-      {
-        path: "places/product/add",
-        component: PlacesProductAddComponent,
-        canActivate: [AdminGuard],
-        data: {
-          title: "منتجات المربعات",
-          breadcrumb: "منتجات المربعات",
-          roles: [appConstant.ADMIN_URL_ID.PRODUCTS_PLACES],
-        },
-      },
-      {
-        path: "places/product/add/:id",
-        component: PlacesProductAddComponent,
-        canActivate: [AdminGuard],
-        data: {
-          title: "منتجات المربعات",
-          breadcrumb: "منتجات المربعات",
-          roles: [appConstant.ADMIN_URL_ID.PRODUCTS_PLACES],
-        },
-      },
-      {
-        path: "places/store/add/:id",
-        component: StorePlaceAddComponent,
-        canActivate: [AdminGuard],
-        data: {
-          title: "مزودين المربعات",
-          breadcrumb: "مزودين المربعات",
-          roles: [appConstant.ADMIN_URL_ID.STORE_PLACES],
-        },
-      },
-      {
-        path: "places/store/add",
-        component: StorePlaceAddComponent,
-        canActivate: [AdminGuard],
-        data: {
-          title: "مزودين المربعات",
-          breadcrumb: "مزودين المربعات",
-          roles: [appConstant.ADMIN_URL_ID.STORE_PLACES],
-        },
-      },
-      {
-        path: "places/store",
-        component: StorePlaceComponent,
-        canActivate: [AdminGuard],
-        data: {
-          title: "مزودين المربعات",
-          breadcrumb: "مزودين المربعات",
-          roles: [appConstant.ADMIN_URL_ID.STORE_PLACES],
         },
       },
     ],

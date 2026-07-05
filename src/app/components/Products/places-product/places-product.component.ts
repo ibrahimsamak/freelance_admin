@@ -19,6 +19,7 @@ const Swal = require("sweetalert2");
 import * as jsonexport from "jsonexport/dist";
 import { Router } from "@angular/router";
 import { appConstant, UserType } from "../../../service/appConstant";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-places-product",
@@ -30,12 +31,16 @@ export class PlacesProductComponent implements OnInit {
   showLoader = false;
   totalElements = 0;
   show: boolean = false;
-
+  collectionCount;
+  size = 10
   products = [];
+  categories = [];
   page = 0;
-  limit = 12;
+  limit = 10;
   userType;
+  lang = ""
   constructor(
+    private translate: TranslateService,
     private productService: ProductsService,
     private cartService: CartService,
     private modalService: NgbModal,
@@ -45,6 +50,7 @@ export class PlacesProductComponent implements OnInit {
     private router: Router,
     private ProductsService: ProductsService
   ) {
+    this.lang = this.translate.currentLang
     //console.log(ProductsService.currency);
     // this.userType = localStorage.getItem("type");
     // if (this.userType == UserType.STORE) {
@@ -71,7 +77,7 @@ export class PlacesProductComponent implements OnInit {
   places = [];
   cities = [];
   searchObject = {
-    name: "",
+    category_id: "",
     supplier_id: "",
     place_id: "",
     city_id: "",
@@ -177,6 +183,7 @@ export class PlacesProductComponent implements OnInit {
   ngOnInit() {
     this.page = 0;
     this.getAllProviders();
+    this.getAllCategoy();
     this.getProducts(this.page, this.limit);
   }
 
@@ -186,9 +193,16 @@ export class PlacesProductComponent implements OnInit {
     });
   }
 
+
+  getAllCategoy() {
+    this.helper.getCategoy().subscribe((x) => {
+      this.categories = x[appConstant.ITEMS] as any[];
+    });
+  }
+
   getProducts(page, limit) {
     this.searchObject = {
-      name: "",
+      category_id: "",
       supplier_id: "",
       place_id: "",
       city_id: "",
@@ -198,8 +212,10 @@ export class PlacesProductComponent implements OnInit {
       .getProductPlaceList(page, limit, this.searchObject)
       .subscribe((x) => {
         let arr = x[appConstant.ITEMS] as any[];
-        this.totalElements = x["pagination"]["totalElements"];
         this.products = arr;
+        this.collectionCount = x["pagination"]["totalElements"];
+        this.size = x["pagination"]["size"];
+        this.page = page + 1;
         this.showLoader = false;
       });
   }
@@ -209,15 +225,17 @@ export class PlacesProductComponent implements OnInit {
       .getProductPlaceList(0, this.limit, this.searchObject)
       .subscribe((x) => {
         let arr = x[appConstant.ITEMS] as any[];
-        this.totalElements = x["pagination"]["totalElements"];
         this.products = arr;
+        this.collectionCount = x["pagination"]["totalElements"];
+        this.size = x["pagination"]["size"];
+        this.page = 1;
         this.showLoader = false;
       });
   }
 
   reset() {
     this.searchObject = {
-      name: "",
+      category_id: "",
       supplier_id: "",
       place_id: "",
       city_id: "",
@@ -228,29 +246,16 @@ export class PlacesProductComponent implements OnInit {
     this.getProducts(0, this.limit);
   }
 
-  loadMore() {
-    this.showLoader = true;
-    this.page = this.page + 1;
-    this.helper
-      .getProductPlaceList(this.page, this.limit, this.searchObject)
-      .subscribe((x) => {
-        let arr = x[appConstant.ITEMS] as any[];
-        this.totalElements = x["pagination"]["totalElements"];
-        this.products = [...this.products, ...arr];
-        this.showLoader = false;
-      });
-  }
-
-  deleteProduct(obj, index) {
+  deleteProduct(obj) {
     Swal.fire({
       title: "تحذير",
-      text: "هل انت متأكد من حذف العنصر؟",
+      text: this.translate.instant("Confirm"),
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "نعم",
-      cancelButtonText: "الغاء",
+      confirmButtonText: this.translate.instant("Yes"),
+      cancelButtonText: this.translate.instant("Cancel"),
     }).then((result) => {
       if (result.value) {
         this.helper.deleteProductPlace(obj._id).subscribe((x) => {
@@ -293,4 +298,18 @@ export class PlacesProductComponent implements OnInit {
     }
     // console.log(this.cities);
   }
+
+
+  public onPageChange(pageNum: number): void {
+    this.page = pageNum - 1;
+    this.helper.getProductPlaceList(this.page, this.limit, this.searchObject).subscribe((x) => {
+      if (x[appConstant.STATUS]) {
+        let arr = x[appConstant.ITEMS] as any[];
+        this.products = arr
+        this.collectionCount = x["pagination"]["totalElements"];
+        this.page = pageNum;
+      } else this.toastr.error(x[appConstant.MESSAGE]);
+    });
+  }
+
 }

@@ -153,7 +153,7 @@ export class AuthService implements OnInit {
       headers: new HttpHeaders({
         Content: "application/json",
         Accept: "application/json",
-        "accept-language": "ar",
+        "accept-language": localStorage.getItem("lang"),
         "Content-Type": "application/json; charset=utf-8",
         "Access-Control-Allow-Origin": "*",
       }),

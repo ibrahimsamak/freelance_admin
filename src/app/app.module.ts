@@ -22,6 +22,7 @@ import { AngularFireAuthModule } from "@angular/fire/auth";
 import { environment } from "../environments/environment";
 import { AngularFirestoreModule } from "@angular/fire/firestore";
 import { NgSelectModule } from "@ng-select/ng-select";
+import { ResetpasswordComponent } from "./auth/resetpassword/resetpassword.component";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -29,7 +30,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent],
+  declarations: [AppComponent, LoginComponent, ResetpasswordComponent],
   imports: [
     BrowserModule,
     FormsModule,

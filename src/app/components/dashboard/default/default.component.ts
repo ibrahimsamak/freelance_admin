@@ -14,6 +14,8 @@ import { appConstant, UserType } from "src/app/service/appConstant";
 import { Router } from "@angular/router";
 import * as shape from "d3-shape";
 import { ToastrService } from "ngx-toastr";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { OrderDetailsPoPComponent } from "src/app/shared/components/order-details/order-details.component";
 
 @Component({
   selector: "app-default",
@@ -22,6 +24,8 @@ import { ToastrService } from "ngx-toastr";
   encapsulation: ViewEncapsulation.None,
 })
 export class DefaultComponent implements OnInit {
+  orderDetails = {};
+  employees = [];
   curves = {
     Basis: shape.curveBasis,
     "Basis Closed": shape.curveBasisClosed,
@@ -78,7 +82,7 @@ export class DefaultComponent implements OnInit {
   Employee = 0;
   Admins = 0;
   Users = 0;
-  Replacment = 0;
+  Orders = 0;
   New = 0;
   colorScheme1 = {
     domain: ["#007bff", "#ff9f40", "#ff5370"],
@@ -100,6 +104,10 @@ export class DefaultComponent implements OnInit {
   single1;
   single2;
   userType = "";
+  targets;
+  employee_id = "";
+  notifications=[]
+
   //area
   public areaChartshowXAxis = graphoptions.areaChartshowXAxis;
   public areaChartshowYAxis = graphoptions.areaChartshowYAxis;
@@ -118,7 +126,8 @@ export class DefaultComponent implements OnInit {
   constructor(
     private helper: ConstantServiceWrapper,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private modalService: NgbModal,
   ) {
     this.userType = localStorage.getItem("type");
   }
@@ -129,10 +138,19 @@ export class DefaultComponent implements OnInit {
     this.getCounterOrdersWithStatus();
     this.getCounterUsers();
     this.UsersproviderPerYear();
-    this.getTopProductsCategory();
-    this.getTopProductsPlace();
-    // this.getOrdersOfProviders();
+    this.getProviderTarget();
+    //this.getTopProductsPlace();
+    //this.getOrdersOfProviders();
+    this.getTop10Notification()
   }
+
+  getTop10Notification() {
+    this.helper.getTop10Notification().subscribe((x) => {
+      if (x[appConstant.STATUS]) this.notifications = x[appConstant.ITEMS] as any[];
+      else this.toastr.error(x[appConstant.MESSAGE]);
+    });
+  }
+  
 
   getTop10NewUsers() {
     this.helper.getTop10NewUsers().subscribe((x) => {
@@ -156,36 +174,38 @@ export class DefaultComponent implements OnInit {
         let DoneOrder = x["DoneOrder"] as any;
         let CancelOrder = x["CancelOrder"] as any;
         let AllOrder = x["AllOrder"] as any;
+        let Accepted = x["Accepted"] as any;
+        let Updated = x["Updated"] as any;
         this.slidesStore = [
           {
             id: 1,
             icon: "dollar-sign",
             title: "الطلبات الجديدة",
-            number: NewOrder,
+            number: NewOrder > 0 ? NewOrder: "-",
           },
           {
             id: 2,
             icon: "map-pin",
             title: "قيد التنفيذ",
-            number: ProccessingOrder,
+            number: ProccessingOrder > 0 ? ProccessingOrder: "-",
           },
           {
             id: 3,
             icon: "shopping-cart",
             title: "الطلبات المكتملة",
-            number: DoneOrder,
+            number: DoneOrder > 0 ? DoneOrder: "-",
           },
           {
             id: 4,
             icon: "trending-down",
             title: "الطلبات الملغية",
-            number: CancelOrder,
+            number: CancelOrder > 0 ? CancelOrder: "-",
           },
           {
-            id: 5,
+            id: 7,
             icon: "list",
             title: "كل الطلبات",
-            number: AllOrder,
+            number: AllOrder > 0 ? AllOrder: "-",
           },
         ];
       } else this.toastr.error(x[appConstant.MESSAGE]);
@@ -197,10 +217,11 @@ export class DefaultComponent implements OnInit {
       if (x[appConstant.STATUS]) {
         this.Admins = x["Admins"] as any;
         this.Supplier = x["Supplier"] as any;
-        this.Employee = x["Employee"] as any;
         this.Users = x["Users"] as any;
-        this.Replacment = x["Replacment"] as any;
-        this.New = x["New"] as any;
+        this.Orders = x["Orders"] as any;
+        // this.Employee = x["Employee"] as any;
+        // this.Replacment = x["Replacment"] as any;
+        // this.New = x["New"] as any;
       } else this.toastr.error(x[appConstant.MESSAGE]);
     });
   }
@@ -212,11 +233,11 @@ export class DefaultComponent implements OnInit {
     });
   }
 
-  getTopProductsCategory() {
-    this.helper.getTopProductsCategory().subscribe((x) => {
+  getProviderTarget() {
+    this.helper.getProviderTarget().subscribe((x) => {
       if (x[appConstant.STATUS]) {
         let arr = x[appConstant.ITEMS] as any[];
-        this.single1 = arr;
+        this.targets = arr;
       } else this.toastr.error(x[appConstant.MESSAGE]);
     });
   }
@@ -225,18 +246,80 @@ export class DefaultComponent implements OnInit {
     this.helper.getTopProductsPlace().subscribe((x) => {
       if (x[appConstant.STATUS]) {
         let arr = x[appConstant.ITEMS] as any[];
-        this.single2 = arr;
+        var new_arr = []
+        arr.forEach(element => {
+          if(element){
+            new_arr.push(element)
+          }
+        });
+        this.single2 = new_arr;
       } else this.toastr.error(x[appConstant.MESSAGE]);
     });
   }
 
   getOrdersOfProviders() {
     this.helper.getProviderOrdersPerYear().subscribe((x) => {
-      this.charts3 = x as any[];
+      if (x[appConstant.STATUS]) {
+        let arr = x[appConstant.ITEMS] as any[];
+        this.single1 = arr;
+      } else this.toastr.error(x[appConstant.MESSAGE]);
     });
   }
 
+
   visitUserProfile(id) {
     this.router.navigate(["/users/details/" + id]);
+  }
+  visitUserProfile2(id) {
+    this.router.navigate(["/users/provider/details/" + id]);
+  }
+
+  // openOrder(content, obj) {
+  //   this.orderDetails = obj;
+  //   this.modalService.open(content, { size: "lg" });
+  // }
+  
+  openOrder(content, obj, type) {
+    if(type == 'notification'){
+      this.helper.getSingleOrders(obj.body_parms).subscribe(x=>{
+        this.orderDetails = x[appConstant.ITEMS] as any
+        const modalRef = this.modalService.open(OrderDetailsPoPComponent,{ size: "lg" })
+        modalRef.componentInstance.orderDetails = this.orderDetails;
+        modalRef.componentInstance.passEntry.subscribe((receivedEntry) => {})
+      })
+    }else{
+      this.orderDetails = obj;
+      const modalRef = this.modalService.open(OrderDetailsPoPComponent,{ size: "lg" })
+      modalRef.componentInstance.orderDetails = this.orderDetails;
+    }
+
+  }
+
+  openOrderDriver(content, obj) {
+    this.helper.getEmployeesByStore(obj.provider._id).subscribe((x) => {
+      this.employees = x[appConstant.ITEMS] as any[];
+      this.orderDetails = obj;
+      this.modalService.open(content, { size: "lg" });
+    });
+  }
+
+  updateOrder(id, status) {
+    var data = {};
+    if (status == 'accepted') data = { employee: this.employee_id, status: 'accepted' };
+    else data = { status: status, notes: '' };
+    this.helper.updateOrderStatus(id, data).subscribe(
+      (x) => {
+        if (x[appConstant.STATUS] != true) {
+          this.toastr.error(x[appConstant.MESSAGE]);
+        } else {
+          this.toastr.success(x[appConstant.MESSAGE]);
+        }
+        this.modalService.dismissAll();
+        this.getTop10Orders();
+      },
+      (error) => {
+        this.helper.serverSideErrorHandler(error);
+      }
+    );
   }
 }

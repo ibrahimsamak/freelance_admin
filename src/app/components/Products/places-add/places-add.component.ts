@@ -19,6 +19,7 @@ declare var require: any;
 const Swal = require("sweetalert2");
 import * as jsonexport from "jsonexport/dist";
 import { AgmMap } from "@agm/core";
+import { TranslateService } from "@ngx-translate/core";
 declare const google: any;
 
 @Component({
@@ -46,13 +47,16 @@ export class PlacesAddComponent implements OnInit {
     cord: [],
   };
   place_id;
-
+  lang;
   constructor(
+    private translate: TranslateService,
     private helper: ConstantServiceWrapper,
     private modalService: NgbModal,
     private toastr: ToastrService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.lang = this.translate.currentLang
+  }
 
   ngOnInit() {
     this.setCurrentPosition();

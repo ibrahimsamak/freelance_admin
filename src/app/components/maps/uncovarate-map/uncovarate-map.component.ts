@@ -10,8 +10,8 @@ import { ConstantServiceWrapper } from "src/app/service/ConstantServiceWrapper.s
 })
 export class UncovarateMapComponent implements OnInit {
   // Map1
-  public lat_m1: number = 20.593683;
-  public lng_m1: number = 78.962883;
+  public lat_m1: number = 24.774265;
+  public lng_m1: number = 46.738586;
   public zoom_m1: number = 15;
 
   public markers: marker[] = [];

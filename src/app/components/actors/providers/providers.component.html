@@ -7,34 +7,87 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="search_field1">المعيار</label>
+                                        <label for="search_field1">{{'SearchBy' | translate}}</label>
                                         <div class="input-group">
                                             <select name="search_field1" id="search_field1" #search_field1="ngModel"
                                                 [(ngModel)]="search_field" class="form-control">
-                                                <option value="name">الاسم</option>
-                                                <option value="email">البريد الالكتروني</option>
-                                                <!-- <option value="phone_number">رقم الجوال</option> -->
+                                                <option value="full_name">{{'arTitle' | translate}}</option>
+                                                <option value="email">{{'Email' | translate}}</option>
+                                                <option value="phone_number">{{'Phone' | translate}}</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="search_value1">قيمة البحث</label>
+                                        <label for="search_value1">{{'Value' | translate}}</label>
                                         <input #search_value1="ngModel" type="text" class="form-control"
                                             id="search_value1" name="search_value1" [(ngModel)]="search_value" />
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="search_field1">{{'UserType' | translate}}</label>
+                                        <div class="input-group">
+                                            <select name="user_type1" id="user_type1" #user_type1="ngModel" [(ngModel)]="user_type" class="form-control">
+                                                <option value="">{{'All' | translate}}</option>
+                                                <option value="delete">{{'DeletedUser' | translate}}</option>
+                                                <option value="active">{{'ActivedUser' | translate}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <button type="button" class="btn btn-outline-info btn-sm"
-                                (click)="search()">بحث</button>&nbsp;
-                            <button type="button" class="btn btn-outline-warning btn-sm" (click)="addNew()">
-                                اضافة جديد</button>&nbsp;
-                            <button type="button" class="btn btn-outline-success btn-sm" (click)="excel()">تصدير
-                                اكسل</button>&nbsp;
-
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="custom-datepicker custom-datepicker-dropdown">
+                                        <div class="form-group mb-0">
+                                            <label for="country_id">{{'FromDate' | translate}}</label>
+                                            <div class="input-group">
+                                                <input class="form-control" id="dt_from1"
+                                                    name="dt_from1" [(ngModel)]="dt_from" ngbDatepicker
+                                                    #f="ngbDatepicker">
+                                                <div class="input-group-append">
+                                                    <button class="btn calendar" (click)="f.toggle()" type="button"><i
+                                                            class="fa fa-calendar"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="custom-datepicker custom-datepicker-dropdown">
+                                        <div class="form-group mb-0">
+                                            <label for="country_id">{{'ToDate' | translate}}</label>
+                                            <div class="input-group">
+                                                <input class="form-control" id="dt_to1"
+                                                    name="dt_to1" [(ngModel)]="dt_to" ngbDatepicker #f2="ngbDatepicker">
+                                                <div class="input-group-append">
+                                                    <button class="btn calendar" (click)="f2.toggle()" type="button"><i
+                                                            class="fa fa-calendar"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">{{'Co_Type' | translate}}</label>
+                                       <select name="work1" id="work1" #work1="ngModel" [(ngModel)]="work" class="form-control">
+                                        <option value="">{{'Choose' | translate}}</option>
+                                        <option *ngFor="let item of works" value="{{item._id}}">{{item.arName}}</option>
+                                    </select> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-4">
+                                    <button type="button" class="btn btn-outline-info btn-sm" (click)="search()">{{'Search' | translate}}</button>&nbsp;
+                                    <button type="button" class="btn btn-outline-success btn-sm" (click)="excel()">{{'Excel' | translate}}</button>
+                                </div>
+                            </div>         
                         </div>
                     </div>
                 </div>
@@ -47,36 +100,34 @@
     <div class="row">
         <div class="col-md-6 col-lg-6 col-xl-4" *ngFor="let item of users">
             <div class="card custom-card">
-                <div class="card-header"><img class="img-fluid"
-                        style="max-height: 210px; width: 100%; min-height: 210px;"
-                        src="{{item.cover ? item.cover  : 'assets/images/user-card/7.jpg'}}" alt=""></div>
+                <div class="card-header"><img class="img-fluid" src="assets/images/user-card/7.jpg" alt=""></div>
                 <div class="card-profile"><img class="img-100 rounded-circle"
                         src="{{item.image ? item.image  : 'assets/images/user/1.jpg'}}" alt=""></div>
                 <ul class="card-social">
-                    <li><a class="cursor danger" placement="bottom" ngbTooltip="حذف مزود الخدمة"
-                        (click)="delete(item._id)"><i class="fa fa-trash"></i></a></li>
-                    <li *ngIf="item.isBlock == false"><a class="cursor" placement="bottom" ngbTooltip="حظر"
-                            (click)="blockUnBlock(item._id, item.isBlock)"><i class="fa fa-ban"></i></a>
-                    </li>
-                    <li *ngIf="item.isBlock == true"><a class="cursor" placement="bottom" ngbTooltip="الغاء الحظر"
-                            (click)="blockUnBlock(item._id, item.isBlock)"><i class="fa fa-check"></i></a></li>  
-                    <li><a class="cursor" placement="bottom" ngbTooltip="ارسال رسالة نصية"
-                            (click)="openSMS(SMS,item._id)"><i class="fa fa-comments"></i></a></li>
-                    <li><a class="cursor" placement="bottom" ngbTooltip="ارسال تنبيه"
-                            (click)="openNotification(Notification,item._id)"><i class="fa fa-bell"></i></a></li>
-                    <li><a class="cursor" placement="bottom" ngbTooltip="عرض تفاصيل المستخدم"
-                            routerLink="/users/designers/details/{{item._id}}"><i class="fa fa-ellipsis-v"></i></a></li>
+                    <li *ngIf="item.isBlock == false"><a class="cursor" placement="bottom" ngbTooltip="{{'Block'|translate}}" (click)="blockUnBlock(item._id, item.isBlock)"><i class="fa fa-ban"></i></a></li>
+                    <li *ngIf="item.isBlock == true"><a class="cursor" placement="bottom" ngbTooltip="{{'UNBlock'|translate}}" (click)="blockUnBlock(item._id, item.isBlock)"><i class="fa fa-check"></i></a></li>
+                    <li><a class="cursor" placement="bottom" ngbTooltip="{{'SendSMS'|translate}}" (click)="openSMS(SMS,item._id)"><i class="fa fa-comments"></i></a></li>
+                    <li><a class="cursor" placement="bottom" ngbTooltip="{{'SendNotification'|translate}}" (click)="openNotification(Notification,item._id)"><i class="fa fa-bell"></i></a></li>
+                    <li><a class="cursor" placement="bottom" ngbTooltip="{{'ShowMore'|translate}}" routerLink="/users/details/{{item._id}}"><i class="fa fa-ellipsis-v"></i></a></li>
                 </ul>
                 <div class="text-center profile-details">
-                    <h4>{{item.name ? item.name : "لا يوجد اسم"}}</h4>
+                    <h4>{{item.full_name ? item.full_name : "لا يوجد اسم"}}</h4>
                     <h6>{{item.email ? item.email : "لا يوجد ايميل"}}</h6>
                     <h6>{{item.phone_number}}</h6>
                 </div>
                 <div class="card-footer row">
+                    <!-- <div class="col-6 col-sm-6">
+                        <h6>المدعوون</h6>
+                        <h3 class="counter">{{item.favorites}}</h3>
+                    </div> -->
                     <div class="col-12 col-sm-12">
-                        <h6>طلبات</h6>
+                        <h6>{{'Orders' | translate}}</h6>
                         <h3 class="counter">{{item.orders}}</h3>
                     </div>
+                    <!-- <div class="col-4 col-sm-4">
+                        <h6>المحفظة</h6>
+                        <h3 class="counter">{{item.wallet}} ر.س</h3>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -93,24 +144,26 @@
 
 <ng-template #SMS let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">ارسال رسالة نصية</h4>
+        <h4 class="modal-title" id="modal-basic-title"> {{'SendSMS' | translate}} </h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body" style="text-align: right;">
+     <div class="modal-body" style="text-align: justify;">
         <form #form="ngForm">
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="SMS_TXT1">نص الرسالة</label>
+                        <label for="SMS_TXT1">
+                            {{'Message' | translate}} *
+                        </label>
                         <div class="input-group">
                             <input maxlength="200" required #SMS_TXT1="ngModel" type="text" class="form-control"
                                 id="SMS_TXT1" name="SMS_TXT1" [(ngModel)]="SMS_TXT" />
                         </div>
                         <div *ngIf="(SMS_TXT1.errors && SMS_TXT1.invalid && (SMS_TXT1.dirty || SMS_TXT1.touched))"
                             class="text text-danger">
-                            الحقل مطلوب
+                            {{'Required' | translate}}
                         </div>
                     </div>
                 </div>
@@ -119,44 +172,46 @@
     </div>
     <div class="modal-footer">
         <button [disabled]="!form.valid" type="button" class="btn btn-outline-info btn-sm"
-            (click)="sendSMS()">ارسال</button>
-        <button type="button" class="btn btn-outline-danger btn-sm" (click)="modal.close('Save click')">اغلاق</button>
+            (click)="sendSMS()">{{'Send' | translate}}</button>
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="modal.close('Save click')">{{'Close' | translate}}</button>
     </div>
 </ng-template>
 
 <ng-template #Notification let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">ارسال تنبيه</h4>
+        <h4 class="modal-title" id="modal-basic-title">{{'SendNotification' | translate}}</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body" style="text-align: right;">
+     <div class="modal-body" style="text-align: justify;">
         <form #form="ngForm">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="NOT_TITLe_TXT1">عنوان التنبيه</label>
+                        <label for="NOT_TITLe_TXT1">
+                            {{'text' | translate}} *
+                        </label>
                         <div class="input-group">
-                            <input maxlength="200" required #NOT_TITLe_TXT1="ngModel" type="text" class="form-control"
+                            <input required #NOT_TITLe_TXT1="ngModel" type="text" class="form-control"
                                 id="NOT_TITLe_TXT1" name="NOT_TITLe_TXT1" [(ngModel)]="NOT_TITLe_TXT" />
                         </div>
                         <div *ngIf="(NOT_TITLe_TXT1.errors && NOT_TITLe_TXT1.invalid && (NOT_TITLe_TXT1.dirty || NOT_TITLe_TXT1.touched))"
                             class="text text-danger">
-                            الحقل مطلوب
+                            {{'Required' | translate}}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="NOT_MSG_TXT1">نص التنبيه</label>
+                        <label for="NOT_MSG_TXT1">{{'text' | translate}} *</label>
                         <div class="input-group">
-                            <input required #NOT_MSG_TXT1="ngModel" type="text" class="form-control" id="NOT_MSG_TXT1"
-                                name="NOT_MSG_TXT1" [(ngModel)]="NOT_MSG_TXT" />
+                            <input maxlength="200" required #NOT_MSG_TXT1="ngModel" type="text" class="form-control"
+                                id="NOT_MSG_TXT1" name="NOT_MSG_TXT1" [(ngModel)]="NOT_MSG_TXT" />
                         </div>
                         <div *ngIf="(NOT_MSG_TXT1.errors && NOT_MSG_TXT1.invalid && (NOT_MSG_TXT1.dirty || NOT_MSG_TXT1.touched))"
                             class="text text-danger">
-                            الحقل مطلوب
+                            {{'Required' | translate}}
                         </div>
                     </div>
                 </div>
@@ -165,7 +220,9 @@
     </div>
     <div class="modal-footer">
         <button [disabled]="!form.valid" type="button" class="btn btn-outline-info btn-sm"
-            (click)="sendNotification()">ارسال</button>
-        <button type="button" class="btn btn-outline-danger btn-sm" (click)="modal.close('Save click')">اغلاق</button>
+            (click)="sendNotification()">
+            {{'Send' | translate}}
+        </button>
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="modal.close('Save click')">{{'Close' | translate}}</button>
     </div>
 </ng-template>

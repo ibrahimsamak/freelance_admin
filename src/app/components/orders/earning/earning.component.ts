@@ -11,6 +11,7 @@ import { MomentDateFormatter } from "../../../service/utils_function";
 import { ar } from "date-fns/locale";
 declare var require;
 const Swal = require("sweetalert2");
+import * as jsonexport from "jsonexport/dist";
 
 @Component({
   selector: "app-earning",
@@ -24,11 +25,14 @@ export class EarningComponent implements OnInit {
   searchObject = {
     dt_from: "",
     dt_to: "",
-    provider_id: "",
-    statusId: 4,
+    status: 'finished',
+    supplier_id: "",
+    place_id:""
   };
   orders = [];
   stores = [];
+  places = [];
+  providers = [];
 
   page = 0;
   limit = 10;
@@ -50,91 +54,43 @@ export class EarningComponent implements OnInit {
     private toastr: ToastrService
   ) {
     this.userType = localStorage.getItem("type");
-    if (this.userType != UserType.ADMIN) {
-      this.searchObject.provider_id = localStorage.getItem("admin_id");
+    if(this.userType == UserType.STORE){
+      this.searchObject.supplier_id =  localStorage.getItem("admin_id");
+      this.changeSupplier(this.searchObject.supplier_id)
+    }
+    if(this.userType == UserType.SUPERVISOR){
+      this.helper.getSingleSupervisor(localStorage.getItem("admin_id")).subscribe(x=>{
+        let object = x[appConstant.ITEMS] as any;
+        this.searchObject.supplier_id =  object.supplier_id
+        this.searchObject.place_id =  object.place_id
+        this.changeSupplier(this.searchObject.supplier_id)
+        this.getOrder(this.searchObject);
+      })
     }
   }
 
   ngOnInit(): void {
-    this.getAllProviders();
-    this.getOrder(this.page, this.limit, this.searchObject);
+    this.getAllProviders()
+    this.getOrder(this.searchObject);
   }
 
   getAllProviders() {
     this.helper.getAllProviders().subscribe((x) => {
-      this.stores = x[appConstant.ITEMS] as any[];
+      this.providers = x[appConstant.ITEMS] as any[];
     });
   }
 
-  getOrder(page, limit, filter) {
-    this.helper.getOrders(page, limit, filter).subscribe((x) => {
+  getOrder(filter) {
+    this.helper.orders_earning(filter).subscribe((x) => {
       if (x[appConstant.STATUS]) {
         let arr = x[appConstant.ITEMS] as any[];
-        this.Admin_Total = x["Admin_Total"];
-        this.provider_Total = x["provider_Total"];
-        this.Total = x["Total"];
-        this.collectionCount = x["pagination"]["totalElements"];
-        this.orders = arr;
-        this.page = page + 1;
+        if(arr[0] != null && arr[0] != undefined ){
+          this.orders = arr;
+        }else{
+          this.orders = []
+        }
       } else this.toastr.error(x[appConstant.MESSAGE]);
     });
-  }
-  updateOrder(id, status) {
-    this.helper
-      .updateOrderStatus(id, { statusId: status, notes: this.reaseon })
-      .subscribe((x) => {
-        if (x[appConstant.STATUS] != true) {
-          this.toastr.error(x[appConstant.MESSAGE]);
-        } else {
-          this.toastr.success(x[appConstant.MESSAGE]);
-        }
-        this.modalService.dismissAll();
-        this.getOrder(0, this.limit, this.searchObject);
-      });
-  }
-
-  deleteCity(id) {
-    Swal.fire({
-      title: "تحذير",
-      text: "هل انت متأكد من حذف العنصر؟",
-      type: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "نعم",
-      cancelButtonText: "الغاء",
-    }).then((result) => {
-      if (result.value) {
-        this.helper.deleteCity(id).subscribe((x) => {
-          if (x[appConstant.STATUS] != true) {
-            this.toastr.error(x[appConstant.MESSAGE]);
-          } else {
-            this.toastr.success(x[appConstant.MESSAGE]);
-          }
-          this.getOrder(this.page - 1, this.limit, this.searchObject);
-        });
-      }
-    });
-  }
-
-  public onPageChange(pageNum: number): void {
-    this.page = pageNum - 1;
-    this.helper
-      .getOrders(this.page, this.limit, this.searchObject)
-      .subscribe((x) => {
-        let arr = x[appConstant.ITEMS] as any[];
-        this.collectionCount = x["pagination"]["totalElements"];
-        this.orders = arr;
-        this.page = pageNum;
-        this.Admin_Total = x["Admin_Total"];
-        this.provider_Total = x["provider_Total"];
-        this.Total = x["Total"];
-      });
-  }
-
-  openOrder(content, obj) {
-    this.orderDetails = obj;
-    this.modalService.open(content, { size: "lg" });
   }
 
   search() {
@@ -147,13 +103,13 @@ export class EarningComponent implements OnInit {
       let dt_to = this.momentFormat.format(this.dt_to as any);
       this.searchObject.dt_to = dt_to;
     }
-    this.getOrder(this.page, this.limit, this.searchObject);
+    this.getOrder(this.searchObject);
   }
 
   changeStatus(statusId) {
-    this.searchObject.statusId = statusId;
+    this.searchObject.status = statusId;
     this.page = 0;
-    this.getOrder(this.page, this.limit, this.searchObject);
+    this.getOrder(this.searchObject);
   }
   reset() {
     this.dt_from = "";
@@ -161,10 +117,58 @@ export class EarningComponent implements OnInit {
     this.searchObject = {
       dt_from: "",
       dt_to: "",
-      provider_id: "",
-      statusId: 1,
+      status: "finished",
+      supplier_id: "",
+      place_id:""
     };
     this.page = 0;
-    this.getOrder(this.page, this.limit, this.searchObject);
+    this.getOrder(this.searchObject);
+  }
+
+  getOfferUser(item:any){
+    let offers = item.offers.find(x=>String(x.status) == "accept_offer")
+    console.log(offers)
+    return offers && offers.user ? offers.user.full_name : ""
+  }
+
+  changeSupplier(event) {
+    this.helper.getAllPlacesDelivery(event).subscribe((x) => {
+      this.places = x[appConstant.ITEMS] as any[];
+    });
+  }
+
+
+  excel() {
+    var fields = [];
+    this.helper
+      .orders_earning(this.searchObject)
+      .subscribe((res_data) => {
+        let data = res_data["items"] as any[];
+        data.forEach((user, index) => {
+          fields.push({
+            "Title": "\ufeff" + user["title"],
+            "Place": "\ufeff" + user["place"],
+            "Supervisor": "\ufeff" + user["supervisor"],
+            "Total Taxs": "\ufeff" + user["totalTaxs"],
+            "Total Discounts": "\ufeff" + user["totalDiscounts"],
+            "Totals": "\ufeff" + user["totals"],
+          });
+        });
+
+        jsonexport(fields, function (err, csv) {
+          if (err) return console.log(err);
+          var blob = new Blob(["\uFEFF" + csv], {
+            type: "text/csv;charset=utf-8",
+          });
+          var url = window.URL.createObjectURL(blob);
+          var element = document.createElement("a");
+          element.setAttribute("href", encodeURI(url));
+          element.setAttribute("download", "المستحقات المالية" + ".csv");
+          element.style.display = "none";
+          document.body.appendChild(element);
+          element.click();
+          document.body.removeChild(element);
+        });
+      });
   }
 }

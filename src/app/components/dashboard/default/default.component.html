@@ -7,11 +7,14 @@
             <ng-template carouselSlide [id]="slide.id" *ngFor="let slide of slidesStore">
               <div class="item">
                 <div class="card">
-                  <div class="card-body ecommerce-icons text-center">
-                    <app-feather-icons [icon]="slide.icon"></app-feather-icons>
-                    <div><span>{{slide.title}}</span></div>
-                    <h4 class="font-primary mb-0 counter" [CountTo]=slide.number [from]="0" [duration]="0.5"></h4>
-                  </div>
+                  <a routerLink="/orders/orders/{{slide.title}}" style="color: inherit;">
+                    <div class="card-body ecommerce-icons text-center">
+                      <app-feather-icons [icon]="slide.icon"></app-feather-icons>
+                      <div><span>{{slide.title}}</span></div>
+                      <h4 class="font-primary mb-0 counter" [CountTo]=slide.number [from]="0" [duration]="0.5"></h4>
+                    </div>
+                  </a>
+           
                 </div>
               </div>
             </ng-template>
@@ -19,118 +22,79 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-6 col-xl-3 col-lg-6 col-md-3">
-      <div class="card o-hidden">
-        <div class="bg-success b-r-4 card-body">
-          <div class="media static-top-widget">
-            <div class="align-self-center text-center">
-              <app-feather-icons [icon]="'users'"></app-feather-icons>
-            </div>
-            <div class="media-body"><span class="m-0">المستخدمين</span>
-              <h4 class="mb-0 counter" [CountTo]="Users" [from]="0" [duration]="1">{{Users}}</h4><i class="icon-bg"
-                data-feather="users"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 col-xl-3 col-lg-6 col-md-3">
-      <div class="card o-hidden">
-        <div class="bg-info b-r-4 card-body">
-          <div class="media static-top-widget">
-            <div class="align-self-center text-center">
-              <app-feather-icons [icon]="'box'"></app-feather-icons>
-            </div>
-            <div class="media-body"><span class="m-0">مزودين الخدمات</span>
-              <h4 class="mb-0 counter" [CountTo]="Supplier" [from]="0" [duration]="2">{{Supplier}}</h4><i
-                class="icon-bg" data-feather="box"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 col-xl-3 col-lg-6 col-md-3">
-      <div class="card o-hidden">
-        <div class="bg-secondary b-r-4 card-body">
-          <div class="media static-top-widget">
-            <div class="align-self-center text-center">
-              <app-feather-icons [icon]="'shopping-bag'"></app-feather-icons>
-            </div>
-            <div class="media-body"><span class="m-0">السائقين</span>
-              <h4 class="mb-0 counter" [CountTo]="Employee" [from]="0" [duration]="1">{{Employee}}</h4><i
-                class="icon-bg" data-feather="shopping-bag"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 col-xl-3 col-lg-6 col-md-3">
-      <div class="card o-hidden">
-        <div class="bg-primary b-r-4 card-body">
-          <div class="media static-top-widget">
-            <div class="align-self-center text-center">
-              <app-feather-icons [icon]="'user'"></app-feather-icons>
-            </div>
-            <div class="media-body"><span class="m-0">المدراء</span>
-              <h4 class="mb-0 counter" [CountTo]="Admins" [from]="0" [duration]="1">{{Admins}}</h4><i class="icon-bg"
-                data-feather="user"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-6">
-      <div class="card">
-        <div class="card-header card-header-border">
-          <div class="row">
-            <div class="col-sm-6">
-              <h5>أحدث المستخدمين</h5>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="new-users">
-            <div class="media" *ngFor="let item of users">
-              <img class="rounded-circle image-radius m-r-15 img-60 "
-                src="{{item.image ? item.image  : 'assets/images/user/1.jpg'}}" alt="">
-              <div class="media-body">
-                <h6 class="mb-0 f-w-700">{{item.phone_number}}</h6>
-                <p>{{item.os}}</p>
+    <div class="col-sm-6 col-xl-3 col-lg-6 col-md-3" >
+      <a routerLink="/users/clients" style="color: inherit;">
+        <div class="card o-hidden">
+          <div class="bg-success b-r-4 card-body">
+            <div class="media static-top-widget">
+              <div class="align-self-center text-center">
+                <app-feather-icons [icon]="'users'"></app-feather-icons>
               </div>
-              <span class="pull-right">
-                <button (click)="visitUserProfile(item._id)" class="btn btn-pill btn-outline-light">التفاصيل</button>
-              </span>
+                <div class="media-body"><span class="m-0"> {{'Users' | translate}}</span>
+                  <h4 class="mb-0 counter" [CountTo]="Users" [from]="0" [duration]="1">{{Users}}</h4><i class="icon-bg"
+                    data-feather="users"></i>
+                </div>
             </div>
           </div>
         </div>
-      </div>
+       </a>
     </div>
-    <div class="col-xl-6">
-      <div class="card">
-        <div class="card-header card-header-border">
-          <div class="row">
-            <div class="col-sm-6">
-              <h5>الطلبات الجديدة</h5>
+     <div class="col-sm-6 col-xl-3 col-lg-6 col-md-3">
+      <a routerLink="/users/provider" style="color: inherit;">
+        <div class="card o-hidden">
+          <div class="bg-info b-r-4 card-body">
+            <div class="media static-top-widget">
+              <div class="align-self-center text-center">
+                <app-feather-icons [icon]="'box'"></app-feather-icons>
+              </div>
+                <div class="media-body"><span class="m-0">{{'Provider' | translate}}</span>
+                  <h4 class="mb-0 counter" [CountTo]="Supplier" [from]="0" [duration]="2">{{Supplier}}</h4><i
+                    class="icon-bg" data-feather="box"></i>
+                </div>
             </div>
           </div>
         </div>
-        <div class="card-body recent-notification">
-          <div class="media" *ngFor="let item of orders">
-            <h6>{{item.createAt | date:'dd/MM/yyyy'}}</h6>
-            <div class="media-body">
-              <span>
-                ({{item.Total}} ر.س) &nbsp; {{item?.provider_id?.full_name}}
-              </span>
-              <p class="f-12">{{item.Order_no}}</p>
+       </a>
+    </div> 
+    <div class="col-sm-6 col-xl-3 col-lg-6 col-md-3">
+      <a routerLink="/orders/orders" style="color: inherit;">
+        <div class="card o-hidden">
+          <div class="bg-secondary b-r-4 card-body">
+            <div class="media static-top-widget">
+              <div class="align-self-center text-center">
+                <app-feather-icons [icon]="'shopping-bag'"></app-feather-icons>
+              </div>
+                <div class="media-body"><span class="m-0">{{'Orders' | translate}}</span>
+                  <h4 class="mb-0 counter" [CountTo]="Orders" [from]="0" [duration]="1">{{Orders}}</h4><i
+                    class="icon-bg" data-feather="shopping-bag"></i>
+                </div>
             </div>
           </div>
         </div>
-      </div>
+      </a>
     </div>
-    <div class="col-sm-12 col-xl-6" *ngIf="userType == UserType.ADMIN || userType == UserType.STORE">
+    <div class="col-sm-6 col-xl-3 col-lg-6 col-md-3">
+      <a routerLink="/users/admins" style="color: inherit;">
+        <div class="card o-hidden">
+          <div class="bg-primary b-r-4 card-body">
+            <div class="media static-top-widget">
+              <div class="align-self-center text-center">
+                <app-feather-icons [icon]="'user'"></app-feather-icons>
+              </div>
+                <div class="media-body"><span class="m-0">{{'Admin' | translate}}</span>
+                  <h4 class="mb-0 counter" [CountTo]="Admins" [from]="0" [duration]="1">{{Admins}}</h4><i class="icon-bg"
+                    data-feather="user"></i>
+                </div>
+              
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+   <!-- <div class="col-sm-12 col-xl-6">
       <div class="card">
         <div class="card-header">
-          <h5>المنتجات حسب التصنيفات</h5>
+          <h5>{{'pie1'| translate}} </h5>
         </div>
         <div class="card-body chart-block">
           <ngx-charts-pie-chart [scheme]="colorScheme2" [results]="single1" [legend]="false" [explodeSlices]="false"
@@ -139,11 +103,10 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-12 col-xl-6"
-      *ngIf="userType == UserType.ADMIN || userType == UserType.IMPLEMENTER || userType == UserType.DESIGNER">
+    <div class="col-sm-12 col-xl-6">
       <div class="card">
         <div class="card-header">
-          <h5>المنتجات حسب مربعات التغطية</h5>
+          <h5>{{'pie2'|translate}}</h5>
         </div>
         <div class="card-body chart-block">
           <ngx-charts-pie-chart [scheme]="colorScheme3" [results]="single2" [legend]="false" [explodeSlices]="false"
@@ -151,8 +114,102 @@
           </ngx-charts-pie-chart>
         </div>
       </div>
+    </div>  -->
+    <div class="col-xl-4" *ngIf="userType == 'ADMIN'">
+      <div class="card">
+        <div class="card-header card-header-border">
+          <div class="row">
+            <div class="col-sm-6">
+              <h5>
+                {{'NewUsers' | translate}}
+              </h5>
+            </div>
+          </div>
+        </div>
+        <div class="card-body" style="max-height: 400px; overflow: scroll;">
+          <div class="new-users">
+            <div class="media" *ngFor="let item of users">
+              <img class="rounded-circle image-radius m-r-15 img-60 "
+                src="{{item.image ? item.image  : 'assets/images/user/1.jpg'}}" alt="">
+              <div class="media-body">
+                <h6 class="mb-0 f-w-700">{{item.phone_number}}</h6>
+                <p>{{item.os}}</p>
+              </div>
+              <span class="pull-right" *ngIf="item.app_type=='customer'">
+                <button (click)="visitUserProfile(item._id)" class="btn btn-pill btn-outline-light">{{'Details' | translate}}</button>
+              </span>
+              <span class="pull-right" *ngIf="item.app_type=='provider'">
+                <button (click)="visitUserProfile2(item._id)" class="btn btn-pill btn-outline-light">{{'Details' | translate}}</button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-xl-4" *ngIf="userType == 'ADMIN'">
+      <div class="card">
+        <div class="card-header card-header-border">
+          <div class="row">
+            <div class="col-sm-6">
+              <h5>
+                {{'NewOrders' | translate}}
+              </h5>
+            </div>
+          </div>
+        </div>
+        <div class="card-body recent-notification" style="max-height: 400px; overflow: scroll;">
+          <div class="media" *ngFor="let item of orders">
+            <h6>
+              {{item.order_no}}
+              <p class="f-12">
+                <!-- <button *ngIf="item.status == 'new' || item.status == 'accepted'" placement="top" ngbTooltip="{{'Choose' | translate}}"
+                    class="btn-info-gradien btn-sm" (click)="openOrderDriver(employee, item)">
+                    <i class="fa fa-plus"></i>
+                </button>&nbsp; -->
+                <button placement="top" ngbTooltip="{{'OrderDetails' | translate}}" class="btn-warning-gradien btn-sm" (click)="openOrder(content, item)">
+                    <i class="fa fa-list"></i>
+                </button>&nbsp;
+              </p>
+            </h6>
+            <div class="media-body">
+              <span>
+                ({{item.price}} ر.س) &nbsp; {{item?.user?.full_name}}
+              </span>
+              <p class="f-12">{{item.title}}</p>
+              <p class="f-12">{{item.dt_date | date:'dd/MM/yyyy'}}</p>  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4" *ngIf="userType == 'ADMIN'">
+      <div class="card">
+        <div class="card-header card-header-border">
+          <div class="row">
+            <div class="col-sm-6">
+              <h5>
+                {{'LastNotification' | translate}}
+              </h5>
+            </div>
+          </div>
+        </div>
+        <div class="card-body" style="max-height: 400px; overflow: scroll;">
+          <div class="new-users">
+            <div class="media" *ngFor="let item of notifications">
+              <div class="media-body">
+                <h6 class="mb-0 f-w-700">{{item.title}}</h6>
+                <p>{{item.msg}}</p>
+              </div>
+              <span class="pull-right">
+                <button *ngIf="item.body_parms != '' " (click)="openOrder(content, item, 'notification')" class="btn btn-pill btn-outline-light">{{'Details' | translate}}</button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+    <!-- <div class="col-sm-6">
       <div class="card">
         <div class="card-body">
           <div class="media chart-university">
@@ -164,9 +221,7 @@
               <p>طلب شراء جديد مكتمل</p>
             </div>
             <div class="small-bar">
-              <!-- <x-chartist class="ct-small-left flot-chart-container" [data]="chart4.data" [type]="chart4.type"
-                [options]="chart4.options" [events]="chart4.events">
-              </x-chartist> -->
+              <x-chartist class="ct-small-left flot-chart-container" [data]="chart4.data" [type]="chart4.type" [options]="chart4.options" [events]="chart4.events"> </x-chartist> 
             </div>
           </div>
         </div>
@@ -184,14 +239,14 @@
               <p>طلب استبدال مكتمل</p>
             </div>
             <div class="small-bar">
-              <!-- <x-chartist class="ct-small-right flot-chart-container" [data]="chart5.data" [type]="chart5.type"
+              <x-chartist class="ct-small-right flot-chart-container" [data]="chart5.data" [type]="chart5.type"
                 [options]="chart5.options" [events]="chart5.events">
-              </x-chartist> -->
+              </x-chartist>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- <div class="col-xl-12 col-md-12">
       <div class="card">
         <div class="card-header">
@@ -206,10 +261,12 @@
       </div>
     </div> -->
 
-    <div class="col-xl-12 col-md-12">
+    <div class="col-xl-12 col-md-12" *ngIf="userType == 'ADMIN'">
       <div class="card">
         <div class="card-header">
-          <h5>معدل التسجيل بالتطبيق</h5>
+          <h5>
+            {{'UserRate' | translate}}
+          </h5>
         </div>
         <div class="card-body chart-block">
           <ngx-charts-area-chart [scheme]="areaChartcolorScheme" [results]="singleEarnPaid"
@@ -222,3 +279,61 @@
     </div>
   </div>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">{{'OrderDetails' | translate}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+   <div class="modal-body" style="text-align: justify;">
+      <app-order-details [orderDetails]="orderDetails"></app-order-details>
+  </div>
+</ng-template>
+
+
+<ng-template #employee let-modal>
+  <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">{{'Choose' | translate}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+   <div class="modal-body" style="text-align: justify;">
+      <form #form="ngForm">
+          <div class="row">
+              <div class="col-md-12">
+                  <p>{{orderDetails.Order_no}}</p>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="form-group">
+                      <label for="arName">{{'Employee' | translate}} *</label>
+                      <div class="input-group">
+                          <select required name="employee1" id="employee1" #employee1="ngModel"
+                              [(ngModel)]="employee_id" class="form-control">
+                              <option value="">{{'Choose' | translate}}</option>
+                              <option *ngFor="let item of employees" value="{{item._id}}">
+                                  {{item.full_name}}</option>
+                          </select>
+
+                      </div>
+                      <div *ngIf="(employee1.errors && employee1.invalid && (employee1.dirty || employee1.touched))"
+                          class="text text-danger">
+                          {{'Required' | translate}}
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+      </form>
+  </div>
+  <div class="modal-footer">
+      <button [disabled]="!form.valid" type="button" class="btn btn-outline-info btn-sm"
+          (click)="updateOrder(orderDetails._id,'accepted')">{{'Save' | translate}}
+      </button>
+      <button type="button" class="btn btn-outline-danger btn-sm" (click)="modal.close('Save click')">{{'Close' | translate}}</button>
+  </div>
+</ng-template>

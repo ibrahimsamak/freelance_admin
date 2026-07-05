@@ -15,7 +15,7 @@ import { HttpClientModule } from "@angular/common/http";
     CommonModule,
     MapRoutingModule,
     AgmCoreModule.forRoot({
-      apiKey: 'ADD_YOUR_APIKEY'
+      apiKey: 'AIzaSyAvAuahE3FylyGQ7f_TXKRUlY1X66JYGy8'
     }),
     LeafletModule.forRoot(),
     HttpClientModule

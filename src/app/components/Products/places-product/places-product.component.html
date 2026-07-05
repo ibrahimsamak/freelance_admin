@@ -1,262 +1,184 @@
-<!-- Container-fluid starts-->
-<div class="container-fluid product-wrapper" [class.sidebaron]="sidebaron">
-    <div class="product-grid">
-        <div class="feature-products">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-xl-12">
             <div class="row">
-                <div class="col-md-6 products-total">
-                    <div class="square-product-setting d-inline-block"><a class="icon-grid grid-layout-view"
-                            (click)="gridOpen()" data-original-title="" title="">
-                            <svg class="feather feather-grid" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="3" width="7" height="7"></rect>
-                                <rect x="14" y="3" width="7" height="7"></rect>
-                                <rect x="14" y="14" width="7" height="7"></rect>
-                                <rect x="3" y="14" width="7" height="7"></rect>
-                            </svg></a></div>
-                    <div class="square-product-setting d-inline-block"><a class="icon-grid m-0 list-layout-view"
-                            (click)="listOpen()" data-original-title="" title="">
-                            <svg class="feather feather-list" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="8" y1="6" x2="21" y2="6"></line>
-                                <line x1="8" y1="12" x2="21" y2="12"></line>
-                                <line x1="8" y1="18" x2="21" y2="18"></line>
-                                <line x1="3" y1="6" x2="3" y2="6"></line>
-                                <line x1="3" y1="12" x2="3" y2="12"></line>
-                                <line x1="3" y1="18" x2="3" y2="18"></line>
-                            </svg></a></div>
-                    <!-- <span class="d-none-productlist filter-toggle">
-                        <a (click)="openMediaFilter()">
-                            <h6 class="mb-0">Filters
-                                <span class="ml-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="feather feather-chevron-down toggle-data">
-                                        <polyline points="6 9 12 15 18 9"></polyline>
-                                    </svg>
-                                </span>
-                            </h6>
-                        </a>
-                    </span> -->
-                    <!-- <div class="grid-options d-inline-block" *ngIf="gridOptions">
-                        <ul>
-                            <li><a class="product-2-layout-view" (click)="grid2()" data-original-title="" title=""><span
-                                        class="line-grid line-grid-1 bg-primary"></span><span
-                                        class="line-grid line-grid-2 bg-primary"></span></a> </li>
-                            <li><a class="product-3-layout-view" (click)="grid3()" data-original-title="" title=""><span
-                                        class="line-grid line-grid-3 bg-primary"></span><span
-                                        class="line-grid line-grid-4 bg-primary"></span><span
-                                        class="line-grid line-grid-5 bg-primary"></span></a></li>
-                            <li><a class="product-4-layout-view" (click)="gridOpen()" data-original-title=""
-                                    title=""><span class="line-grid line-grid-6 bg-primary"></span><span
-                                        class="line-grid line-grid-7 bg-primary"></span><span
-                                        class="line-grid line-grid-8 bg-primary"></span><span
-                                        class="line-grid line-grid-9 bg-primary"></span></a></li>
-                            <li><a class="product-6-layout-view" (click)="grid6()" data-original-title="" title=""><span
-                                        class="line-grid line-grid-10 bg-primary"></span><span
-                                        class="line-grid line-grid-11 bg-primary"></span><span
-                                        class="line-grid line-grid-12 bg-primary"></span><span
-                                        class="line-grid line-grid-13 bg-primary"></span><span
-                                        class="line-grid line-grid-14 bg-primary"></span><span
-                                        class="line-grid line-grid-15 bg-primary"></span></a></li>
-                        </ul>
-                    </div> -->
-                </div>
-                <!-- <div class="col-md-6 text-right"><span class="f-w-600 m-r-10">Showing Products 1 - 24 Of 200
-                        Results</span>
-                    <div class="select2-drpdwn-product select-options d-inline-block">
-                        <select class="form-control btn-square" name="select"
-                            (change)="onChangeSorting($event.target.value)">
-                            <option value="low">Lowest Prices</option>
-                            <option value="high">Highest Prices</option>
-                        </select>
-                    </div>
-
-                </div> -->
-            </div>
-            <div class="row">
-                <div class="col-sm-3">
-                    <div class="product-sidebar" [class.open]="open">
-                        <div class="filter-section">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h6 class="mb-0 f-w-600">بحث بحسب<span class="pull-right"><i
-                                                class="fa fa-chevron-down toggle-data"
-                                                (click)="openFilter()"></i></span></h6>
-                                </div>
-                                <div class="left-filter" *ngIf="show">
-                                    <div class="card-body filter-cards-view animate-chk">
-                                        <div class="product-filter">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="custom-datepicker custom-datepicker-dropdown">
+                                        <div class="form-group mb-0">
+                                            <label for="name">
+                                                {{'Service' | translate}}
+                                            </label>
+                                            <div class="input-group">
+                                             <select required name="category_id" id="category_id" #category_id="ngModel"
+                                                [(ngModel)]="searchObject.category_id" class="form-control">
+                                                <option value="">{{'Choose' | translate}}</option>
+                                                <option *ngFor="let item of categories" value="{{item._id}}">
+                                                    {{lang=='ar' ? item?.arName : item?.enName}} 
+                                                </option>
+                                            </select>
+                                            </div>
                                         </div>
-                                        <div class="product-filter">
-                                            <label class="form-label">مزود الخدمة</label>
-                                            <select required name="supplier_id" id="supplier_id" #supplier_id="ngModel"
-                                                [(ngModel)]="searchObject.supplier_id" class="form-control"
-                                                (change)="changeSupplier($event.target.value)">
-                                                <option value="">اختر مزود الخدمة </option>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="custom-datepicker custom-datepicker-dropdown">
+                                        <div class="form-group mb-0">
+                                            <label for="name">{{'Provider' | translate}}</label>
+                                            <div class="input-group">
+                                                <select required name="supplier_id" id="supplier_id" #supplier_id="ngModel" [(ngModel)]="searchObject.supplier_id" class="form-control" (change)="changeSupplier($event.target.value)">
+                                                <option value="">{{'Choose' | translate}}</option>
                                                 <option *ngFor="let item of providers" value="{{item._id}}">
                                                     {{item.name}}
                                                 </option>
                                             </select>
+                                            </div>
                                         </div>
-                                        <div class="product-filter">
-                                            <label class="form-label">المدينة</label>
-                                            <select required name="city_id" id="city_id" #city_id="ngModel"
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="custom-datepicker custom-datepicker-dropdown">
+                                        <div class="form-group mb-0">
+                                            <label for="name">{{'City' | translate}}</label>
+                                            <div class="input-group">
+                                                <select required name="city_id" id="city_id" #city_id="ngModel"
                                                 [(ngModel)]="searchObject.city_id" class="form-control"
                                                 (change)="changeCity($event.target.value)">
-                                                <option value="">اختر المدينة </option>
-                                                <option *ngFor="let item of cities" value="{{item._id}}">{{item.arName}}
+                                                <option value="">{{'Choose' | translate}}</option>
+                                                <option *ngFor="let item of cities" value="{{item._id}}">
+                                                    {{lang=='ar' ? item?.arName : item?.enName}} 
                                                 </option>
                                             </select>
+                                            </div>
                                         </div>
-
-                                        <div class="product-filter">
-                                            <label class="form-label">المنطقة</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="custom-datepicker custom-datepicker-dropdown">
+                                        <div class="form-group mb-0">
+                                            <label for="name">{{'Region' | translate}}</label>
+                                            <div class="input-group">
                                             <select required name="place_id" id="place_id" #place_id="ngModel"
                                                 [(ngModel)]="searchObject.place_id" class="form-control">
-                                                <option value="">اختر المنطقة </option>
+                                                <option value="">{{'Choose' | translate}}</option>
                                                 <option *ngFor="let item of places" value="{{item._id}}">
-                                                    {{item.arName}}
+                                                    {{lang=='ar' ? item?.arName : item?.enName}} 
                                                 </option>
                                             </select>
-                                        </div>
-                                        <div class="product-filter text-center mt-3">
-                                            <div>
-                                                <button class="btn btn-secondary mr-2" (click)="search()"
-                                                    placement="bottom" ngbTooltip="البحث">
-                                                    <i class="fa fa-search"></i>
-                                                </button>
-                                                <button class="btn btn-primary" placement="bottom"
-                                                    ngbTooltip="الغاء فلتر البحث" (click)="reset()">
-                                                    <i class="fa fa-times"></i>
-                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-7">
-                    <form>
-                        <div class="form-group m-0">
-                            <input class="form-control" type="search" [(ngModel)]="searchObject.name" name="name"
-                                (keyup.enter)="search()" placeholder="اكتب اسم المنتج أو الوصف"><i
-                                class="fa fa-search"></i>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-sm-2">
-                    <button class="btn btn-success" (click)="addNew()">اضافة جديد</button>
-                </div>
-            </div>
-        </div>
-        <div class="product-wrapper-grid" [class.list-view]="listView" style="opacity: 1;">
-            <div class="row">
-                <div [class.col-xl-3]="col_xl_3" [class.xl-4]="xl_4" [class.col-sm-3]="col_sm_3"
-                    [class.col-xl-4]="col_xl_4" [class.col-sm-4]="col_sm_4" [class.col-xl-6]="col_xl_6"
-                    [class.col-sm-6]="col_sm_6" [class.col-xl-12]="col_xl_12" [class.col-xl-2]="col_xl_2"
-                    *ngFor="let product of products; let i = index">
-                    <div class="card">
-                        <div class="product-box">
-                            <div class="product-img">
-                                <div class="ribbon ribbon-success"
-                                    *ngIf="product.deliveryCost && product.deliveryCost>0">
-                                    التوصيل: {{product?.deliveryCost}}
-                                </div>
-                                <!--  <div class="ribbon ribbon-success ribbon-right" *ngIf="product.price_for_replacment">
-                                    سعر التبديل : {{product?.price_for_replacment}}
-                                </div> -->
-                                <!-- <div class="ribbon ribbon-secondary ribbon-vertical-left"
-                                    *ngIf="product.status == 'gift'"><i class="icon-gift"></i></div>
-                                <div class="ribbon ribbon-bookmark ribbon-vertical-right ribbon-info"
-                                    *ngIf="product.status == 'love'  "><i class="icofont icofont-love"></i>
-                                </div> -->
-                                <div class="ribbon ribbon ribbon-clip ribbon-warning"
-                                    *ngIf="product?.product_id?.isNewProduct">
-                                    شراء جديد </div>
-                                <div class="ribbon ribbon ribbon-clip ribbon-warning mt-4"
-                                    *ngIf="product?.product_id?.isReplacement">
-                                    استبدال</div>
-
-                                <a [href]="[product?.product_id?.image]">
-                                    <img style="height: 192px; width: 100%;" class="img-fluid"
-                                        [src]="[product?.product_id?.image]" alt=""></a>
-                                <div class="product-hover">
-                                    <ul>
-                                        <li><i class="icon-more"
-                                                (click)="openProductDetail(content,product?.product_id)"></i></li>
-                                        <!-- <li *ngIf="!product.isActive"><i class="icon-check" placement="bottom"
-                                                ngbTooltip="اظهار المنتج" (click)="showHide(product)"></i>
-                                        </li>
-                                        <li *ngIf="product.isActive"><i class="icon-eye" placement="bottom"
-                                                ngbTooltip="اخفاء المنتج" (click)="showHide(product)"></i>
-                                        </li> -->
-                                        <ng-template #content let-modal>
-                                            <div class="modal-header" style="border-bottom: 0px;">
-                                                <button type="button" class="close" aria-label="Close"
-                                                    (click)="modal.dismiss('Cross click')">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body" style="padding: 0%;">
-                                                <app-quick-view [productDetail]="productDetail"></app-quick-view>
-                                            </div>
-                                        </ng-template>
-                                        <li>
-                                            <i class="icon-text"
-                                                routerLink="/items/places/product/add/{{product?._id}}"></i>
-                                        </li>
-                                        <li>
-                                            <button class="btn" type="button" data-original-title="" title="">
-                                                <i class="icon-trash" (click)=deleteProduct(product,index)>
-                                                </i>
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="product-details">
-                                <a [routerLink]="['/items/places/product/add', product?._id]">
-                                    <h5>{{product?.product_id?.arName}}</h5>
-                                </a>
-                                <div class="product-price">
-                                    <label *ngIf="product?.product_id?.isNewProduct">الجديد: </label>
-                                    <span *ngIf="product?.product_id?.isNewProduct">
-                                        {{product?.discountPrice != 0 ? product?.discountPrice :
-                                        product?.price_for_new
-                                        }} ر.س</span>
-                                    <br>
-                                    <label *ngIf="product?.product_id?.isReplacement">التبديل: </label>
-                                    <span *ngIf="product?.product_id?.isReplacement">
-                                        {{product?.discountPriceReplacment != 0 ?
-                                        product?.discountPriceReplacment :
-                                        product?.price_for_replacment}} ر.س</span>
-                                </div>
+                            <div class="row mt-2 mr-2 ml-2">
+                                <button type="button" class="btn btn-outline-info btn-sm" (click)="search()">بحث</button>&nbsp;
+                                <button class="btn btn-outline-success" (click)="addNew()">{{'Add' | translate}}</button>&nbsp;
+                                <button type="button" class="btn btn-outline-danger btn-sm" (click)="reset()">{{'Reset' | translate}}</button>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-12">
-                    <div *ngIf="products.length == 0">
-                        <div class="search-not-found text-center">
-                            <img src="assets/images/search-not-found.png" alt="" class="second-search">
-                            <p>عذرا .. لا توجد نتائج </p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="row" *ngIf="products.length < totalElements">
-                <div class="mb-3" style="margin: auto;">
-                    <button class="btn btn-primary btn-block btn-lg" [class.loader--text]="showLoader"
-                        [disabled]="showLoader" (click)="loadMore()" type="submit"><span>{{ showLoader ? '' : 'عرض
-                            المزيد' }}</span>
-                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>{{'Services_Region' | translate}}</h5>
+                </div>
+                <div class="todo">
+                    <div class="todo-list-wrapper">
+                        <div class="todo-list-container">
+                            <div class="table-responsive">
+                                <table class="table card-table table-vcenter text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>{{'Service' | translate}}</th>
+                                            <th>{{'Provider' | translate}}</th>
+                                            <th>{{'City' | translate}}</th>
+                                            <th>{{'Region' | translate}}</th>
+                                            <th>{{'Date' | translate}}</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of products">
+                                            <td>
+                                                {{item?.category_id?.arName}}
+                                            </td>
+                                            <td>
+                                                {{item?.supplier_id?.name}}
+                                            </td>
+                                            <td>
+                                                {{item?.city_id?.arName}}
+                                            </td>
+                                            <td>
+                                                {{item?.place_id?.arName}}
+                                            </td>
+                                            <td>
+                                                {{item.createAt | date:'dd-MM-yyyy'}}
+                                            </td>
+                                            <td class="text-center">
+                                                <a [routerLink]="['/items/places/product/add', item._id]" class="btn-sm btn-primary cursor" >
+                                                    <i class="fa fa-pencil"></i></a>&nbsp;
+                                                <a class="btn-sm btn-danger" (click)="deleteProduct(item)"><i class="fa fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <ngb-pagination *ngIf="products.length > 0" [collectionSize]="collectionCount" #numPages  [maxSize]="10" [pageSize]="limit" [(page)]="page" (pageChange)="onPageChange(page)"></ngb-pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">تفاصيل الطلب</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+     <div class="modal-body" style="text-align: justify;">
+        <app-order-details [orderDetails]="orderDetails"></app-order-details>
+    </div>
+</ng-template>
+
+
+<ng-template #rate let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">التعليق</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+     <div class="modal-body" style="text-align: justify;">
+        <form #form="ngForm">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="input-group">
+                            {{notes}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="modal.close('Save click')">{{'Close' | translate}}</button>
+    </div>
+</ng-template>

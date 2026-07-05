@@ -11,6 +11,7 @@ import { ar } from "date-fns/locale";
 declare var require;
 const Swal = require("sweetalert2");
 import { MomentDateFormatter } from "../../../service/utils_function";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-comments",
@@ -25,7 +26,7 @@ export class CommentsComponent implements OnInit {
   searchObject = {
     dt_from: "",
     dt_to: "",
-    provider_id: "",
+    type: 2
   };
   dt_from: "";
   dt_to: "";
@@ -41,23 +42,15 @@ export class CommentsComponent implements OnInit {
   constructor(
     private helper: ConstantServiceWrapper,
     private modalService: NgbModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private translate: TranslateService,
   ) {
     this.userType = localStorage.getItem("type");
-    if (this.userType != UserType.ADMIN) {
-      this.searchObject.provider_id = localStorage.getItem("admin_id");
-    }
+   
   }
 
   ngOnInit(): void {
-    this.getAllStores();
     this.getOrder(this.page, this.limit, this.searchObject);
-  }
-
-  getAllStores() {
-    this.helper.getAllStores(0).subscribe((x) => {
-      this.stores = x[appConstant.ITEMS] as any[];
-    });
   }
 
   getOrder(page, limit, filter) {
@@ -75,13 +68,13 @@ export class CommentsComponent implements OnInit {
   deleteComment(id) {
     Swal.fire({
       title: "تحذير",
-      text: "هل انت متأكد من حذف العنصر؟",
+      text: this.translate.instant("Confirm"),
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "نعم",
-      cancelButtonText: "الغاء",
+      confirmButtonText: this.translate.instant("Yes"),
+      cancelButtonText: this.translate.instant("Cancel"),
     }).then((result) => {
       if (result.value) {
         this.helper.deleteRate(id).subscribe((x) => {
@@ -134,7 +127,7 @@ export class CommentsComponent implements OnInit {
     this.searchObject = {
       dt_from: "",
       dt_to: "",
-      provider_id: "",
+      type: 2
     };
     this.page = 0;
     this.getOrder(this.page, this.limit, this.searchObject);

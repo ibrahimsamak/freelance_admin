@@ -7,7 +7,7 @@
 }
 
 .loader--text:after {
-  content: "جاري التنفيذ .. ";
+  content: " .. ";
   font-weight: bold;
   animation-name: loading-text;
   animation-duration: 3s;
@@ -31,15 +31,15 @@
 
 @keyframes loading-text {
   0% {
-    content: "جاري التنفيذ .. ";
+    content: " .. ";
   }
   25% {
-    content: "جاري التنفيذ .. ";
+    content: " .. ";
   }
   50% {
-    content: "جاري التنفيذ .. ";
+    content: " .. ";
   }
   75% {
-    content: "جاري التنفيذ .. ";
+    content: " .. ";
   }
 }

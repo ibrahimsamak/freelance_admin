@@ -8,19 +8,20 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="country_id">المدينة</label>
+                                        <label for="country_id">{{'City' | translate}}</label>
                                         <div class="input-group">
                                             <select name="city_id1" id="city_id1" #city_id1="ngModel"
                                                 [(ngModel)]="city_id" class="form-control">
-                                                <option value="">اختر المدينة</option>
+                                                <option value="">{{'Choose' | translate}}</option>
                                                 <option *ngFor="let item of cities" value="{{item._id}}">
-                                                    {{item.arName}}</option>
+                                                    {{lang=='ar' ? item?.arName : item?.enName}} 
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-outline-info btn-sm" (click)="search()">بحث</button>
+                            <button type="button" class="btn btn-outline-info btn-sm" (click)="search()">{{'Search' | translate}}</button>
                         </div>
                     </div>
                 </div>
@@ -35,15 +36,17 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>قائمة مربعات ومناطق التوزيع</h5>
+                    <h5>
+                        {{'Active_Region' | translate}}
+                    </h5>
                 </div>
                 <div class="todo">
                     <div class="todo-list-wrapper">
                         <div class="todo-list-container">
                             <div class="mark-all-tasks">
                                 <div class="mark-all-tasks-container">
-                                    <button title="اضافة جديد" class="btn btn-success-gradien" (click)="addEdit(null)">
-                                        <i class="fa fa-plus"></i> اضافة جديد
+                                    <button title="{{'Add' | translate}}" class="btn btn-success-gradien" (click)="addEdit(null)">
+                                        <i class="fa fa-plus"></i>  {{'Add' | translate}}
                                     </button>&nbsp;
                                 </div>
                             </div>
@@ -51,9 +54,8 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th scope="col">الاسم العربي</th>
-                                            <th scope="col">الاسم الانجليزي</th>
-                                            <th scope="col">المدينة</th>
+                                            <th scope="col">{{'arTitle' | translate}}</th>
+                                            <th scope="col"> {{'enTitle' | translate}}</th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
@@ -61,17 +63,16 @@
                                         <tr *ngFor="let item of places;let i = index">
                                             <td>{{item.arName}}</td>
                                             <td>{{item.enName}}</td>
-                                            <td>{{item?.city_id?.arName}}</td>
                                             <td>
                                                 <!-- <button placement="top" ngbTooltip="عرض على الخريطة"
-                                                    class="btn btn-info-gradien" (click)="openMap(content,item)">
+                                                    class="btn-sm btn-info-gradien" (click)="openMap(content,item)">
                                                     <i class="fa fa-map"></i>
                                                 </button>&nbsp; -->
-                                                <button placement="top" ngbTooltip="تعديل"
-                                                    class="btn btn-primary-gradien" (click)="addEdit(item)">
+                                                <button placement="top" ngbTooltip="{{'Edit' | translate}}"
+                                                    class="btn-sm btn-primary-gradien" (click)="addEdit(item)">
                                                     <i class="fa fa-pencil"></i>
                                                 </button>&nbsp;
-                                                <button placement="top" ngbTooltip="حذف" class="btn btn-danger-gradien"
+                                                <button placement="top" ngbTooltip="{{'Delete' | translate}}" class="btn-sm btn-danger-gradien"
                                                     (click)="deletePlace(item._id)">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
@@ -80,7 +81,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <ngb-pagination *ngIf="places.length > 0" [collectionSize]="collectionCount" #numPages
+                            <ngb-pagination *ngIf="places.length > 0" [collectionSize]="collectionCount" #numPages  [maxSize]="10"
                                 [pageSize]="limit" [(page)]="page" (pageChange)="onPageChange(page)"></ngb-pagination>
                         </div>
                     </div>

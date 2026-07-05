@@ -8,6 +8,7 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { ar } from "date-fns/locale";
+import { TranslateService } from "@ngx-translate/core";
 declare var require;
 const Swal = require("sweetalert2");
 
@@ -36,7 +37,8 @@ export class StoreMessagesComponent implements OnInit {
   constructor(
     private helper: ConstantServiceWrapper,
     private modalService: NgbModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit(): void {
@@ -93,13 +95,13 @@ export class StoreMessagesComponent implements OnInit {
   deleteComplaints(id) {
     Swal.fire({
       title: "تحذير",
-      text: "هل انت متأكد من حذف العنصر؟",
+      text: this.translate.instant("Confirm"),
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "نعم",
-      cancelButtonText: "الغاء",
+      confirmButtonText: this.translate.instant("Yes"),
+      cancelButtonText: this.translate.instant("Cancel"),
     }).then((result) => {
       if (result.value) {
         this.helper.deleteMessage(id).subscribe((x) => {

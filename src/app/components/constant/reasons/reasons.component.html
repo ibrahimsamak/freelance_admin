@@ -3,16 +3,18 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>أسباب الغاء الطلب</h5>
+                    <h5>
+                        {{'Co_Type' | translate}}
+                    </h5>
                 </div>
                 <div class="todo">
                     <div class="todo-list-wrapper">
                         <div class="todo-list-container">
                             <div class="mark-all-tasks">
                                 <div class="mark-all-tasks-container">
-                                    <button title="اضافة جديد" class="btn btn-success-gradien"
-                                        (click)="openReasons(content,null)">
-                                        <i class="fa fa-plus"></i> اضافة جديد
+                                    <button title="{{'Add' | translate}}" class="btn btn-success-gradien"
+                                        (click)="openStyles(content,null)">
+                                        <i class="fa fa-plus"></i> {{'Add' | translate}} 
                                     </button>&nbsp;
                                 </div>
                             </div>
@@ -21,23 +23,27 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">الاسم العربي</th>
-                                            <th scope="col">الاسم الانجليزي </th>
+                                            <th scope="col">{{'Image' | translate}}</th>
+                                            <th scope="col">{{'arTitle' | translate}}</th>
+                                            <th scope="col">{{'enTitle' | translate}}</th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let item of reasons;let i = index">
+                                        <tr *ngFor="let item of styles;let i = index">
                                             <th scope="row">{{i+1}}</th>
+                                            <td>
+                                                <img class="img-60 rounded-circle" src="{{item.image}}">
+                                            </td>
                                             <td>{{item.arName}}</td>
                                             <td>{{item.enName}}</td>
                                             <td>
-                                                <button placement="top" ngbTooltip="تعديل" class="btn btn-info-gradien"
-                                                    (click)="openReasons(content,item)">
+                                                <button placement="top" ngbTooltip="تعديل" class="btn-sm btn-info-gradien"
+                                                    (click)="openStyles(content,item)">
                                                     <i class="fa fa-pencil"></i>
                                                 </button>&nbsp;
-                                                <button placement="top" ngbTooltip="حذف" class="btn btn-danger-gradien"
-                                                    (click)="deleteReason(item._id)">
+                                                <button placement="top" ngbTooltip="حذف" class="btn-sm btn-danger-gradien"
+                                                    (click)="deleteStyle(item._id)">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
                                             </td>
@@ -55,12 +61,12 @@
 
 <ng-template #content let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">أسباب الغاء الطلب</h4>
+        <h4 class="modal-title" id="modal-basic-title">{{'Co_Type' | translate}} </h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body" style="text-align: right;">
+     <div class="modal-body" style="text-align: justify;">
         <form #form="ngForm">
             <div class="row">
                 <div class="col-md-12">
@@ -70,27 +76,83 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="arName">الاسم العربي</label>
+                        <label for="arName">{{'arTitle' | translate}} *</label>
                         <div class="input-group">
                             <input required #arName="ngModel" type="text" class="form-control" id="arName" name="arName"
                                 [(ngModel)]="reasonObject.arName">
                         </div>
                         <div *ngIf="(arName.errors && arName.invalid && (arName.dirty || arName.touched))"
                             class="text text-danger">
-                            الحقل مطلوب
+                            {{'Required' | translate}}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="enName">الاسم الانجليزي</label>
+                        <label for="enName">{{'enTitle' | translate}} *</label>
                         <div class="input-group">
                             <input required #enName="ngModel" type="text" class="form-control" id="enName" name="enName"
                                 [(ngModel)]="reasonObject.enName">
                         </div>
                         <div *ngIf="(enName.errors && enName.invalid && (enName.dirty || enName.touched))"
                             class="text text-danger">
-                            الحقل مطلوب
+                            {{'Required' | translate}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="arDescription">{{'arDescription' | translate}} *</label>
+                        <div class="input-group">
+                            <input required #arDescription="ngModel" type="text" class="form-control" id="arDescription"
+                                name="arDescription" [(ngModel)]="reasonObject.arDescription">
+                        </div>
+                        <div *ngIf="(arDescription.errors && arDescription.invalid && (arDescription.dirty || arDescription.touched))"
+                            class="text text-danger">
+                            {{'Required' | translate}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="enDescription">{{'enDescription' | translate}} *</label>
+                        <div class="input-group">
+                            <input required #enDescription="ngModel" type="text" class="form-control" id="enDescription"
+                                name="enDescription" [(ngModel)]="reasonObject.enDescription">
+                        </div>
+                        <div *ngIf="(enDescription.errors && enDescription.invalid && (enDescription.dirty || enDescription.touched))"
+                            class="text text-danger">
+                            {{'Required' | translate}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+               <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="icon">{{'Image' | translate}} *</label>
+                        <div class="input-group">
+                            <input required #icon type="file" class="form-control" id="icon" name="icon"
+                                accept="image/*" (change)="processImage($event)">
+                        </div>
+                        <div *ngIf="(icon.errors && icon.invalid && (icon.dirty || icon.touched))"
+                            class="text text-danger">
+                            {{'Required' | translate}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="sort">{{'sort' | translate}} *</label>
+                        <div class="input-group">
+                            <input required #sort="ngModel" type="number" class="form-control" id="sort" name="sort"
+                                [(ngModel)]="reasonObject.sort">
+                        </div>
+                        <div *ngIf="(sort.errors && sort.invalid && (sort.dirty || sort.touched))"
+                            class="text text-danger">
+                            {{'Required' | translate}}
                         </div>
                     </div>
                 </div>
@@ -99,7 +161,7 @@
     </div>
     <div class="modal-footer">
         <button [disabled]="!form.valid" type="button" class="btn btn-outline-info btn-sm"
-            (click)="saveAction()">حفظ</button>
-        <button type="button" class="btn btn-outline-danger btn-sm" (click)="modal.close('Save click')">اغلاق</button>
+            (click)="saveAction()">{{'Save' | translate}}</button>
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="modal.close('Save click')">{{'Close' | translate}}</button>
     </div>
 </ng-template>

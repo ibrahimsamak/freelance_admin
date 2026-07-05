@@ -61,7 +61,7 @@
             Alternatively you can take full manual control over popover opening / closing events.
           </p>
           <div class="btn-showcase">
-            <button type="button" class="btn btn-outline-primary mr-2" ngbPopover="What a great tip!"
+            <button type="button" class="btn btn-outline-primary mr-2 ml-2" ngbPopover="What a great tip!"
               [autoClose]="false" triggers="manual" #p="ngbPopover" (click)="p.open()" popoverTitle="Pop title">
               Click me to open a popover
             </button>
@@ -140,17 +140,17 @@
           <ng-template #popContent let-greeting="greeting">{{greeting}}, <b>{{name}}</b>!</ng-template>
           <ng-template #popTitle let-language="language">Greeting in {{language}}</ng-template>
           <div class="btn-showcase">
-            <button type="button" class="btn btn-outline-primary mr-2" [ngbPopover]="popContent"
+            <button type="button" class="btn btn-outline-primary mr-2 ml-2" [ngbPopover]="popContent"
               [popoverTitle]="popTitle" triggers="manual" #p1="ngbPopover"
               (click)="toggleWithGreeting(p1, 'Bonjour', 'French')">
               French
             </button>
-            <button type="button" class="btn btn-outline-primary mr-2" [ngbPopover]="popContent"
+            <button type="button" class="btn btn-outline-primary mr-2 ml-2" [ngbPopover]="popContent"
               [popoverTitle]="popTitle" triggers="manual" #p2="ngbPopover"
               (click)="toggleWithGreeting(p2, 'Gutentag', 'German')">
               German
             </button>
-            <button type="button" class="btn btn-outline-primary mr-2" [ngbPopover]="popContent"
+            <button type="button" class="btn btn-outline-primary mr-2 ml-2" [ngbPopover]="popContent"
               [popoverTitle]="popTitle" triggers="manual" #p3="ngbPopover"
               (click)="toggleWithGreeting(p3, 'Hello', 'English')">
               English

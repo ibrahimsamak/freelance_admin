@@ -8,6 +8,8 @@ import { CommentsComponent } from "./comments/comments.component";
 import { EarningComponent } from "./earning/earning.component";
 import { OrdersComponent } from "./orders/orders.component";
 import { NewOrderComponent } from "./new-order/new-order.component";
+import { TransactionsComponent } from "./transactions/transactions.component";
+import { CommentsEmployeeComponent } from "./comments-employee/comments-employee.component";
 
 const routes: Routes = [
   {
@@ -18,8 +20,18 @@ const routes: Routes = [
         component: NewOrderComponent,
         canActivate: [AdminGuard],
         data: {
-          title: "أضافة طلب",
-          breadcrumb: "الطلبات",
+          // title: "أضافة طلب",
+          // breadcrumb: "الطلبات",
+          roles: [appConstant.ADMIN_URL_ID.ORDERS],
+        },
+      },
+      {
+        path: "orders/:id",
+        component: OrdersComponent,
+        canActivate: [AdminGuard],
+        data: {
+          // title: "الطلبات والعائدات",
+          // breadcrumb: "الطلبات",
           roles: [appConstant.ADMIN_URL_ID.ORDERS],
         },
       },
@@ -28,19 +40,9 @@ const routes: Routes = [
         component: OrdersComponent,
         canActivate: [AdminGuard],
         data: {
-          title: "الطلبات والعائدات",
-          breadcrumb: "الطلبات",
+          // title: "الطلبات والعائدات",
+          // breadcrumb: "الطلبات",
           roles: [appConstant.ADMIN_URL_ID.ORDERS],
-        },
-      },
-      {
-        path: "earning",
-        component: EarningComponent,
-        canActivate: [AdminGuard],
-        data: {
-          title: "الطلبات والعائدات",
-          breadcrumb: "العائدات المالية",
-          roles: [appConstant.ADMIN_URL_ID.ORDEREARNING],
         },
       },
       {
@@ -48,8 +50,18 @@ const routes: Routes = [
         component: CommentsComponent,
         canActivate: [AdminGuard],
         data: {
-          title: "التعليقات",
-          breadcrumb: "التعليقات",
+          // title: "التعليقات",
+          // breadcrumb: "التعليقات",
+          roles: [appConstant.ADMIN_URL_ID.USERRATE],
+        },
+      },
+      {
+        path: "comments-employee",
+        component: CommentsEmployeeComponent,
+        canActivate: [AdminGuard],
+        data: {
+          // title: "التعليقات",
+          // breadcrumb: "التعليقات",
           roles: [appConstant.ADMIN_URL_ID.USERRATE],
         },
       },

@@ -8,6 +8,7 @@ import {
   NgbModalConfig,
 } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
+import { TranslateService } from "@ngx-translate/core";
 declare var require;
 const Swal = require("sweetalert2");
 
@@ -31,7 +32,8 @@ export class CountyComponent implements OnInit {
   constructor(
     private helper: ConstantServiceWrapper,
     private modalService: NgbModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit(): void {
@@ -47,15 +49,13 @@ export class CountyComponent implements OnInit {
   deleteCountry(id) {
     Swal.fire({
       title: "تحذير",
-      text: "هل تود الاستمرار بهذا الاجراء؟",
+      text: this.translate.instant("Confirm"),
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "نعم",
-      cancelButtonText: "الغاء",
-      // animation: false,
-      // customClass: "animated tada",
+      confirmButtonText: this.translate.instant("Yes"),
+      cancelButtonText: this.translate.instant("Cancel"),
     }).then((result) => {
       if (result.value) {
         this.helper.deleteCountry(id).subscribe((x) => {

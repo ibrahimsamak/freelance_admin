@@ -11,16 +11,16 @@ const routes: Routes = [
         path: 'google',
         component: GoogleMapComponent,
         data: {
-          title: "Google-Map",
-          breadcrumb: "Google-Map"
+          // title: "Google-Map",
+          // breadcrumb: "Google-Map"
         }
       },
       {
         path: 'leaflet',
         component: LeafletMapComponent,
         data: {
-          title: "Leaflet-Map",
-          breadcrumb: "Leaflet-Map"
+          // title: "Leaflet-Map",
+          // breadcrumb: "Leaflet-Map"
         }
       }
     ]

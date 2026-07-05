@@ -6,65 +6,73 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="country_id">رقم الطلب</label>
+                                        <label for="country_id">{{'OrderNo' | translate}}</label>
                                         <div class="input-group">
-                                            <input name="Order_no" id="Order_no" #Order_no="ngModel"
-                                                [(ngModel)]="searchObject.Order_no" class="form-control" />
+                                            <input name="order_no" id="order_no" #order_no="ngModel"
+                                                [(ngModel)]="searchObject.order_no" class="form-control" />
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <!-- <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="country_id"> مزود الخدمة </label>
+                                        <label for="country_id">{{'Provider' | translate}}</label>
                                         <div class="input-group">
-                                            <select name="country_id1" id="provider_id" #provider_id="ngModel"
-                                                [(ngModel)]="searchObject.provider_id" class="form-control">
-                                                <option value=""> اختر المزود</option>
-                                                <option *ngFor="let item of stores" value="{{item._id}}">
-                                                    {{item.name}}</option>
+                                            <select [disabled]="userType == 'STORE' || userType == 'SUPERVISOR' " name="supplier_id" id="supplier_id" #supplier_id="ngModel" [(ngModel)]="searchObject.supplier_id" class="form-control" (change)="changeSupplier($event.target.value)">
+                                                <option value="">{{'Choose' | translate}}</option>
+                                                <option *ngFor="let item of providers" value="{{item._id}}">{{item.name}}</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="country_id">{{'Region' | translate}}</label>
+                                        <div class="input-group">
+                                            <select [disabled]="userType == 'SUPERVISOR' " name="place_id" id="place_id" #place_id="ngModel" [(ngModel)]="searchObject.place_id" class="form-control">
+                                            <option value="">{{'Choose' | translate}}</option>
+                                            <option *ngFor="let item of places" value="{{item?.place_id?._id}}">{{item?.place_id?.arName}}
+                                                {{lang=='ar' ? item?.place_id?.arName : item?.place_id?.enName}} 
+                                            </option>
+                                        </select>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="col-md-4">
                                     <div class="custom-datepicker custom-datepicker-dropdown">
                                         <div class="form-group mb-0">
-                                            <label for="country_id">من تاريخ</label>
+                                            <label for="country_id">{{'FromDate' | translate}}</label>
                                             <div class="input-group">
-                                                <input class="form-control" placeholder="من تاريخ" id="dt_from1"
+                                                <input class="form-control" placeholder="" id="dt_from1"
                                                     name="dt_from1" [(ngModel)]="dt_from" ngbDatepicker
                                                     #f="ngbDatepicker">
                                                 <div class="input-group-append">
-                                                    <button class="btn calendar" (click)="f.toggle()" type="button"><i
-                                                            class="fa fa-calendar"></i></button>
+                                                    <button class="btn calendar" (click)="f.toggle()" type="button"><i class="fa fa-calendar"></i></button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="custom-datepicker custom-datepicker-dropdown">
                                         <div class="form-group mb-0">
-                                            <label for="country_id">الى تاريخ</label>
+                                            <label for="country_id">{{'ToDate' | translate}}</label>
                                             <div class="input-group">
-                                                <input class="form-control" placeholder="الى تاريخ" id="dt_to1"
+                                                <input class="form-control" placeholder="" id="dt_to1"
                                                     name="dt_to1" [(ngModel)]="dt_to" ngbDatepicker #f2="ngbDatepicker">
                                                 <div class="input-group-append">
-                                                    <button class="btn calendar" (click)="f2.toggle()" type="button"><i
-                                                            class="fa fa-calendar"></i></button>
+                                                    <button class="btn calendar" (click)="f2.toggle()" type="button"><i class="fa fa-calendar"></i></button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-2 mr-3">
-                                <button type="button" class="btn btn-outline-info btn-sm"
-                                    (click)="search()">بحث</button>&nbsp;
-                                <button type="button" class="btn btn-outline-danger btn-sm" (click)="reset()">تفريغ
-                                    الحقول</button>
+                            <div class="row mt-2 mr-3 ml-3">
+                                <button type="button" class="btn btn-outline-info btn-sm" (click)="search()">{{'Search' | translate}}</button>&nbsp;
+                                <button type="button" class="btn btn-outline-success btn-sm"  style="float: left;" (click)="excel()">{{'Excel' | translate}}</button>&nbsp;
+                                <button type="button" class="btn btn-outline-danger btn-sm" (click)="reset()">{{'Reset' | translate}}</button>
                             </div>
                         </div>
                     </div>
@@ -80,7 +88,7 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>قائمة الطلبات</h5>
+                    <h5>{{'Orders' | translate}}</h5>
                 </div>
                 <div class="todo">
                     <div class="todo-list-wrapper">
@@ -88,25 +96,29 @@
                             <!-- [(ngModel)]="currentJustify" -->
 
                             <div class="btn-group btn-group-toggle mt-0 mb-0 tabset-group-btn-xs" ngbRadioGroup>
-                                <label ngbButtonLabel class="btn-outline-primary btn-sm btn-position"
-                                    (click)="changeStatus(1)">
-                                    <input ngbButton type="radio" value="start">طلب جديد
+                                <label ngbButtonLabel class="btn-outline-primary btn-sm btn-position" [class.active]="searchObject.status == 'new'"
+                                    (click)="changeStatus('new')">
+                                    <input ngbButton type="radio" value="new">{{'ST_New' | translate}}
                                 </label>
-                                <label ngbButtonLabel class="btn-outline-primary btn-sm btn-position"
-                                    (click)="changeStatus(2)">
-                                    <input ngbButton type="radio" value="center">موافق عليه
+                                <label ngbButtonLabel class="btn-outline-primary btn-sm btn-position" [class.active]="searchObject.status == 'accepted'"
+                                    (click)="changeStatus('accepted')">
+                                    <input ngbButton type="radio" value="accepted">{{'ST_Accept' | translate}} 
                                 </label>
-                                <label ngbButtonLabel class="btn-outline-primary btn-sm btn-position"
-                                    (click)="changeStatus(3)">
-                                    <input ngbButton type="radio" value="end">قيد التنفيذ
+                                <label ngbButtonLabel class="btn-outline-primary btn-sm btn-position" [class.active]="searchObject.status == 'started'"
+                                    (click)="changeStatus('started')">
+                                    <input ngbButton type="radio" value="started">{{'ST_Progress' | translate}}
                                 </label>
-                                <label ngbButtonLabel class="btn-outline-primary btn-sm btn-position"
-                                    (click)="changeStatus(4)">
-                                    <input ngbButton type="radio" value="fill">مكتمل
+                                <!-- <label ngbButtonLabel class="btn-outline-primary btn-sm btn-position"  [class.active]="searchObject.status == 'updated'"
+                                    (click)="changeStatus('updated')">
+                                    <input ngbButton type="radio" value="updated">{{'ST_Updated' | translate}} 
+                                 </label> -->
+                                <label ngbButtonLabel class="btn-outline-primary btn-sm btn-position" [class.active]="searchObject.status == 'finished'"
+                                    (click)="changeStatus('finished')">
+                                    <input ngbButton type="radio" value="finished">{{'ST_Done' | translate}} 
                                 </label>
-                                <label ngbButtonLabel class="btn-outline-primary btn-sm btn-position"
-                                    (click)="changeStatus(5)">
-                                    <input ngbButton type="radio" value="justified">ملغي
+                                <label ngbButtonLabel class="btn-outline-primary btn-sm btn-position" [class.active]="searchObject.status == 'canceled'"
+                                    (click)="changeStatus('canceled')">
+                                    <input ngbButton type="radio" value="canceled">{{'ST_Cancel' | translate}}
                                 </label>
                             </div>
 
@@ -115,74 +127,48 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">المشتري</th>
-                                            <th scope="col">مزود الخدمة</th>
-                                            <th scope="col">التاريخ</th>
-                                            <th scope="col">النوع</th>
-                                            <th scope="col">التوصيل</th>
-                                            <th scope="col">المجموع</th>
-                                            <th scope="col">الحالة</th>
+                                            <th scope="col">{{'Users' | translate}}</th>
+                                            <th scope="col">{{'BuyerData' | translate}}</th>
+                                            <th scope="col">{{'Date' | translate}}</th>
+                                            <th scope="col">{{'Price' | translate}}</th>
+                                            <th scope="col">{{'Status' | translate}}</th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let item of orders;let i = index">
-                                            <td>{{item?.Order_no}}</td>
-                                            <td>{{item?.user_id?.full_name}}<br>{{item?.user_id?.phone_number}}</td>
-                                            <td>{{item?.supplier_id?.name}}</td>
-                                            <td>{{item?.dt_date | date:'dd/MM/yyyy'}}
-                                                <br>
-                                                {{item?.dt_time}}
-                                            </td>
-                                            <td>{{item?.OrderType == 1 ? 'شراء' : 'تبديل'}}</td>
+                                            <td>{{item?.order_no}}</td>
+                                            <td>{{item?.freelancer?.full_name}}<br>{{item?.freelancer?.phone_number}}</td>
+                                            <td>{{item?.customer?.full_name}}<br>{{item?.customer?.phone_number}}</td>
+                                            <td>{{item?.createAt | date:'dd/MM/yyyy'}}</td>
+                                            <td>{{item?.total}} ر.س</td>
                                             <td>
-                                                <label *ngIf="item.isExpress">توصيل سريع</label>
-                                                <label *ngIf="!item.isExpress">توصيل عادي</label>
-                                            </td>
-                                            <td>{{item?.Total | number : '1.2-2'}} ر.س</td>
-                                            <td>
-                                                <span *ngIf="item.StatusId == 1" class="status-icon bg-info">طلب
-                                                    جديد</span>
-                                                <span *ngIf="item.StatusId == 2" class="status-icon bg-info">موافق
-                                                    عليه</span>
-                                                <span *ngIf="item.StatusId == 3" class="status-icon bg-info">قيد
-                                                    التنفيذ</span>
-                                                <span *ngIf="item.StatusId == 4"
-                                                    class="status-icon bg-success">مكتمل</span>
-                                                <span *ngIf="item.StatusId == 5"
-                                                    class="status-icon bg-danger">ملغي</span>
+                                                <span *ngIf="item.status == 'new' " class="status-icon bg-info">{{'ST_New' | translate}}</span>
+                                                <span *ngIf="item.status == 'accepted' " class="status-icon bg-info">{{'ST_Accept' | translate}} </span>
+                                                <span *ngIf="item.status == 'started' " class="status-icon bg-warning">{{'ST_Progress' | translate}}</span>
+                                                <!-- <span *ngIf="item.status == 'updated' " class="status-icon bg-warning">{{'ST_Updated' | translate}}   </span> -->
+                                                <span *ngIf="item.status == 'finished' || item.status == 'rated' || item.status == 'prefinished'" class="status-icon bg-success">{{'ST_Done' | translate}} </span>
+                                                <span *ngIf="item.status == 'canceled_by_admin'" class="status-icon bg-danger">{{'ST_Admin' | translate}}  </span>
+                                                <span *ngIf="item.status == 'canceled_by_driver'" class="status-icon bg-danger">{{'ST_Employee' | translate}} </span>
+                                                <span *ngIf="item.status == 'canceled_by_user'" class="status-icon bg-danger">{{'ST_User' | translate}}</span>
                                             </td>
                                             <td>
-                                                <button *ngIf="item.StatusId == 1 || item.StatusId == -1" placement="top"
-                                                    ngbTooltip="الموافقة على الطلب" class="btn-success-gradien btn-sm"
-                                                    (click)="openOrderDriver(employee,item)">
-                                                    <i class="fa fa-pencil"></i>
+                                                <!-- <button *ngIf="item.status == 'new' || item.status == 'accepted'" placement="top" ngbTooltip="{{'Choose' | translate}}"
+                                                    class="btn-info-gradien btn-sm" (click)="openOrderDriver(employee, item)">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>&nbsp; -->
+                                                <button placement="top" ngbTooltip="{{'OrderDetails' | translate}}" class="btn-warning-gradien btn-sm" (click)="openOrder(content, item)">
+                                                    <i class="fa fa-list"></i>
                                                 </button>&nbsp;
-                                                <button *ngIf="item.StatusId == 1 || item.StatusId == -1" placement="top" 
-                                                    ngbTooltip="الغاء الطلب" class="btn-primary-gradien btn-sm"
-                                                    (click)="openOrder(cancel,item)">
+                                                <button *ngIf="item.status == 'new'" placement="top"  ngbTooltip="{{'Cancel' | translate}}" class="btn-danger-gradien btn-sm" (click)="openCancel(cancel,item)">
                                                     <i class="fa fa-trash"></i>
                                                 </button>&nbsp;
-                                                <!-- <button *ngIf="item.StatusId == 2" placement="top"
-                                                    ngbTooltip="تحويل الطلب الي قيد التنفيذ"
-                                                    class="btn btn-success-gradien" (click)="updateOrder(item._id,3)">
-                                                    <i class="fa fa-pencil"></i>
-                                                </button>&nbsp; -->
-                                                <!-- <button *ngIf="item.StatusId == 3" placement="top"
-                                                    ngbTooltip="تحويل الطلب الى مكتمل" class="btn btn-success-gradien"
-                                                    (click)="updateOrder(item._id,4)">
-                                                    <i class="fa fa-pencil"></i>
-                                                </button>&nbsp; -->
-                                                <button placement="top" ngbTooltip="عرض تفاصيل الطلب"
-                                                    class="btn-warning-gradien btn-sm" (click)="openOrder(content,item)">
-                                                    <i class="fa fa-list"></i>
-                                                </button>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <ngb-pagination *ngIf="orders.length > 0" [collectionSize]="collectionCount" #numPages
+                            <ngb-pagination *ngIf="orders.length > 0" [collectionSize]="collectionCount" #numPages  [maxSize]="10"
                                 [pageSize]="limit" [(page)]="page" (pageChange)="onPageChange(page)">
                             </ngb-pagination>
                         </div>
@@ -196,64 +182,25 @@
 
 <ng-template #content let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">تفاصيل الطلب</h4>
+        <h4 class="modal-title" id="modal-basic-title">{{'OrderDetails' | translate}}</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body" style="text-align: right;">
+     <div class="modal-body" style="text-align: justify;">
         <app-order-details [orderDetails]="orderDetails"></app-order-details>
     </div>
 </ng-template>
 
-<ng-template #cancel let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">الغاءالطلب</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body" style="text-align: right;">
-        <form #form="ngForm">
-            <div class="row">
-                <div class="col-md-12">
-                    <p>{{orderDetails.order_no}}</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="arName">السبب</label>
-                        <div class="input-group">
-                            <input required #reaseon1="ngModel" type="text" class="form-control" id="reaseon1"
-                                name="reaseon1" [(ngModel)]="reaseon" />
-                        </div>
-                        <div *ngIf="(reaseon1.errors && reaseon1.invalid && (reaseon1.dirty || reaseon1.touched))"
-                            class="text text-danger">
-                            الحقل مطلوب
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </form>
-    </div>
-    <div class="modal-footer">
-        <button [disabled]="!form.valid" type="button" class="btn btn-outline-info btn-sm"
-            (click)="updateOrder(orderDetails._id,5)">ارسال
-        </button>
-        <button type="button" class="btn btn-outline-danger btn-sm" (click)="modal.close('Save click')">اغلاق</button>
-    </div>
-</ng-template>
 
 <ng-template #employee let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">اختر السائق</h4>
+        <h4 class="modal-title" id="modal-basic-title">{{'Choose' | translate}}</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body" style="text-align: right;">
+     <div class="modal-body" style="text-align: justify;">
         <form #form="ngForm">
             <div class="row">
                 <div class="col-md-12">
@@ -263,19 +210,19 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="arName">السائق</label>
+                        <label for="arName">{{'Employee' | translate}} *</label>
                         <div class="input-group">
-                            <select required name="employee_id1" id="employee_id1" #employee_id1="ngModel"
+                            <select required name="employee1" id="employee1" #employee1="ngModel"
                                 [(ngModel)]="employee_id" class="form-control">
-                                <option value=""> اختر السائق</option>
+                                <option value="">{{'Choose' | translate}}</option>
                                 <option *ngFor="let item of employees" value="{{item._id}}">
                                     {{item.full_name}}</option>
                             </select>
 
                         </div>
-                        <div *ngIf="(employee_id1.errors && employee_id1.invalid && (employee_id1.dirty || employee_id1.touched))"
+                        <div *ngIf="(employee1.errors && employee1.invalid && (employee1.dirty || employee1.touched))"
                             class="text text-danger">
-                            الحقل مطلوب
+                            {{'Required' | translate}}
                         </div>
                     </div>
                 </div>
@@ -285,8 +232,49 @@
     </div>
     <div class="modal-footer">
         <button [disabled]="!form.valid" type="button" class="btn btn-outline-info btn-sm"
-            (click)="updateOrder(orderDetails._id,2)">ارسال
+            (click)="updateOrder(orderDetails._id,'accepted')">{{'Save' | translate}}
         </button>
-        <button type="button" class="btn btn-outline-danger btn-sm" (click)="modal.close('Save click')">اغلاق</button>
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="modal.close('Save click')">{{'Close' | translate}}</button>
+    </div>
+</ng-template>
+
+
+<ng-template #cancel let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{'CancelOrder' | translate}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+     <div class="modal-body" style="text-align: justify;">
+        <form #form="ngForm">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>{{orderDetails.order_no}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="arName">{{'ReasonsList' | translate}} *</label>
+                        <div class="input-group">
+                            <input required #reaseon1="ngModel" type="text" class="form-control" id="reaseon1"
+                                name="reaseon1" [(ngModel)]="reaseon" />
+                        </div>
+                        <div *ngIf="(reaseon1.errors && reaseon1.invalid && (reaseon1.dirty || reaseon1.touched))"
+                            class="text text-danger">
+                            {{'Required' | translate}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button [disabled]="!form.valid" type="button" class="btn btn-outline-info btn-sm"
+            (click)="updateOrder(orderDetails._id,'canceled_by_admin')">{{'Save' | translate}}
+        </button>
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="modal.close('Save click')">{{'Close' | translate}}</button>
     </div>
 </ng-template>

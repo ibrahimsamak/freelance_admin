@@ -10,6 +10,7 @@ import {
 import { ToastrService } from "ngx-toastr";
 import { MomentDateFormatter } from "src/app/service/utils_function";
 import { DatePipe } from "@angular/common";
+import { TranslateService } from "@ngx-translate/core";
 declare var require;
 const Swal = require("sweetalert2");
 
@@ -31,6 +32,7 @@ export class CouponsComponent implements OnInit {
     supplier_id: "",
     place_id: "",
     city_id: "",
+    description:""
   };
   type = "";
   page = 0;
@@ -44,11 +46,12 @@ export class CouponsComponent implements OnInit {
   constructor(
     private helper: ConstantServiceWrapper,
     private modalService: NgbModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit(): void {
-    this.getAllProviders();
+    // this.getAllProviders();
 
     this.getCoupons(this.page, this.limit);
   }
@@ -100,6 +103,7 @@ export class CouponsComponent implements OnInit {
         supplier_id: "",
         place_id: "",
         city_id: "",
+        description:""
       };
       this.modalService.open(content, { size: "lg" });
     }
@@ -178,15 +182,13 @@ export class CouponsComponent implements OnInit {
   deleteCoupon(id) {
     Swal.fire({
       title: "تحذير",
-      text: "هل انت متأكد من حذف العنصر؟",
+      text: this.translate.instant("Confirm"),
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "نعم",
-      cancelButtonText: "الغاء",
-      // animation: false,
-      // customClass: "animated tada",
+      confirmButtonText: this.translate.instant("Yes"),
+      cancelButtonText: this.translate.instant("Cancel"),
     }).then((result) => {
       if (result.value) {
         this.helper.deleteCoupon(id).subscribe((x) => {
